@@ -1,0 +1,18 @@
+---
+
+- name: install memcached
+  apt: pkg=memcached state=present
+
+- name: write memcached.conf
+  template: src=memcached.conf.j2 dest=/etc/memcached.conf owner=root group=root mode=0644
+  notify:
+    - restart memcached
+
+- name: write init.d/memcached
+  copy: src=memcached dest=/etc/init.d/memcached owner=root group=root mode=0755
+  notify:
+    - restart memcached
+
+- name: start memcached
+  service: name=memcached enabled=yes state=started
+  register: started_memcached

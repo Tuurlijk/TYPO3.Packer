@@ -1,0 +1,22 @@
+---
+
+- name: Including variables
+  include_vars: "{{ ansible_distribution_release }}.yml"
+
+- include: install.yml
+- include: rules.yml
+
+- include: config-2.2.yml
+  when: apache2_version == 2.2
+- include: remove_default-2.2.yml
+  when: apache2_version == 2.2
+
+- include: config-2.4.yml
+  when: apache2_version == 2.4
+- include: remove_default-2.4.yml
+  when: apache2_version == 2.4
+
+- include: manage_modules.yml
+- include: manage_confs.yml
+- include: manage_sites.yml
+- include: service.yml

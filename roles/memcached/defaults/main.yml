@@ -1,0 +1,8 @@
+---
+
+memcached_listen: ""
+memcached_maxconn: 1024
+memcached_memusage: 128
+memcached_permissions: "0666"
+memcached_port: 11211
+memcached_socket: "/var/run/memcached/memcached.sock"

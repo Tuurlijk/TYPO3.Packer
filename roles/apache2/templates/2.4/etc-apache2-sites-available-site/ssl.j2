@@ -1,0 +1,8 @@
+# --- ssl -------------------------------------------------------------------
+
+include rules/ssl.conf
+SSLCertificateFile {{ openssl_certs_path }}/{{ item.ssl.cert_name|default('server') }}.crt
+SSLCertificateKeyFile {{ openssl_keys_path }}/{{ item.ssl.key_name|default('server') }}.key
+{% if item.ssl.chain_name is defined %}
+SSLCACertificateFile {{ openssl_certs_path }}/{{ item.ssl.chain_name }}.crt
+{% endif %}

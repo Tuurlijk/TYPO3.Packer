@@ -1,0 +1,40 @@
+  ServerName {{ item.name }}
+  DocumentRoot /var/www/{{ item.id }}/htdocs
+  {% for value in item.aliases|default([]) %}
+  ServerAlias {{ value }}
+  {% endfor %}
+
+  # --- rules ----------------------------------------------------------------
+
+  {% for val in item.rules|default([]) %}
+  include rules/{{ val }}.conf
+  {% endfor %}
+
+  # --- directories -----------------------------------------------------------
+
+  <Directory /var/www/{{ item.id }}/htdocs>
+    AllowOverride All
+    Options FollowSymLinks
+    Order allow,deny
+    Allow from all
+  </Directory>
+
+  {% if item.auth is defined %}
+  # --- auth ------------------------------------------------------------------
+
+  {% include "etc-apache2-sites-available-site/htpasswd.j2" %}
+  {% endif %}
+
+  # --- logging ---------------------------------------------------------------
+
+  LogLevel warn
+  ErrorLog  /var/log/apache2/error-{{ item.id }}.log
+  CustomLog /var/log/apache2/access-{{ item.id }}.log combined
+
+  {% if item.append is defined %}
+
+  # --- appended --------------------------------------------------------------
+
+  {{ item.append }}
+  {% endif %}
+

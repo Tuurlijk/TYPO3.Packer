@@ -1,0 +1,25 @@
+---
+- hosts: all
+  gather_facts: true
+  sudo: yes
+  vars_files:
+    - roles/vars/defaults/main.yml
+    - roles/vars/defaults/nginx.yml
+    - roles/vars/defaults/php.yml
+    - roles/vars/defaults/websites.yml
+    - roles/vars/defaults/typo3.yml
+    - [ 'roles/vars/vars/main.yml' ,'roles/vars/vars/empty.yml' ]
+    - [ 'roles/vars/vars/nginx.yml' ,'roles/vars/vars/empty.yml' ]
+    - [ 'roles/vars/vars/php.yml' ,'roles/vars/vars/empty.yml' ]
+    - [ 'roles/vars/vars/websites.yml' ,'roles/vars/vars/empty.yml' ]
+    - [ 'roles/vars/vars/typo3.yml' ,'roles/vars/vars/empty.yml' ]
+  roles:
+    - { role: common,    tags: common }
+    - { role: php-fpm,   tags: php-fpm }
+    - { role: mariadb,   tags: mariadb }
+    - { role: hhvm,      tags: hhvm }
+    - { role: phpcommon, tags: phpcommon }
+    - { role: composer,  tags: composer }
+    - { role: memcached, tags: memcached }
+    - { role: nginx,     tags: nginx }
+    - { role: nodejs,    tags: nodejs }

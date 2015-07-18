@@ -1,0 +1,56 @@
+---
+# For more information about default variables see:
+# http://www.ansibleworks.com/docs/playbooks_variables.html#id26
+#
+# apache2_module:
+#   - { id: auth, state: absent }
+#   - { id: rewrite, state: present }
+# apache2_confs:
+#   - { id: security, state: absent }
+#   - { name: mime, state: present }
+# apache2_sites:
+#   - id: mysite (required)
+#     name: mysite.local (required)
+#     ip: '*'
+#     port: 80
+#     state: present
+#     add_webroot: no
+#     template: path/to/template.j2
+#     rules: []
+#     aliases: []
+#     redirects: []
+#     ssl:
+#       port: 443
+#       key_name: mykey
+#       cert_name: mycert
+#       chain_name: mychain
+#     auth:
+#       name: mysite
+#       file: mysite
+#     append: ''
+#
+
+# ports to listen to
+apache2_ports: [80]
+# ssl ports to listen to
+apache2_ssl_ports: [443]
+# addresses to listen to (2.2  only)
+apache2_listen_addresses: ['*']
+# enabled/disabled modules
+apache2_modules: []
+# enabled/disabled confs
+apache2_confs: []
+# enabled/disabled sites
+apache2_sites: []
+# remove the default host
+apache2_remove_default: no
+# start on boot
+apache2_service_enabled: yes
+# current state: started, stopped
+apache2_service_state: started
+# set to one of:  Full | OS | Minimal | Minor | Major | Prod
+apache2_server_tokens: Prod
+# set to one of:  On | Off | EMail
+apache2_server_signiture: 'Off'
+# set to one of:  On | Off | extended
+apache2_trace_enable: 'Off'

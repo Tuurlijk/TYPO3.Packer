@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+
+{% for port in apache2_ports %}
+Listen {{ port }}
+{% endfor %}
+
+<IfModule ssl_module>
+{% for port in apache2_ssl_ports %}
+  Listen {{ port }}
+{% endfor %}
+</IfModule>

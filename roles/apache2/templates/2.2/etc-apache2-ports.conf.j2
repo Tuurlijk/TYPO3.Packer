@@ -1,0 +1,18 @@
+# {{ ansible_managed }}
+
+{% for listen_port in apache2_ports %}
+{% for listen_address in apache2_listen_addresses %}
+NameVirtualHost {{ listen_address }}:{{ listen_port }}
+{% endfor %}
+Listen {{ listen_port }}
+{% endfor %}
+
+<IfModule mod_ssl.c>
+{% for listen_port in apache2_ssl_ports %}
+{% for listen_address in apache2_listen_addresses %}
+NameVirtualHost {{ listen_address }}:{{ listen_port }}
+{% endfor %}
+Listen {{ listen_port }}
+{% endfor %}
+</IfModule>
+

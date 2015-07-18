@@ -1,0 +1,25 @@
+---
+
+- name: Enabling modules
+  command: >
+    a2enmod {{ item.id }}
+    creates=/etc/apache2/mods-enabled/{{ item.id }}.load
+  when: item.state is not defined or item.state != 'absent'
+  with_items: apache2_modules
+  notify: reload apache2
+  tags:
+    - web
+    - apache2
+    - manage_modules
+
+- name: Disabling modules
+  command: >
+    a2dismod {{ item.id }}
+    removes=/etc/apache2/mods-enabled/{{ item.id }}.load
+  when: item.state is defined and item.state == 'absent'
+  with_items: apache2_modules
+  notify: reload apache2
+  tags:
+    - web
+    - apache2
+    - manage_modules

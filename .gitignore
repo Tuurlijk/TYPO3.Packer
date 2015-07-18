@@ -1,0 +1,11 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Packer template
+# Cache objects
+packer_cache/
+output-virtualbox-iso/
+
+# For built boxes
+*.box
+
+# Images
+ubuntu-14.04.2-server-amd64.iso
