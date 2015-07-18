@@ -30,16 +30,17 @@
       "type": "ansible-local",
       "playbook_file": "site.yml",
       "role_paths": [
-        "roles/vars",
         "roles/common",
-        "roles/composer",
-        "roles/hhvm",
+        "roles/php-fpm",
         "roles/mariadb",
+        "roles/hhvm",
+        "roles/phpcommon",
+        "roles/composer",
+        "roles/typo3",
         "roles/memcached",
         "roles/nginx",
         "roles/nodejs",
-        "roles/php-fpm",
-        "roles/phpcommon"
+        "roles/vars"
       ]
     },
     {
@@ -70,14 +71,14 @@
         "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
         "initrd=/install/initrd.gz -- <enter>"
       ],
-      "headless": false,
+      "headless": true,
       "boot_wait": "10s",
       "disk_size": 20480,
       "guest_os_type": "Ubuntu_64",
       "http_directory": "http",
       "iso_checksum": "8acd2f56bfcba2f7ac74a7e4a5e565ce68c024c38525c0285573e41c86ae90c0",
       "iso_checksum_type": "sha256",
-      "iso_url": "file:///Users/michiel/Projects/TYPO3/TYPO3.Packer.FirstLook/ubuntu-14.04.2-server-amd64.iso",
+      "iso_url": "http://releases.ubuntu.com/trusty/ubuntu-14.04.2-server-amd64.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -115,7 +116,11 @@
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S bash 'shutdown.sh'",
-      "tools_upload_flavor": "linux"
+      "tools_upload_flavor": "linux",
+      "vmx_data": {
+        "memsize": "4096",
+        "numvcpus": "2"
+      }
     }
   ],
   "post-processors": [
@@ -123,7 +128,7 @@
       {
         "type": "vagrant",
         "keep_input_artifact": true,
-        "output": "ubuntu1404.box"
+        "output": "{{.Provider}}_ubuntu1404.box"
       },
       {
         "type": "atlas",

@@ -20,6 +20,7 @@
     - { role: hhvm,      tags: hhvm }
     - { role: phpcommon, tags: phpcommon }
     - { role: composer,  tags: composer }
+    - { role: typo3,     tags: typo3 }
     - { role: memcached, tags: memcached }
     - { role: nginx,     tags: nginx }
     - { role: nodejs,    tags: nodejs }

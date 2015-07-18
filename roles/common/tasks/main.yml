@@ -56,15 +56,15 @@
   file: src=/usr/share/zoneinfo/{{timezone}} dest=/etc/localtime state=link force=yes backup=yes
 
 - name: Set the hostname in /etc/hostname
-  shell: echo {{ hostname }} > /etc/hostname
+  shell: echo 'local.typo3.org' > /etc/hostname
   when: hostname is defined
 
 - name: Set the hostname
-  shell: hostname {{ hostname }}
+  shell: hostname 'local.typo3.org'
   when: hostname is defined
 
 - name: Update /etc/hosts
-  lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' line='127.0.0.1 localhost {{ hostname }}' owner=root group=root mode=0644
+  lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' line='127.0.0.1 localhost local.typo3.org' owner=root group=root mode=0644
   when: hostname is defined
 
 - name: Setup dircolors

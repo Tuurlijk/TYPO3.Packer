@@ -4,7 +4,10 @@ perl -p -i -e 's#http://us.archive.ubuntu.com/ubuntu#http://mirror.rackspace.com
 
 # Update the box
 apt-get -y update >/dev/null
-apt-get -y install ansible facter linux-headers-$(uname -r) build-essential zlib1g-dev libssl-dev libreadline-gplv2-dev curl unzip >/dev/null
+apt-get -y install facter linux-headers-$(uname -r) build-essential software-properties-common zlib1g-dev libssl-dev libreadline-gplv2-dev curl unzip >/dev/null
+apt-add-repository ppa:ansible/ansible >/dev/null
+apt-get -y update >/dev/null
+apt-get -y install ansible >/dev/null
 
 # Tweak sshd to prevent DNS resolution (speed up logins)
 echo 'UseDNS no' >> /etc/ssh/sshd_config
