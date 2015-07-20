@@ -1,10 +1,16 @@
 #!/bin/bash
 
-perl -p -i -e 's#http://us.archive.ubuntu.com/ubuntu#http://mirror.rackspace.com/ubuntu#gi' /etc/apt/sources.list
+# Setup mirrors
+#sed -i -e '1i deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-security main restricted universe multiverse' /etc/apt/sources.list
+#sed -i -e '1i deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-backports main restricted universe multiverse' /etc/apt/sources.list
+#sed -i -e '1i deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-updated main restricted universe multiverse' /etc/apt/sources.list
+#sed -i -e '1i deb mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted universe multiverse' /etc/apt/sources.list
 
 # Update the box
+export DEBIAN_FRONTEND=noninteractive
+export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 apt-get -y update >/dev/null
-apt-get -y install facter linux-headers-$(uname -r) build-essential software-properties-common zlib1g-dev libssl-dev libreadline-gplv2-dev curl unzip >/dev/null
+apt-get -y install facter linux-headers-$(uname -r) build-essential software-properties-common zlib1g-dev libssl-dev libreadline-gplv2-dev curl unzip
 apt-add-repository ppa:ansible/ansible >/dev/null
 apt-get -y update >/dev/null
 apt-get -y install ansible >/dev/null

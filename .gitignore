@@ -3,9 +3,14 @@
 # Cache objects
 packer_cache/
 output-virtualbox-iso/
+iso/*
+!iso/.keep
 
 # For built boxes
-*.box
+box/virtualbox/*
+!box/virtualbox/.keep
+box/vmware/*
+!box/vmware/.keep
 
 # Images
 ubuntu-14.04.2-server-amd64.iso

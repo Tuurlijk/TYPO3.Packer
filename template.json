@@ -46,8 +46,8 @@
     {
       "type": "shell",
       "scripts": [
-        "scripts/cleanup.sh",
-        "scripts/zerodisk.sh"
+        "scripts/minimize.sh",
+        "scripts/cleanup.sh"
       ],
       "override": {
         "virtualbox-iso": {
@@ -64,96 +64,145 @@
       "type": "virtualbox-iso",
       "boot_command": [
         "<esc><esc><enter><wait>",
-        "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+        "/install/vmlinuz noapic ",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
         "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
-        "hostname={{ .Name }} ",
+        "hostname={{ user `hostname` }} ",
         "fb=false debconf/frontend=noninteractive ",
-        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
+        "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+        "passwd/user-fullname={{ user `ssh_fullname` }} ",
+        "passwd/user-password={{ user `ssh_password` }} ",
+        "passwd/user-password-again={{ user `ssh_password` }} ",
+        "passwd/username={{ user `ssh_username` }} ",
         "initrd=/install/initrd.gz -- <enter>"
       ],
-      "headless": true,
+      "headless": "{{ user `headless` }}",
       "boot_wait": "10s",
       "disk_size": 20480,
       "guest_os_type": "Ubuntu_64",
       "http_directory": "http",
-      "iso_checksum": "8acd2f56bfcba2f7ac74a7e4a5e565ce68c024c38525c0285573e41c86ae90c0",
+      "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "sha256",
-      "iso_url": "http://releases.ubuntu.com/trusty/ubuntu-14.04.2-server-amd64.iso",
-      "ssh_username": "vagrant",
-      "ssh_password": "vagrant",
+      "iso_urls": [
+        "{{ user `iso_path` }}/{{ user `iso_name` }}",
+        "{{ user `iso_url` }}"
+      ],
+      "shutdown_command": "echo '{{ user `ssh_password` }}'|sudo -S shutdown -P now",
+      "ssh_password": "{{ user `ssh_password` }}",
+      "ssh_username": "{{ user `ssh_username` }}",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S bash 'shutdown.sh'",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--memory", "4096"],
-        ["modifyvm", "{{.Name}}", "--cpus", "2"]
+        ["modifyvm", "{{.Name}}", "--memory", "1024"]
       ]
     },
     {
       "type": "vmware-iso",
       "boot_command": [
         "<esc><esc><enter><wait>",
-        "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
-        "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
-        "hostname={{ .Name }} ",
-        "fb=false debconf/frontend=noninteractive ",
-        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
-        "initrd=/install/initrd.gz -- <enter>"
+        "/install/vmlinuz auto",
+        " console-setup/ask_detect=false",
+        " console-setup/layoutcode=us",
+        " console-setup/modelcode=pc105",
+        " debconf/frontend=noninteractive",
+        " debian-installer=en_US",
+        " fb=false",
+        " initrd=/install/initrd.gz",
+        " kbd-chooser/method=us",
+        " keyboard-configuration/layout=USA",
+        " keyboard-configuration/variant=USA",
+        " locale=en_US",
+        " netcfg/get_domain=vm",
+        " netcfg/get_hostname={{ user `hostname` }}",
+        " noapic",
+        " passwd/user-fullname={{ user `ssh_fullname` }}",
+        " passwd/user-password={{ user `ssh_password` }}",
+        " passwd/user-password-again={{ user `ssh_password` }}",
+        " passwd/username={{ user `ssh_username` }}",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+        " -- ",
+        "<enter>"
       ],
       "boot_wait": "10s",
       "disk_size": 20480,
       "guest_os_type": "Ubuntu-64",
-      "headless": true,
+      "headless": "{{ user `headless` }}",
       "http_directory": "http",
-      "iso_checksum": "8acd2f56bfcba2f7ac74a7e4a5e565ce68c024c38525c0285573e41c86ae90c0",
+      "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "sha256",
-      "iso_url": "http://releases.ubuntu.com/trusty/ubuntu-14.04.2-server-amd64.iso",
+      "iso_urls": [
+        "{{ user `iso_path` }}/{{ user `iso_name` }}",
+        "{{ user `iso_url` }}"
+      ],
       "skip_compaction": true,
-      "ssh_username": "vagrant",
-      "ssh_password": "vagrant",
+      "shutdown_command": "echo '{{ user `ssh_password` }}'|sudo -S shutdown -P now",
+      "ssh_password": "{{ user `ssh_password` }}",
+      "ssh_username": "{{ user `ssh_username` }}",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S bash 'shutdown.sh'",
       "tools_upload_flavor": "linux",
       "vmx_data": {
-        "memsize": "4096",
-        "numvcpus": "2"
+        "memsize": "1024"
       }
     }
   ],
   "post-processors": [
-    [
-      {
-        "type": "vagrant",
-        "keep_input_artifact": true,
-        "output": "{{.Provider}}_ubuntu1404.box"
-      },
-      {
-        "type": "atlas",
-        "only": [
-          "vmware-iso"
-        ],
-        "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-          "provider": "vmware_desktop",
-          "version": "0.0.1"
-        }
-      },
-      {
-        "type": "atlas",
-        "only": [
-          "virtualbox-iso"
-        ],
-        "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-          "provider": "virtualbox",
-          "version": "0.0.1"
-        }
+    {
+      "keep_input_artifact": false,
+      "output": "box/{{.Provider}}/ubuntu1404-{{user `cm`}}{{user `cm_version`}}-{{user `version`}}.box",
+      "type": "vagrant"
+    },
+    {
+      "type": "atlas",
+      "only": [
+        "vmware-iso"
+      ],
+      "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+      "artifact_type": "vagrant.box",
+      "metadata": {
+        "provider": "vmware_desktop",
+        "version": "0.0.1"
       }
-    ]
-  ]
+    },
+    {
+      "type": "atlas",
+      "only": [
+        "virtualbox-iso"
+      ],
+      "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+      "artifact_type": "vagrant.box",
+      "metadata": {
+        "provider": "virtualbox",
+        "version": "0.0.1"
+      }
+    }
+  ],
+  "variables": {
+    "atlas_username": "Michiel",
+    "atlas_name": "example4",
+    "cleanup_pause": "",
+    "cm": "nocm",
+    "cm_version": "",
+    "custom_script": ".",
+    "ftp_proxy": "{{env `ftp_proxy`}}",
+    "headless": "true",
+    "http_proxy": "{{env `http_proxy`}}",
+    "https_proxy": "{{env `https_proxy`}}",
+    "install_vagrant_key": "true",
+    "iso_checksum": "8acd2f56bfcba2f7ac74a7e4a5e565ce68c024c38525c0285573e41c86ae90c0",
+    "iso_name": "ubuntu-14.04.2-server-amd64.iso",
+    "iso_path": "iso",
+    "iso_url": "http://releases.ubuntu.com/trusty/ubuntu-14.04.2-server-amd64.iso",
+    "no_proxy": "{{env `no_proxy`}}",
+    "rsync_proxy": "{{env `rsync_proxy`}}",
+    "hostname": "vagrant",
+    "ssh_fullname": "vagrant",
+    "ssh_password": "vagrant",
+    "ssh_username": "vagrant",
+    "update": "false",
+    "version": "0.1.0"
+  }
 }
