@@ -35,12 +35,12 @@
     },
     {
       "type": "file",
-      "source": "Configuration",
+      "source": "DefaultConfiguration",
       "destination": "/tmp"
     },
     {
       "type": "file",
-      "source": "Defaults",
+      "source": "Configuration",
       "destination": "/tmp"
     },
     {
@@ -233,6 +233,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.1.4"
+    "version": "0.1.8"
   }
 }
