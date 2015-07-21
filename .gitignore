@@ -21,3 +21,7 @@ roles/memcached
 roles/nginx
 roles/nodejs
 roles/php-fpm
+
+# Custom configuration
+Configuration/*
+!Configuration/empty.yml
