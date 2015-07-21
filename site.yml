@@ -3,11 +3,11 @@
   gather_facts: true
   sudo: yes
   vars_files:
-    - DefaultConfiguration/main.yml
-    - DefaultConfiguration/nginx.yml
-    - DefaultConfiguration/php.yml
-    - DefaultConfiguration/websites.yml
-    - DefaultConfiguration/typo3.yml
+    - Defaults/main.yml
+    - Defaults/nginx.yml
+    - Defaults/php.yml
+    - Defaults/websites.yml
+    - Defaults/typo3.yml
     - [ 'Configuration/main.yml' ,'Configuration/empty.yml' ]
     - [ 'Configuration/nginx.yml' ,'Configuration/empty.yml' ]
     - [ 'Configuration/php.yml' ,'Configuration/empty.yml' ]
