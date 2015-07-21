@@ -1,21 +1,4 @@
 ---
 # tasks file for composer
-- name: install
-  shell: "curl -sS https://getcomposer.org/installer | php -- --install-dir={{ composer_install_dir }}"
-  args:
-    creates: "{{ composer_install_dir }}/composer"
-  tags: [configuration, composer, composer-install]
-
-- name: rename - composer.phar -> composer
-  command: "mv {{ composer_install_dir }}/composer.phar {{ composer_install_dir }}/composer"
-  args:
-    creates: "{{ composer_install_dir }}/composer"
-  tags: [configuration, composer, composer-move]
-
-- name: check permissions
-  file:
-    path: "{{ composer_install_dir }}/composer"
-    owner: root
-    group: root
-    mode: 0755
-  tags: [configuration, composer, composer-permissions]
+- include: install.yml
+- include: composer-json.yml

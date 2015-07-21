@@ -1,9 +1,0 @@
----
-# For more information about handlers see:
-# http://www.ansibleworks.com/docs/playbooks.html#handlers-running-operations-on-change
-
-- name: restart apache2
-  service: name=apache2 state=restarted
-
-- name: reload apache2
-  service: name=apache2 state=reloaded
