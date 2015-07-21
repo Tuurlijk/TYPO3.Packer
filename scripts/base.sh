@@ -18,9 +18,6 @@ apt-add-repository ppa:ansible/ansible >/dev/null
 apt-get -y update >/dev/null
 apt-get -y install ansible >/dev/null
 
-# Tweak sshd to prevent DNS resolution (speed up logins)
-echo 'UseDNS no' >> /etc/ssh/sshd_config
-
 # Remove 5s grub timeout to speed up booting
 cat <<EOF > /etc/default/grub
 # If you change this file, run 'update-grub' afterwards to update

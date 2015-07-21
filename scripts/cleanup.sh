@@ -31,6 +31,7 @@ rm -rf /tmp/*
 apt-get -y autoremove --purge
 apt-get -y clean
 apt-get -y autoclean
+find /var/cache/apt/ -type f -exec rm -v {} \;
 
 echo "==> Installed packages"
 dpkg --get-selections | grep -v deinstall
@@ -39,6 +40,12 @@ dpkg --get-selections | grep -v deinstall
 unset HISTFILE
 rm -f /root/.bash_history
 rm -f /home/${SSH_USER}/.bash_history
+
+# Cleanup composer and ruby caches
+rm -rf /root/.composer
+rm -rf /home/${SSH_USER}/.composer
+rm -rf /root/.gem
+rm -rf /home/${SSH_USER}/.gem
 
 # Clean up log files
 find /var/log -type f | while read f; do echo -ne '' > $f; done;
