@@ -26,7 +26,6 @@
   with_items:
     - curl
     - wget
-    - python-software-properties
 
 - name: Autoremove unused packages
   command: apt-get -y autoremove --purge
