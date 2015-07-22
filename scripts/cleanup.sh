@@ -41,11 +41,19 @@ unset HISTFILE
 rm -f /root/.bash_history
 rm -f /home/${SSH_USER}/.bash_history
 
-# Cleanup composer and ruby caches
+# Cleanup ccache, composer, phpbrew and ruby caches
+rm -rf /root/.ccache
+rm -rf /home/${SSH_USER}/.ccache
 rm -rf /root/.composer
 rm -rf /home/${SSH_USER}/.composer
 rm -rf /root/.gem
 rm -rf /home/${SSH_USER}/.gem
+rm -rf /root/.phpbrew/build
+rm -rf /home/${SSH_USER}/.phpbrew/build
+rm -rf /root/.phpbrew/distfiles
+rm -rf /home/${SSH_USER}/.phpbrew/distfiles
+rm -rf /root/.phpbrew/tmp
+rm -rf /home/${SSH_USER}/.phpbrew/tmp
 
 # Clean up log files
 find /var/log -type f | while read f; do echo -ne '' > $f; done;

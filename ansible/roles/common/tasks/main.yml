@@ -41,7 +41,6 @@
     - "ppa:chris-lea/node.js"
 
 - name: Update apt
-  sudo: yes
   apt: update_cache=yes
 
 - name: Install Extra Packages

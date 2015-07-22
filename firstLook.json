@@ -115,12 +115,6 @@
           "{{.Name}}",
           "--memory",
           "1024"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "2"
         ]
       ]
     },
@@ -230,6 +224,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.1.25"
+    "version": "0.1.29"
   }
 }
