@@ -36,7 +36,7 @@
     {
       "type": "ansible-local",
       "playbook_dir": "ansible",
-      "playbook_file": "ansible/playbooks/site.yml",
+      "playbook_file": "ansible/site.yml",
       "role_paths": [
         "ansible/roles/common",
         "ansible/roles/php-fpm",
@@ -230,6 +230,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.1.23"
+    "version": "0.1.25"
   }
 }
