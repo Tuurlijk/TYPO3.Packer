@@ -134,17 +134,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		v.customize ["set", :id, "--memsize", MEMORY, "--cpus", CORES]
 	end
 
-# 	# Ansible | http://docs.ansible.com/playbooks_best_practices.html
-# 	config.vm.provision "ansible" do |ansible|
-# # 		ansible.verbose = "v"
-# 		ansible.playbook = "site.yml"
-# 		ansible.limit = "all"
-# 		ansible.raw_arguments = ENV['ANSIBLE_ARGS']
-# 		ansible.extra_vars = {
-# 			ansible_ssh_user: 'vagrant',
-# 			hostname: 'local.typo3.org'
-# 		}
-# 	end
+	# Ansible | http://docs.ansible.com/playbooks_best_practices.html
+	config.vm.provision "ansible" do |ansible|
+# 		ansible.verbose = "v"
+		ansible.playbook = "playbooks/site.yml"
+		ansible.limit = "all"
+		ansible.raw_arguments = ENV['ANSIBLE_ARGS']
+		ansible.extra_vars = {
+			ansible_ssh_user: 'vagrant',
+			hostname: 'local.typo3.org'
+		}
+	end
 
 	# Setup synced folders
 	configuration['synced_folders'].each do |folder|

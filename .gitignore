@@ -16,11 +16,11 @@ box/vmware/*
 ubuntu-14.04.2-server-amd64.iso
 
 # Ansible Galaxy Roles
-roles/composer
-roles/memcached
-roles/nginx
-roles/nodejs
-roles/php-fpm
+#roles/composer
+#roles/memcached
+#roles/nginx
+#roles/nodejs
+#roles/php-fpm
 
 # Custom configuration
 Configuration/*
