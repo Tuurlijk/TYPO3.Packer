@@ -1,0 +1,5 @@
+---
+
+- name: restart memcached
+  service: name=memcached state=restarted
+  when: not started_memcached|changed
