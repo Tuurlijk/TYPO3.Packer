@@ -1,4 +1,0 @@
----
-# tasks file for composer
-- include: install.yml
-- include: composer-json.yml

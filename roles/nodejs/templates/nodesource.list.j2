@@ -1,7 +1,0 @@
-{% if not nodejs.devel %}
-deb https://deb.nodesource.com/node {{ ansible_distribution_release }} main
-deb-src https://deb.nodesource.com/node {{ ansible_distribution_release }} main
-{% else %}
-deb https://deb.nodesource.com/node-devel {{ ansible_distribution_release }} main
-deb-src https://deb.nodesource.com/node-devel {{ ansible_distribution_release }} main
-{% endif %}

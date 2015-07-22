@@ -1,7 +1,0 @@
----
-# test file for composer
-- hosts: all
-  remote_user: vagrant
-  sudo: true
-  roles:
-    - composer

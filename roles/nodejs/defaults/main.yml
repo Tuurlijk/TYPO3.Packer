@@ -1,4 +1,0 @@
-nodejs:
-  devel: false
-  add_node_modules_bin_to_path: false
-  npmrc: {}
