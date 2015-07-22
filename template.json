@@ -34,18 +34,9 @@
       "type": "shell"
     },
     {
-      "type": "file",
-      "source": "Defaults",
-      "destination": "/tmp"
-    },
-    {
-      "type": "file",
-      "source": "Configuration",
-      "destination": "/tmp"
-    },
-    {
       "type": "ansible-local",
-      "playbook_file": "site.yml",
+      "playbook_dir": ".",
+      "playbook_file": "playbooks/site.yml",
       "role_paths": [
         "roles/common",
         "roles/php-fpm",
@@ -124,6 +115,12 @@
           "{{.Name}}",
           "--memory",
           "1024"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "2"
         ]
       ]
     },
@@ -233,6 +230,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.1.8"
+    "version": "0.1.20"
   }
 }
