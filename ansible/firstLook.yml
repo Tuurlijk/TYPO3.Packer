@@ -1,0 +1,18 @@
+---
+- hosts: all
+  gather_facts: true
+  sudo: yes
+  vars_files:
+    - Configuration/main.yml
+    - Configuration/nginx.yml
+    - Configuration/php.yml
+    - Configuration/websites.yml
+    - Configuration/typo3.yml
+  roles:
+    - { role: common,    tags: common }
+    - { role: php-fpm,   tags: php-fpm }
+    - { role: mariadb,   tags: mariadb }
+    - { role: phpcommon, tags: phpcommon }
+    - { role: composer,  tags: composer }
+    - { role: typo3,     tags: typo3 }
+    - { role: nginx,     tags: nginx }

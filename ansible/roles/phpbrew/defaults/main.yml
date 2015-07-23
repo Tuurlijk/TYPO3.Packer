@@ -1,0 +1,25 @@
+---
+
+php_brew_enable: no
+
+php_brew_required_packages:
+  - 'bison'
+  - 'php5-dev'
+  - 'libbz2-dev'
+  - 'libicu-dev'
+  - 'libfreetype6'
+  - 'libfreetype6-dev'
+  - 'libjpeg-dev'
+  - 'libmcrypt-dev'
+  - 'libmysqlclient-dev'
+  - 'libpng12-dev'
+  - 'libreadline-dev'
+  - 'libxml2-dev'
+  - 'libxslt1-dev'
+  - 'ccache'
+
+php_brew_options: "+default +fpm +mysql +fileinfo +gd +intl +mcrypt +mhash +openssl +pcre +session +soap +zlib -- --with-mysqli=/usr/bin/mysql_config --with-freetype-dir=/usr/include/freetype2"
+
+php_brew_extensions:
+  - memcache
+  - gd

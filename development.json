@@ -36,15 +36,18 @@
     {
       "type": "ansible-local",
       "playbook_dir": "ansible",
-      "playbook_file": "ansible/firstLook.yml",
+      "playbook_file": "ansible/development.yml",
       "role_paths": [
         "ansible/roles/common",
         "ansible/roles/php-fpm",
         "ansible/roles/mariadb",
+        "ansible/roles/hhvm",
         "ansible/roles/phpcommon",
         "ansible/roles/composer",
         "ansible/roles/typo3",
-        "ansible/roles/nginx"
+        "ansible/roles/memcached",
+        "ansible/roles/nginx",
+        "ansible/roles/nodejs"
       ]
     },
     {
