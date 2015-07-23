@@ -10,6 +10,7 @@
   "provisioners": [
     {
       "environment_vars": [
+        "BOX_TYPE={{user `box_type`}}",
         "CLEANUP_PAUSE={{user `cleanup_pause`}}",
         "UPDATE={{user `update`}}",
         "INSTALL_VAGRANT_KEY={{user `install_vagrant_key`}}",
@@ -47,6 +48,7 @@
     },
     {
       "environment_vars": [
+        "BOX_TYPE={{user `box_type`}}",
         "CLEANUP_PAUSE={{user `cleanup_pause`}}",
         "UPDATE={{user `update`}}",
         "INSTALL_VAGRANT_KEY={{user `install_vagrant_key`}}",
@@ -166,7 +168,7 @@
       {
         "type": "vagrant",
         "keep_input_artifact": false,
-        "output": "box/{{.Provider}}/ubuntu1404-{{user `type`}}-{{user `version`}}.box"
+        "output": "box/{{.Provider}}/ubuntu1404-{{user `box_type`}}-{{user `version`}}.box"
       },
       {
         "type": "atlas",
@@ -197,8 +199,8 @@
   "variables": {
     "atlas_username": "Michiel",
     "atlas_name": "example4",
+    "box_type": "TYPO3-firstLook",
     "cleanup_pause": "",
-    "type": "typo3-firstLook",
     "custom_script": ".",
     "ftp_proxy": "{{env `ftp_proxy`}}",
     "headless": "true",
@@ -216,6 +218,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.2.1"
+    "version": "0.2.2"
   }
 }

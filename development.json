@@ -10,6 +10,7 @@
   "provisioners": [
     {
       "environment_vars": [
+        "BOX_TYPE={{user `box_type`}}",
         "CM={{user `cm`}}",
         "CM_VERSION={{user `cm_version`}}",
         "CLEANUP_PAUSE={{user `cleanup_pause`}}",
@@ -53,6 +54,7 @@
     },
     {
       "environment_vars": [
+        "BOX_TYPE={{user `box_type`}}",
         "CM={{user `cm`}}",
         "CM_VERSION={{user `cm_version`}}",
         "CLEANUP_PAUSE={{user `cleanup_pause`}}",
@@ -174,7 +176,7 @@
       {
         "type": "vagrant",
         "keep_input_artifact": false,
-        "output": "box/{{.Provider}}/ubuntu1404-{{user `cm`}}{{user `cm_version`}}-{{user `version`}}.box"
+        "output": "box/{{.Provider}}/ubuntu1404-{{user `box_type`}}-{{user `version`}}.box"
       },
       {
         "type": "atlas",
@@ -205,9 +207,8 @@
   "variables": {
     "atlas_username": "Michiel",
     "atlas_name": "example4",
+    "box_type": "typo3-firstLook",
     "cleanup_pause": "",
-    "cm": "nocm",
-    "cm_version": "",
     "custom_script": ".",
     "ftp_proxy": "{{env `ftp_proxy`}}",
     "headless": "true",
