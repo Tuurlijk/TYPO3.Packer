@@ -1,0 +1,19 @@
+#!/bin/bash
+#{{ ansible_managed }}
+typo3ConfDirectories=(
+{% for item in typo3.cms.sites.keys() %}
+	'{{ typo3_webroot }}{{ item }}/typo3conf'
+{% endfor %}
+)
+
+len=${{ typo3_left_curly_brace }}#typo3ConfDirectories[*]}
+
+i=0
+while [ $i -lt $len ];
+do
+	if [ -d "${typo3ConfDirectories[$i]}" ];
+	then
+		touch "${typo3TempRamdiskDirectories[$i]}/ENABLE_INSTALL_TOOL"
+	fi
+let i++
+done
