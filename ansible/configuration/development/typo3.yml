@@ -5,8 +5,9 @@ typo3_org_username: nobody
 typo3:
   cms:
     sites:
-      6.2.14.local.typo3.org: '6.2.14'
-      7.3.1.local.typo3.org: '7.3.1'
+      6.2.local.typo3.org: '6.2.*'
+      7.3.local.typo3.org: '7.3.*'
+      dev-master.local.typo3.org: '*'
     extensions:
       enabled:
         - scheduler

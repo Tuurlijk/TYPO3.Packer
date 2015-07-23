@@ -206,8 +206,8 @@
   ],
   "variables": {
     "atlas_username": "Michiel",
-    "atlas_name": "example4",
-    "box_type": "typo3-firstLook",
+    "atlas_name": "TYPO3-development",
+    "box_type": "typo3-development",
     "cleanup_pause": "",
     "custom_script": ".",
     "ftp_proxy": "{{env `ftp_proxy`}}",
@@ -226,6 +226,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.2.0"
+    "version": "0.1.1"
   }
 }
