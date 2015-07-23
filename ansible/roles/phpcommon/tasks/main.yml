@@ -2,7 +2,7 @@
 
 - name: Add OS specific varibles
   include_vars: "{{ ansible_os_family }}.yml"
-  tags: [ php-apcu, php-opcache, php-xdebug, php-blackfire, php-brew ]
+  tags: [ php-apcu, php-opcache, php-xdebug, php-blackfire ]
 
 - name: Install php packages
   apt: name={{ item }} state=present
@@ -38,10 +38,6 @@
 
 - include: xdebug.yml
   tags: php-xdebug
-
-- include: phpbrew.yml
-  when: php_brew_enable
-  tags: php-brew
 
 - name: Enable php modules
   command: php5enmod {{ item }}

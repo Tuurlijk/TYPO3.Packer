@@ -3,11 +3,11 @@
   gather_facts: true
   sudo: yes
   vars_files:
-    - Configuration/main.yml
-    - Configuration/nginx.yml
-    - Configuration/php.yml
-    - Configuration/websites.yml
-    - Configuration/typo3.yml
+    - configuration/firstLook/main.yml
+    - configuration/firstLook/nginx.yml
+    - configuration/firstLook/php.yml
+    - configuration/firstLook/websites.yml
+    - configuration/firstLook/typo3.yml
   roles:
     - { role: common,    tags: common }
     - { role: php-fpm,   tags: php-fpm }
