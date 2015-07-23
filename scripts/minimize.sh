@@ -22,7 +22,14 @@ echo "==> Removing development tools"
 echo "==> Removing default system Ruby"
 apt-get -y purge ruby ri doc
 echo "==> Removing default system Python"
-apt-get -y purge python-dbus libnl1 python-smartpm python-twisted-core libiw30 python-twisted-bin libdbus-glib-1-2 python-pexpect python-pycurl python-serial python-gobject python-pam python-openssl libffi5
+apt-get -y purge build-essential python-dbus libnl1 python-smartpm python-twisted-core libiw30 python-twisted-bin libdbus-glib-1-2 python-pexpect python-pycurl python-serial python-gobject python-pam python-openssl libffi5
+if [ "$BOX_TYPE" = "TYPO3-firstLook" ] || [ "$BOX_TYPE" = "Neos-firstLook" ]; then
+	echo "==> Removing fluff"
+	apt-get -y purge byobu cpp cpp-4.8 gcc gcc-4.8 git git-man htop make multitail php5-xdebug php5-xhprof postfix subversion tmux vim-common
+
+	echo "==> Removing git source from /var/www"
+	cd /var/www && for gitSource in `find ./ -name .git`; do rm -rf $gitSource; done
+fi
 #echo "==> Removing X11 libraries"
 #apt-get -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6
 echo "==> Removing obsolete networking components"
@@ -38,7 +45,7 @@ apt-get -y clean
 # Clean up orphaned packages with deborphan
 apt-get -y install deborphan
 while [ -n "$(deborphan --guess-all --libdevel)" ]; do
-    deborphan --guess-all --libdevel | xargs apt-get -y purge
+	deborphan --guess-all --libdevel | xargs apt-get -y purge
 done
 apt-get -y purge deborphan dialog
 
