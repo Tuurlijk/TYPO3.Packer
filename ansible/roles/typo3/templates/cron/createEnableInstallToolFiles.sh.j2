@@ -13,7 +13,7 @@ while [ $i -lt $len ];
 do
 	if [ -d "${typo3ConfDirectories[$i]}" ];
 	then
-		touch "${typo3TempRamdiskDirectories[$i]}/ENABLE_INSTALL_TOOL"
+		touch "${typo3ConfDirectories[$i]}/ENABLE_INSTALL_TOOL"
 	fi
 let i++
 done
