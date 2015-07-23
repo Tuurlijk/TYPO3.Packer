@@ -71,11 +71,17 @@ plugins.each do |plugin, version|
 	end
 end
 
+$script = <<SCRIPT
+echo "============================================================="
+echo "All done! Visit http://local.typo3.org in your browser."
+echo "============================================================="
+SCRIPT
+
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = 2
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-	config.vm.box = 'Michiel/example4'
+	config.vm.box = 'Michiel/TYPO3-try'
 	config.vm.boot_timeout = 180
 # If you have no Internet access (can not resolve *.local.typo3.org), you can use host aliases:
 # 	config.hostsupdater.aliases = [
@@ -123,8 +129,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	# Vmware Fusion
 	config.vm.provider :vmware_fusion do |v, override|
-		override.vm.box = "trusty64_fusion"
-		override.vm.box_url = "http://files.vagrantup.com/trusty64_vmware_fusion.box"
+		override.vm.box = "Michiel/TYPO3-try"
 		v.vmx["memsize"] = MEMORY.to_i
 		v.vmx["numvcpus"] = CORES.to_i
 	end
@@ -145,6 +150,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			hostname: 'local.typo3.org'
 		}
 	end
+
+	config.vm.provision "shell", inline: $script
 
 	# Setup synced folders
 	configuration['synced_folders'].each do |folder|

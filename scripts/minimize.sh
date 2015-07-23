@@ -25,7 +25,7 @@ echo "==> Removing default system Python"
 apt-get -y purge build-essential python-dbus libnl1 python-smartpm python-twisted-core libiw30 python-twisted-bin libdbus-glib-1-2 python-pexpect python-pycurl python-serial python-gobject python-pam python-openssl libffi5
 if [ "$BOX_TYPE" = "TYPO3-firstLook" ] || [ "$BOX_TYPE" = "Neos-firstLook" ]; then
 	echo "==> Removing fluff"
-	apt-get -y purge byobu cpp cpp-4.8 gcc gcc-4.8 git git-man htop make multitail php5-xdebug php5-xhprof postfix subversion tmux vim-common
+	apt-get -y purge byobu git git-man htop multitail php5-xdebug php5-xhprof postfix subversion tmux vim-common
 
 	echo "==> Removing git source from /var/www"
 	cd /var/www && for gitSource in `find ./ -name .git`; do rm -rf $gitSource; done

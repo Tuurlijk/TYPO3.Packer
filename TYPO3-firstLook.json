@@ -198,7 +198,7 @@
   ],
   "variables": {
     "atlas_username": "Michiel",
-    "atlas_name": "example4",
+    "atlas_name": "TYPO3-try",
     "box_type": "TYPO3-firstLook",
     "cleanup_pause": "",
     "custom_script": ".",
@@ -218,6 +218,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.2.2"
+    "version": "0.2.4"
   }
 }
