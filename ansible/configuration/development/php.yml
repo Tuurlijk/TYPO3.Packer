@@ -52,4 +52,4 @@ php_fpm_ini:
 php_brew_enable: yes
 
 # Make sure you also adjust the upstreams in nginx_configs after changing this
-php_brew_versions: ['5.6.11','5.5.27','5.4.43','5.3.29']
+php_brew_versions: ['5.6.11','5.5.27']

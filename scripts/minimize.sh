@@ -28,7 +28,7 @@ apt-get -y purge python-dbus libnl1 python-smartpm python-twisted-core libiw30 p
 echo "==> Removing obsolete networking components"
 apt-get -y purge ppp pppconfig pppoeconf
 echo "==> Removing other oddities"
-apt-get -y purge popularity-contest installation-report landscape-common wireless-tools wpasupplicant ubuntu-serverguide
+apt-get -y purge popularity-contest installation-report landscape-common wireless-tools wpasupplicant ubuntu-serverguide ansible
 
 # Clean up the apt cache
 apt-get -y autoremove --purge

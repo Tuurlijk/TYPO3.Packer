@@ -1,10 +1,5 @@
 ---
 
-php_brew_fpm_config:
-  - option: "group"
-    section: "www"
-    value: "vagrant"
-
 php_fpm_pool_defaults:
   chdir: /
   user: vagrant
@@ -20,8 +15,6 @@ php_fpm_pool_defaults:
 php_fpm_pools:
   - name: default
     listen: "/var/run/php5-fpm.sock"
-  - name: xhprof
-    listen: "/var/run/php5-fpm.xhprof.sock"
 
 php_fpm_ini:
   - option: "engine"
@@ -48,8 +41,3 @@ php_fpm_ini:
   - option: "pdo_mysql.cache_size"
     section: "Pdo_mysql"
     value: "2000"
-
-php_brew_enable: yes
-
-# Make sure you also adjust the upstreams in nginx_configs after changing this
-php_brew_versions: ['5.6.11','5.5.27','5.4.43','5.3.29']

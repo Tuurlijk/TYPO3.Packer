@@ -21,7 +21,3 @@ ubuntu-14.04.2-server-amd64.iso
 #roles/nginx
 #roles/nodejs
 #roles/php-fpm
-
-# Custom configuration
-Configuration/*
-!Configuration/empty.yml
