@@ -52,3 +52,7 @@
 - name: Create a script that enforces mounting the ramdisks after reboot
   template: src=cron/mountTypo3Temp.sh.j2 dest=/root/bin/mountTypo3Temp.sh mode=u+rwx
   tags: typo3-ramdisk
+
+- name: Create a script that enforces enabling the install tool every minute
+  template: src=cron/createEnableInstallToolFiles.sh.j2 dest=/root/bin/createEnableInstallToolFiles.sh mode=u+rwx
+  tags: typo3-cms-installtool
