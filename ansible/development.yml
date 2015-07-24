@@ -13,6 +13,7 @@
     - { role: php-fpm,   tags: php-fpm }
     - { role: mariadb,   tags: mariadb }
     - { role: phpcommon, tags: phpcommon }
+    - { role: phpbrew,   tags: phpbrew }
     - { role: hhvm,      tags: hhvm }
     - { role: composer,  tags: composer }
     - { role: typo3,     tags: typo3 }

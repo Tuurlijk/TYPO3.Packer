@@ -43,8 +43,8 @@
         "ansible/roles/php-fpm",
         "ansible/roles/mariadb",
         "ansible/roles/hhvm",
-        "ansible/roles/phpbrew",
         "ansible/roles/phpcommon",
+        "ansible/roles/phpbrew",
         "ansible/roles/composer",
         "ansible/roles/typo3",
         "ansible/roles/memcached",
@@ -226,6 +226,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.1.2"
+    "version": "0.1.3"
   }
 }
