@@ -82,6 +82,8 @@
       "boot_command": [
         "<esc><esc><enter><wait>",
         "/install/vmlinuz noapic ",
+        "auto-install/enable=true ",
+        "debconf/priority=critical ",
         "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
         "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
         "hostname={{ user `hostname` }} ",
@@ -109,7 +111,7 @@
       "ssh_password": "{{ user `ssh_password` }}",
       "ssh_username": "{{ user `ssh_username` }}",
       "ssh_port": 22,
-      "ssh_wait_timeout": "10000s",
+      "ssh_wait_timeout": "60m",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [
@@ -126,6 +128,8 @@
       "boot_command": [
         "<esc><esc><enter><wait>",
         "/install/vmlinuz auto",
+        " auto-install/enable=true",
+        " debconf/priority=critical",
         " console-setup/ask_detect=false",
         " console-setup/layoutcode=us",
         " console-setup/modelcode=pc105",
@@ -164,7 +168,7 @@
       "ssh_password": "{{ user `ssh_password` }}",
       "ssh_username": "{{ user `ssh_username` }}",
       "ssh_port": 22,
-      "ssh_wait_timeout": "10000s",
+      "ssh_wait_timeout": "60m",
       "tools_upload_flavor": "linux",
       "vmx_data": {
         "memsize": "1024"
@@ -175,6 +179,7 @@
     [
       {
         "type": "vagrant",
+        "compression_level": "{{user `compression_level`}}",
         "keep_input_artifact": false,
         "output": "box/{{.Provider}}/ubuntu1404-{{user `box_type`}}-{{user `version`}}.box"
       },
@@ -209,6 +214,7 @@
     "atlas_name": "TYPO3-development",
     "box_type": "typo3-development",
     "cleanup_pause": "",
+    "compression_level": "7",
     "custom_script": ".",
     "ftp_proxy": "{{env `ftp_proxy`}}",
     "headless": "true",
@@ -226,6 +232,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.1.5"
+    "version": "0.1.7"
   }
 }
