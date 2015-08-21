@@ -11,16 +11,6 @@
     - trusty-backports
     - trusty-security
 
-- name: Install Some PPAs - software-properties-common
-  apt: name=software-properties-common state=present
-
-- name: Add package repositories
-  apt_repository: repo={{ item }}
-  with_items:
-    - "ppa:nginx/stable"
-    - "ppa:rwky/redis"
-    - "ppa:chris-lea/node.js"
-
 - name: Update apt package lists
   apt:
     update_cache: yes
@@ -39,6 +29,19 @@
 
 - name: Autoremove unused packages
   command: apt-get -y autoremove --purge
+
+- name: Install Some PPAs - software-properties-common
+  apt: name=software-properties-common state=present
+
+- name: Add package repositories
+  apt_repository: repo={{ item }}
+  with_items:
+    - "ppa:nginx/stable"
+    - "ppa:rwky/redis"
+    - "ppa:chris-lea/node.js"
+
+- name: Update apt
+  apt: update_cache=yes
 
 - name: Install Extra Packages
   apt: pkg={{ item }} state=latest
