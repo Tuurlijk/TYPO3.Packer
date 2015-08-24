@@ -73,7 +73,15 @@ end
 
 $script = <<SCRIPT
 echo "============================================================="
-echo "All done! Visit http://local.typo3.org in your browser."
+echo "All done!"
+echo ""
+echo "You can now try one of these sites:"
+echo "- http://6.2.14.local.typo3.org/typo3/"
+echo "- http://7.4.0.local.typo3.org/typo3/"
+echo "- http://local.typo3.org:1080/ <- mailcatcher"
+echo ""
+echo "Username: admin"
+echo "Password: supersecret"
 echo "============================================================="
 SCRIPT
 
@@ -85,12 +93,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.boot_timeout = 180
 # If you have no Internet access (can not resolve *.local.typo3.org), you can use host aliases:
 # 	config.hostsupdater.aliases = [
-# 		'4.5.cms.local.typo3.org',
-# 		'4.5.39.cms.local.typo3.org',
-# 		'6.2.cms.local.typo3.org',
-# 		'6.2.9.cms.local.typo3.org',
-# 		'7.0.cms.local.typo3.org',
-# 		'7.0.2.cms.local.typo3.org',
+# 		'4.5.local.typo3.org',
+# 		'4.5.39.local.typo3.org',
+# 		'6.2.local.typo3.org',
+# 		'6.2.9.local.typo3.org',
+# 		'7.0.local.typo3.org',
+# 		'7.0.2.local.typo3.org',
 # 		'1.2.neos.local.typo3.org',
 # 		'dev-master.neos.local.typo3.org'
 # 		]
@@ -142,7 +150,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	# Ansible | http://docs.ansible.com/playbooks_best_practices.html
 	config.vm.provision "ansible" do |ansible|
 #  		ansible.verbose = "v"
-		ansible.playbook = "ansible/firstLook.yml"
+		ansible.playbook = "ansible/TYPOTry.yml"
 		ansible.limit = "all"
 		ansible.raw_arguments = ENV['ANSIBLE_ARGS']
 		ansible.extra_vars = {

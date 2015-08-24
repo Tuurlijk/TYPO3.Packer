@@ -54,7 +54,7 @@
 
 - name: typo3_console installation of TYPO3
   sudo: vagrant
-  shell: if [ ! -f {{ typo3_webroot }}{{ item.key }}/typo3conf/LocalConfiguration.php ]; then cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms install:setup --non-interactive --database-user-name=typo3 --database-user-password="{{ mariadb.password }}" --database-host-name=localhost --database-port=3306 --database-name={{ item.key | regex_replace('\\.', '_') }} --database-create=0 --admin-user-name=admin --admin-password="{{ mariadb.password }}" --site-name="TYPO3 Homestead"; fi
+  shell: if [ ! -f {{ typo3_webroot }}{{ item.key }}/typo3conf/LocalConfiguration.php ]; then cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms install:setup --non-interactive --database-user-name=typo3 --database-user-password="{{ mariadb.password }}" --database-host-name=localhost --database-port=3306 --database-name={{ item.key | regex_replace('\\.', '_') }} --database-create=0 --admin-user-name=admin --admin-password="{{ mariadb.password }}" --site-name="TYPO3"; fi
   when: item.key | match('^((6|7)\\.(\d)|dev-master)\\.')
   with_dict: typo3.cms.sites
   ignore_errors: yes

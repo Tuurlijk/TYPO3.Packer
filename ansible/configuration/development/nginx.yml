@@ -27,7 +27,7 @@ nginx_configs:
 
 nginx_fastcgi: |
   client_max_body_size 20M;
-  add_header X-TYPO3-Homestead-backend $upstream;
+  add_header X-TYPO3-backend $upstream;
   try_files $uri $uri/ /index.php?$args;
   location ~ \.php$ {
     try_files     $uri =404;

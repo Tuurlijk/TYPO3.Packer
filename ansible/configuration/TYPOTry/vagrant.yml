@@ -3,7 +3,7 @@
 # Synced folders:
 #
 # Host system folders (src) that will be mounted on the guest system (target).
-# Homestead installs all sites and sources in the /var/www/ folder. So for ease
+# TYPOTry installs all sites and sources in the /var/www/ folder. So for ease
 # of use we recomend to mount a single host 'Development' folder on /var/www/.
 # Linux and OSX users will get the benefit of an NFS mount, but Windows users
 # will get the default Vagrant shared folder. SMB may also work fine in the

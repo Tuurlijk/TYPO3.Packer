@@ -573,7 +573,7 @@ wMisVMAZizexXwP5ABkDz/7ocWoCRIUPLS/wswAB4ySZ1fVSx+AAAAAElFTkSuQmCC" width="293" 
 						<path fill="#ff8700" d="m-140,270c16,0,32,2.6,32,12,0,19-12,41-18,41-11,0-24-30-24-45,0-6.8,2.6-8.1,9.4-8.1"/>
 					</g>
 				</svg>
-			</a> Homestead
+			</a> Try
 		</p>
 
 		<p class="panel-text">
@@ -581,8 +581,29 @@ wMisVMAZizexXwP5ABkDz/7ocWoCRIUPLS/wswAB4ySZ1fVSx+AAAAAElFTkSuQmCC" width="293" 
 		</p>
 
 		<p class="panel-text">
-			You have successfully installed TYPO3 Homestead, the one-stop TYPO3 development environment.
+			You have successfully installed TYPOTry.
 		</p>
+
+		<p class="panel-text">
+			The following sites are available:
+			<ul>
+			<?php
+			$sites = scandir('..');
+			$exclude = array(
+				'.',
+				'..',
+				'html',
+				'local.typo3.org'
+			);
+			foreach ($sites as $site) {
+				if (!in_array($site, $exclude)) {
+					echo '<li><a href="http://' . $site . '">http://' . $site . '</a></li>';
+				}
+			}
+			?>
+			</ul>
+		</p>
+
 		<a class="button" href="https://github.com/Tuurlijk/TYPO3.Packer" target="github">Contribute!</a>
 	</div>
 	<div class="social">

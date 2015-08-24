@@ -35,7 +35,7 @@
     {
       "type": "ansible-local",
       "playbook_dir": "ansible",
-      "playbook_file": "ansible/firstLook.yml",
+      "playbook_file": "ansible/TYPOTry.yml",
       "role_paths": [
         "ansible/roles/common",
         "ansible/roles/php-fpm",
@@ -204,7 +204,7 @@
   "variables": {
     "atlas_username": "Michiel",
     "atlas_name": "TYPO3-try",
-    "box_type": "TYPO3-firstLook",
+    "box_type": "TYPOTry",
     "cleanup_pause": "",
     "compression_level": "7",
     "custom_script": ".",
@@ -224,6 +224,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.2.19"
+    "version": "0.2.21"
   }
 }

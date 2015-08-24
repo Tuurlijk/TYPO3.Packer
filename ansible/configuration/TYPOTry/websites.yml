@@ -1,17 +1,17 @@
 ---
 
 nginx_sites:
-  homestead.local.typo3.org:
-    - set $upstream hhvm
+  local.typo3.org:
+    - set $upstream php
     - listen 80 default_server
     - server_name _
-    - root "{{ typo3_webroot }}/homestead.local.typo3.org/"
+    - root "{{ typo3_webroot }}/local.typo3.org/"
     - "{{ nginx_fastcgi }}"
-  homestead.local.typo3.org.ssl:
+  local.typo3.org.ssl:
     - set $upstream php
     - listen 443 default_server
     - server_name _
-    - root "{{ typo3_webroot }}/homestead.local.typo3.org/"
+    - root "{{ typo3_webroot }}/local.typo3.org/"
     - "{{ nginx_fastcgi }}"
     - ssl on
     - ssl_certificate /etc/ssl/certs/local.typo3.org.crt
@@ -20,6 +20,8 @@ nginx_sites:
     - set $upstream php
     - server_name ~(?<version>.*)\.local.typo3.org$
     - root "{{ typo3_webroot }}${version}.local.typo3.org/";
+    - error_page 404 = @404
+    - "{{ nginx_typo3_404_redirect }}"
     - "{{ nginx_fastcgi }}"
   typo3.cms.ssl:
     - set $upstream php
@@ -29,4 +31,6 @@ nginx_sites:
     - ssl on
     - ssl_certificate /etc/ssl/certs/local.typo3.org.crt
     - ssl_certificate_key /etc/ssl/private/local.typo3.org.key
+    - error_page 404 = @404
+    - "{{ nginx_typo3_404_redirect }}"
     - "{{ nginx_fastcgi }}"
