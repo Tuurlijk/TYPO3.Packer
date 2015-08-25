@@ -34,3 +34,23 @@ nginx_sites:
     - error_page 404 = @404
     - "{{ nginx_typo3_404_redirect }}"
     - "{{ nginx_fastcgi }}"
+  neos.cms:
+    - set $upstream php
+    - server_name ~(?<version>.*)\.local.neos.io$
+    - root "{{ typo3_webroot }}${version}.local.neos.io/Web/";
+    - error_page 404 = @404
+    - "{{ nginx_typo3_404_redirect }}"
+    - "{{ nginx_typo3_neos_resources }}"
+    - "{{ nginx_fastcgi }}"
+  neos.cms.ssl:
+    - set $upstream php
+    - listen 443
+    - server_name ~(?<version>.*)\.local.neos.io$
+    - root "{{ typo3_webroot }}${version}.local.neos.io/Web/";
+    - ssl on
+    - ssl_certificate /etc/ssl/certs/local.neos.io.crt
+    - ssl_certificate_key /etc/ssl/private/local.neos.io.key
+    - error_page 404 = @404
+    - "{{ nginx_typo3_404_redirect }}"
+    - "{{ nginx_typo3_neos_resources }}"
+    - "{{ nginx_fastcgi }}"

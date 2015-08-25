@@ -103,7 +103,7 @@
       "ssh_password": "{{ user `ssh_password` }}",
       "ssh_username": "{{ user `ssh_username` }}",
       "ssh_port": 22,
-      "ssh_wait_timeout": "30m",
+      "ssh_wait_timeout": "60m",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [
@@ -160,7 +160,7 @@
       "ssh_password": "{{ user `ssh_password` }}",
       "ssh_username": "{{ user `ssh_username` }}",
       "ssh_port": 22,
-      "ssh_wait_timeout": "30m",
+      "ssh_wait_timeout": "60m",
       "tools_upload_flavor": "linux",
       "vmx_data": {
         "memsize": "1024"
@@ -224,6 +224,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.2.21"
+    "version": "0.2.24"
   }
 }

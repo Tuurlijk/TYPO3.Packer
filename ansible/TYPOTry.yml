@@ -7,6 +7,7 @@
     - configuration/TYPOTry/nginx.yml
     - configuration/TYPOTry/php.yml
     - configuration/TYPOTry/websites.yml
+    - configuration/TYPOTry/neos.yml
     - configuration/TYPOTry/typo3.yml
   roles:
     - { role: common,    tags: common }
@@ -15,4 +16,6 @@
     - { role: phpcommon, tags: phpcommon }
     - { role: composer,  tags: composer }
     - { role: typo3,     tags: typo3 }
+    - { role: neos,      tags: neos }
+    - { role: memcached, tags: memcached }
     - { role: nginx,     tags: nginx }

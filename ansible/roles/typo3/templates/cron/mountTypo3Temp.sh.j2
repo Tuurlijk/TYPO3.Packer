@@ -4,16 +4,10 @@ typo3TemporaryDirectories=(
 {% for item in typo3.cms.sites.keys() %}
 	'{{ typo3_webroot }}{{ item }}/typo3temp'
 {% endfor %}
-{% for item in typo3.neos.sites.keys() %}
-	'{{ typo3_webroot }}{{ item }}/Data/Temporary'
-{% endfor %}
 )
 
 typo3TempRamdiskDirectories=(
 {% for item in typo3.cms.sites.keys() %}
-	'/mnt/typo3cache/{{ item }}'
-{% endfor %}
-{% for item in typo3.neos.sites.keys() %}
 	'/mnt/typo3cache/{{ item }}'
 {% endfor %}
 )

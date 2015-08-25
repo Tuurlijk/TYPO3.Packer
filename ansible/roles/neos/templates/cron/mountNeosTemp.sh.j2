@@ -1,0 +1,33 @@
+#!/bin/bash
+#{{ ansible_managed }}
+neosTemporaryDirectories=(
+{% for item in neos.sites.keys() %}
+	'{{ typo3_webroot }}{{ item }}/Data/Temporary'
+{% endfor %}
+)
+
+neosTempRamdiskDirectories=(
+{% for item in neos.sites.keys() %}
+	'/mnt/neoscache/{{ item }}'
+{% endfor %}
+)
+
+len=${{ typo3_left_curly_brace }}#neosTemporaryDirectories[*]}
+
+i=0
+while [ $i -lt $len ];
+do
+	if [ -d "${neosTemporaryDirectories[$i]}" ];
+	then
+		if [ ! -d "${neosTempRamdiskDirectories[$i]}" ];
+		then
+			mkdir "${neosTempRamdiskDirectories[$i]}"
+			chown vagrant:vagrant "${neosTempRamdiskDirectories[$i]}"
+		fi
+		if ! mountpoint -q ${neosTemporaryDirectories[$i]};
+		then
+			mount ${neosTemporaryDirectories[$i]}
+		fi
+	fi
+let i++
+done
