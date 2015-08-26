@@ -5,7 +5,7 @@
 #sed -i -e '1i deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-backports main restricted universe multiverse' /etc/apt/sources.list
 #sed -i -e '1i deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-updated main restricted universe multiverse' /etc/apt/sources.list
 #sed -i -e '1i deb mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted universe multiverse' /etc/apt/sources.list
-sed -i 's/us.archive.ubuntu.com/nl.archive.ubuntu.com/g' /etc/apt/sources.list
+#sed -i 's/us.archive.ubuntu.com/nl.archive.ubuntu.com/g' /etc/apt/sources.list
 
 # Update the box
 export DEBIAN_FRONTEND=noninteractive
