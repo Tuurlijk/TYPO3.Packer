@@ -3,11 +3,12 @@
   gather_facts: true
   sudo: yes
   vars_files:
-    - configuration/development/main.yml
-    - configuration/development/nginx.yml
-    - configuration/development/php.yml
-    - configuration/development/websites.yml
-    - configuration/development/typo3.yml
+    - configuration/Development/main.yml
+    - configuration/Development/nginx.yml
+    - configuration/Development/php.yml
+    - configuration/Development/websites.yml
+    - configuration/Development/neos.yml
+    - configuration/Development/typo3.yml
   roles:
     - { role: common,    tags: common }
     - { role: php-fpm,   tags: php-fpm }
@@ -17,6 +18,7 @@
     - { role: hhvm,      tags: hhvm }
     - { role: composer,  tags: composer }
     - { role: typo3,     tags: typo3 }
+    - { role: neos,      tags: neos }
     - { role: memcached, tags: memcached }
     - { role: nginx,     tags: nginx }
     - { role: nodejs,    tags: nodejs }
