@@ -53,11 +53,11 @@ nginx_sites:
     - "{{ nginx_fastcgi }}"
   neos:
     - set $upstream php
-    - server_name ~(?<serverNameUpstream>xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php)?\.?(?<version>.*)\.local.typo3.org$
+    - server_name ~(?<serverNameUpstream>xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php)?\.?(?<version>.*)\.local.neos.io$
     - if ($serverNameUpstream ~ (php|xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php)) { set $upstream $serverNameUpstream; }
-    - root "{{ typo3_webroot }}${version}.local.typo3.org/Web/";
+    - root "{{ typo3_webroot }}${version}.local.neos.io/Web/";
     - error_page 404 = @404
-    - "{{ nginx_typo3_404_redirect }}"
+    - "{{ nginx_neos_404_redirect }}"
     - "{{ nginx_fastcgi }}"
   neos.ssl:
     - set $upstream php
@@ -69,5 +69,5 @@ nginx_sites:
     - ssl_certificate /etc/ssl/certs/local.neos.io.crt
     - ssl_certificate_key /etc/ssl/private/local.neos.io.key
     - error_page 404 = @404
-    - "{{ nginx_typo3_404_redirect }}"
+    - "{{ nginx_neos_404_redirect }}"
     - "{{ nginx_fastcgi }}"
