@@ -528,7 +528,7 @@ QD8B+krz+rwQQobAAAAAElFTkSuQmCC" width="317" height="80">
 			);
 			foreach ($sites as $site) {
 				if (!in_array($site, $exclude) && !strstr($site, 'local.neos.io')) {
-					echo '<li><a href="http://' . $site . '">http://' . $site . '/typo3/</a></li>';
+					echo '<li><a href="http://' . $site . '/typo3/">http://' . $site . '/typo3/</a></li>';
 				}
 			}
 			?>

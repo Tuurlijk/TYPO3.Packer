@@ -620,7 +620,7 @@ TvDJQZKZYaoKQQnOXS0NraA2t/3L9L/458wdODu1SLSXsCQAAAABJRU5ErkJggg==" width="165" h
 			);
 			foreach ($sites as $site) {
 				if (!in_array($site, $exclude) && !strstr($site, 'local.typo3.org')) {
-					echo '<li><a href="http://' . $site . '">http://' . $site . '/neos/</a></li>';
+					echo '<li><a href="http://' . $site . '/neos/">http://' . $site . '/neos/</a></li>';
 				}
 			}
 			?>
