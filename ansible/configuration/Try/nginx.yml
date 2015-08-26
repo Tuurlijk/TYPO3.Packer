@@ -25,7 +25,7 @@ nginx_fastcgi: |
     try_files     $uri =404;
     fastcgi_pass  $upstream;
     fastcgi_index index.php;
-    fastcgi_param FLOW_CONTEXT Development;
+    fastcgi_param FLOW_CONTEXT Production;
     fastcgi_param FLOW_REWRITEURLS 1;
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     include       fastcgi_params;
