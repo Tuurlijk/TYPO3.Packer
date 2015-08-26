@@ -1,7 +1,4 @@
 ---
 
-- name: Setup cron job for typo3temp ramfs automounter
-  cron: name="Run typo3temp ramfs automounter" job="[ -x /root/bin/mountTypo3Temp.sh ] && /root/bin/mountTypo3Temp.sh 2>/dev/null > /dev/null "
-
-- name: Setup cron job for neostemp ramfs automounter
-  cron: name="Run neostemp ramfs automounter" job="[ -x /root/bin/mountNeosTemp.sh ] && /root/bin/mountNeosTemp.sh 2>/dev/null > /dev/null "
+- name: Setup cron job for neos temp ramfs automounter
+  cron: name="Run neos temp ramfs automounter" job="[ -x /root/bin/mountNeosTemp.sh ] && /root/bin/mountNeosTemp.sh 2>/dev/null > /dev/null "

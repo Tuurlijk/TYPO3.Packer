@@ -3,12 +3,12 @@
   gather_facts: true
   sudo: yes
   vars_files:
-    - configuration/TYPOTry/main.yml
-    - configuration/TYPOTry/nginx.yml
-    - configuration/TYPOTry/php.yml
-    - configuration/TYPOTry/websites.yml
-    - configuration/TYPOTry/neos.yml
-    - configuration/TYPOTry/typo3.yml
+    - configuration/Try/main.yml
+    - configuration/Try/nginx.yml
+    - configuration/Try/php.yml
+    - configuration/Try/websites.yml
+    - configuration/Try/neos.yml
+    - configuration/Try/typo3.yml
   roles:
     - { role: common,    tags: common }
     - { role: php-fpm,   tags: php-fpm }

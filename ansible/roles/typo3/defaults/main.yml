@@ -17,7 +17,3 @@
       extensions:
         disabled: []
         enabled: []
-    flow:
-      sites: {}
-    neos:
-      sites: {}

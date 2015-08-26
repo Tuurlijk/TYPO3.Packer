@@ -35,7 +35,7 @@
     {
       "type": "ansible-local",
       "playbook_dir": "ansible",
-      "playbook_file": "ansible/TYPOTry.yml",
+      "playbook_file": "ansible/Try.yml",
       "role_paths": [
         "ansible/roles/common",
         "ansible/roles/php-fpm",
@@ -73,24 +73,35 @@
       "type": "virtualbox-iso",
       "boot_command": [
         "<esc><esc><enter><wait>",
-        "/install/vmlinuz noapic ",
-        "auto-install/enable=true ",
-        "debconf/priority=critical ",
-        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
-        "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
-        "hostname={{ user `hostname` }} ",
-        "fb=false debconf/frontend=noninteractive ",
-        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
-        "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
-        "passwd/user-fullname={{ user `ssh_fullname` }} ",
-        "passwd/user-password={{ user `ssh_password` }} ",
-        "passwd/user-password-again={{ user `ssh_password` }} ",
-        "passwd/username={{ user `ssh_username` }} ",
-        "initrd=/install/initrd.gz -- <enter>"
+        "/install/vmlinuz auto",
+        " auto-install/enable=true",
+        " debconf/priority=critical",
+        " console-setup/ask_detect=false",
+        " console-setup/layoutcode=us",
+        " console-setup/modelcode=pc105",
+        " debconf/frontend=noninteractive",
+        " debian-installer=en_US",
+        " fb=false",
+        " initrd=/install/initrd.gz",
+        " kbd-chooser/method=us",
+        " keyboard-configuration/layout=USA",
+        " keyboard-configuration/variant=USA",
+        " locale=en_US",
+        " netcfg/get_domain=vm",
+        " netcfg/get_hostname={{ user `hostname` }}",
+        " noapic",
+        " passwd/user-fullname={{ user `ssh_fullname` }}",
+        " passwd/user-password={{ user `ssh_password` }}",
+        " passwd/user-password-again={{ user `ssh_password` }}",
+        " passwd/username={{ user `ssh_username` }}",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+        " -- ",
+        "<enter>"
       ],
+      "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
       "boot_wait": "10s",
-      "disk_size": 20480,
+      "disk_size": "{{ user `disk_size` }}",
       "guest_os_type": "Ubuntu_64",
       "http_directory": "http",
       "iso_checksum": "{{ user `iso_checksum` }}",
@@ -111,7 +122,7 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "1024"
+          "{{ user `memory_size` }}"
         ]
       ]
     },
@@ -145,7 +156,7 @@
         "<enter>"
       ],
       "boot_wait": "10s",
-      "disk_size": 20480,
+      "disk_size": "{{ user `disk_size` }}",
       "guest_os_type": "Ubuntu-64",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -155,7 +166,6 @@
         "{{ user `iso_path` }}/{{ user `iso_name` }}",
         "{{ user `iso_url` }}"
       ],
-      "skip_compaction": true,
       "shutdown_command": "echo '{{ user `ssh_password` }}'|sudo -S shutdown -P now",
       "ssh_password": "{{ user `ssh_password` }}",
       "ssh_username": "{{ user `ssh_username` }}",
@@ -163,7 +173,7 @@
       "ssh_wait_timeout": "60m",
       "tools_upload_flavor": "linux",
       "vmx_data": {
-        "memsize": "1024"
+        "memsize": "{{ user `memory_size` }}"
       }
     }
   ],
@@ -203,11 +213,13 @@
   ],
   "variables": {
     "atlas_username": "Michiel",
-    "atlas_name": "TYPO3-try",
-    "box_type": "TYPOTry",
+    "atlas_name": "Try",
+    "box_type": "Try",
     "cleanup_pause": "",
     "compression_level": "7",
     "custom_script": ".",
+    "disk_size": "20480",
+    "memory_size": "1024",
     "ftp_proxy": "{{env `ftp_proxy`}}",
     "headless": "true",
     "http_proxy": "{{env `http_proxy`}}",
@@ -224,6 +236,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.2.25"
+    "version": "0.2.27"
   }
 }

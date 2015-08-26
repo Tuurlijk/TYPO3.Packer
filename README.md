@@ -5,3 +5,4 @@ https://www.packer.io/ code to create an ubuntu based TYPO3 base box
 
 # TODO
 * Make pretty /etc/issue
+* Setup mailcatcher for Neos

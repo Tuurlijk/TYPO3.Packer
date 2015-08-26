@@ -36,11 +36,11 @@
 - include: mariadb.yml
   tags: neos-mariadb
 
-- include: cron.yml
-  tags: neos-cron
-
 - include: neos.yml
   tags: neos-neos
+
+- include: cron.yml
+  tags: neos-cron
 
 - name: Ensure the root user bin dir exists
   file: path=/root/bin state=directory mode=0775
