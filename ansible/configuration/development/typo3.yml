@@ -11,5 +11,3 @@ typo3:
     extensions:
       enabled:
         - scheduler
-  neos:
-    sites: {}
