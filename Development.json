@@ -174,7 +174,6 @@
         "{{ user `iso_url` }}"
       ],
       "shutdown_command": "echo '{{ user `ssh_password` }}'|sudo -S shutdown -P now",
-      "skip_compaction": true,
       "ssh_password": "{{ user `ssh_password` }}",
       "ssh_username": "{{ user `ssh_username` }}",
       "ssh_wait_timeout": "30m",
@@ -190,6 +189,11 @@
       {
         "type": "vagrant",
         "compression_level": "{{user `compression_level`}}",
+        "override": {
+          "vmware": {
+            "compression_level": 0
+          }
+        },
         "keep_input_artifact": false,
         "output": "box/{{.Provider}}/ubuntu1404-{{user `box_type`}}-{{user `version`}}.box"
       },
