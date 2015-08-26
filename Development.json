@@ -244,6 +244,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.2.4"
+    "version": "0.2.5"
   }
 }
