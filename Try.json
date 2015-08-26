@@ -38,12 +38,14 @@
       "playbook_file": "ansible/Try.yml",
       "role_paths": [
         "ansible/roles/common",
-        "ansible/roles/php-fpm",
-        "ansible/roles/mariadb",
-        "ansible/roles/phpcommon",
         "ansible/roles/composer",
-        "ansible/roles/typo3",
-        "ansible/roles/nginx"
+        "ansible/roles/mariadb",
+        "ansible/roles/memcached",
+        "ansible/roles/neos",
+        "ansible/roles/nginx",
+        "ansible/roles/php-fpm",
+        "ansible/roles/phpcommon",
+        "ansible/roles/typo3"
       ]
     },
     {

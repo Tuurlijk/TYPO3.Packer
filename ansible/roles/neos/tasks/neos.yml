@@ -6,11 +6,60 @@
   with_items: neos.sites.keys()
   tags: neos-neos-sites
 
-- name: Setup NEOS sites
+- name: Setup NEOS sites in production context
   sudo: vagrant
   shell: if [ ! "$(ls -A {{ typo3_webroot }}{{ item.key }})" ]; then composer create-project --no-dev typo3/neos-base-distribution {{ typo3_webroot }}{{ item.key }} {{ item.value }}; fi
   with_dict: neos.sites
+  when: context == "Production"
   tags: neos-neos-sites
+
+- name: Setup NEOS sites in development context
+  sudo: vagrant
+  shell: if [ ! "$(ls -A {{ typo3_webroot }}{{ item.key }})" ]; then composer create-project --keep-vcs --no-dev typo3/neos-base-distribution {{ typo3_webroot }}{{ item.key }} {{ item.value }}; fi
+  with_dict: neos.sites
+  when: context == "Development"
+  tags: neos-neos-sites
+
+- name: "NEOS Sources: Setup git push for base distributions"
+  sudo: vagrant
+  shell: cd {{ typo3_webroot }}{{ item }}; git config remote.origin.push HEAD:refs/for/master
+  args:
+    executable: /bin/bash
+  with_items: neos.sites.keys()
+  when: context == "Development"
+  tags: neos-git-setup
+
+- name: "NEOS Sources: Setup git push"
+  sudo: vagrant
+  shell: cd {{ typo3_webroot }}{{ item }}; for d in `find ./ -maxdepth 3 -type d -name "TYPO3.*" | grep -v NeosDemo`; do pushd $d > /dev/null; git config remote.origin.push HEAD:refs/for/master; popd > /dev/null; done
+  args:
+    executable: /bin/bash
+  with_items: neos.sites.keys()
+  when: context == "Development"
+  tags: neos-git-setup
+
+- name: "NEOS Sources: Setup git hook directory for base distributions"
+  sudo: vagrant
+  file: path={{ typo3_webroot }}{{ item }}/.git/hooks state=directory recurse=yes mode=0775
+  with_items: neos.sites.keys()
+  when: context == "Development"
+  tags: neos-git-setup
+
+- name: "NEOS Sources: Setup git commit message for base distributions"
+  sudo: vagrant
+  copy: src=git-commit-msg dest={{ typo3_webroot }}{{ item }}/.git/hooks/commit-msg force=no
+  with_items: neos.sites.keys()
+  when: context == "Development"
+  tags: neos-git-setup
+
+- name: "NEOS Sources: Setup git commit message for packages"
+  sudo: vagrant
+  shell: cd {{ typo3_webroot }}{{ item }}; for d in `find ./ -maxdepth 3 -type d -name "TYPO3.*" | grep -v NeosDemo`; do pushd $d > /dev/null; mkdir -p {{ typo3_webroot }}{{ item }}/$d/.git/hooks/; cp {{ typo3_webroot }}{{ item }}/.git/hooks/commit-msg {{ typo3_webroot }}{{ item }}/$d/.git/hooks/commit-msg; popd > /dev/null; done
+  args:
+    executable: /bin/bash
+  with_items: neos.sites.keys()
+  when: context == "Development"
+  tags: neos-git-setup
 
 - name: Create ramdisk directories to offload Data/Temporary to ramdisk
   file: path=/mnt/neoscache/{{ item }} state=directory owner={{nginx_user}} group={{nginx_group}} mode=0775

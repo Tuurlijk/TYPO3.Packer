@@ -4,4 +4,6 @@ timezone: Europe/Amsterdam
 
 authorized_keys: {}
 
+context: Production
+
 mailcatcher_enable: yes
