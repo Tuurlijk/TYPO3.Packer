@@ -48,7 +48,7 @@
   shell: if [ ! -f {{ typo3_webroot }}{{ item[0] }}/Configuration/Caches.yaml ]; then {{ typo3_webroot }}{{ item[0] }}/flow {{ item[1] }}; fi
   with_nested:
     - neos.sites.keys()
-    - ['doctrine:migrate', 'site:import --package-key TYPO3.NeosDemoTypo3Org', "user:create admin {{ mariadb.password }} Admin Istrator --roles TYPO3.Neos:Administrator"]
+    - ['doctrine:migrate', 'site:import --package-key TYPO3.NeosDemoTypo3Org', "user:create admin {{ mariadb.password }} Admin Istrator --roles TYPO3.Neos:Administrator", "cache:warmup"]
 
 - name: Copy memcached Caches.yaml to Configuration
   sudo: vagrant
