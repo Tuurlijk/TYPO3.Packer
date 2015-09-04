@@ -82,6 +82,13 @@
   with_dict: typo3.cms.sites
   ignore_errors: yes
 
+- name: typo3_console install extension distributionmanagement
+  sudo: vagrant
+  shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms extension:install distributionmanagement"
+  when: item.key | match('^((6|7)\\.(\d)|dev-master)\\.')
+  with_dict: typo3.cms.sites
+  ignore_errors: yes
+
 - name: typo3_console create _cli_scheduler user
   sudo: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms user:create --username _cli_scheduler"
@@ -105,6 +112,13 @@
   with_nested:
     - typo3.cms.sites.keys()
     - typo3.cms.extensions.disabled
+  ignore_errors: yes
+
+- name: typo3_console install introduction distribution
+  sudo: vagrant
+  shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms distribution:install introduction"
+  when: item.key | match('^((6|7)\\.(\d)|dev-master)\\.')
+  with_dict: typo3.cms.sites
   ignore_errors: yes
 
 - name: Setup git push for typo3_console CMS Sources
