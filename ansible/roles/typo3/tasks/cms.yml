@@ -45,12 +45,12 @@
   with_dict: typo3.cms.sites
   tags: typo3-cms-composer
 
-- name: Composer install TYPO3 CMS 7.2 and up
-  sudo: vagrant
-  composer: command=install working_dir={{ typo3_webroot }}{{ item.key }}/typo3_src
-  when: item.key | match('^((7)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
-  tags: typo3-cms-composer
+#- name: Composer install TYPO3 CMS 7.2 and up
+#  sudo: vagrant
+#  composer: command=install working_dir={{ typo3_webroot }}{{ item.key }}/typo3_src
+#  when: item.key | match('^((7)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
+#  with_dict: typo3.cms.sites
+#  tags: typo3-cms-composer
 
 - name: typo3_console installation of TYPO3
   sudo: vagrant
