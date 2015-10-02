@@ -10,8 +10,8 @@
   ],
   "repositories": [
     {
-      "type": "git",
-      "url": "https://git.typo3.org/Packages/TYPO3.CMS.git"
+      "type": "composer",
+      "url": "http://composer.typo3.org"
     },
     {
       "type": "git",
@@ -29,13 +29,10 @@
   "config": {
     "vendor-dir": "Packages/Libraries",
     "bin-dir": "bin",
-    "preferred-install": "source"
+    "preferred-install": "source",
+    "optimize-autoloader": true
   },
   "minimum-stability": "dev",
-  "scripts": {
-    "post-update-cmd": "Helhum\\Typo3Console\\Composer\\InstallerScripts::postUpdateAndInstall",
-    "post-install-cmd": "Helhum\\Typo3Console\\Composer\\InstallerScripts::postUpdateAndInstall"
-  },
   "require": {
     "typo3/cms": "{{ item.value }}",
     "helhum/typo3-console": "*",
