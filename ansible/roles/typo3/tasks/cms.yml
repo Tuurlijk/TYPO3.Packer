@@ -26,7 +26,7 @@
 
 - name: Add typo3_console composer.json to TYPO3 CMS 6.x and 7.x web roots
   sudo: vagrant
-  template: src=cms/composer.json dest={{ typo3_webroot }}{{ item.key }}/composer.json
+  template: src=cms/composer.6.x.json dest={{ typo3_webroot }}{{ item.key }}/composer.json
   when: item.key | match('^(6|7)\\.(\d)\\.')
   with_dict: typo3.cms.sites
   tags: typo3-cms-composer
