@@ -35,7 +35,7 @@
     {
       "type": "ansible-local",
       "playbook_dir": "ansible",
-      "playbook_file": "ansible/Development.yml",
+      "playbook_file": "ansible/Review.yml",
       "role_paths": [
         "ansible/roles/common",
         "ansible/roles/composer",
