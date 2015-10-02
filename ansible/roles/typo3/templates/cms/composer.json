@@ -33,6 +33,10 @@
     "optimize-autoloader": true
   },
   "minimum-stability": "dev",
+  "scripts": {
+    "post-update-cmd": "Helhum\\Typo3Console\\Composer\\InstallerScripts::postUpdateAndInstall",
+    "post-install-cmd": "Helhum\\Typo3Console\\Composer\\InstallerScripts::postUpdateAndInstall"
+  },
   "require": {
     "typo3/cms": "{{ item.value }}",
     "helhum/typo3-console": "*",

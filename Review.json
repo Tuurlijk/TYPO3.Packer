@@ -35,17 +35,21 @@
     {
       "type": "ansible-local",
       "playbook_dir": "ansible",
-      "playbook_file": "ansible/Try.yml",
+      "playbook_file": "ansible/Development.yml",
       "role_paths": [
         "ansible/roles/common",
         "ansible/roles/composer",
+        "ansible/roles/hhvm",
         "ansible/roles/mariadb",
         "ansible/roles/memcached",
         "ansible/roles/neos",
         "ansible/roles/nginx",
+        "ansible/roles/nodejs",
         "ansible/roles/php-fpm",
+        "ansible/roles/phpbrew",
         "ansible/roles/phpcommon",
         "ansible/roles/typo3"
+
       ]
     },
     {
@@ -221,8 +225,8 @@
   ],
   "variables": {
     "atlas_username": "Michiel",
-    "atlas_name": "Try",
-    "box_type": "Try",
+    "atlas_name": "Review",
+    "box_type": "Review",
     "cleanup_pause": "",
     "compression_level": "7",
     "custom_script": ".",
@@ -244,6 +248,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.2.35"
+    "version": "0.1.0"
   }
 }

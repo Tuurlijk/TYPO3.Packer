@@ -1,0 +1,9 @@
+---
+
+timezone: Europe/Amsterdam
+
+authorized_keys: {}
+
+context: Development
+
+mailcatcher_enable: yes
