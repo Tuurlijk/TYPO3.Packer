@@ -448,6 +448,8 @@
 			<path class="st5" d="M69 30.6L62.4 24 53 14.6l-7.6 7.8 9 9 7 7z"/>
 			<path class="st11" d="M-56.6-88.7h612v300.3h-612z"/>
 		</svg>
+	</a>
+
 	<div class="panel">
 		<p class="panel-title">
 			<a href="http://typo3.org">
@@ -480,7 +482,7 @@
 
 		<p class="panel-text">
 			The following sites are available:
-			<ul>
+		<ul>
 			<?php
 			$sites = scandir('..');
 			$exclude = array(
@@ -495,7 +497,7 @@
 				}
 			}
 			?>
-			</ul>
+		</ul>
 		</p>
 
 		<a class="button" href="https://github.com/Tuurlijk/TYPO3.Packer" target="github">Contribute!</a>
