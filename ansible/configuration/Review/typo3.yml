@@ -11,3 +11,5 @@ typo3:
     extensions:
       enabled:
         - scheduler
+        - icon_api
+        - styleguide
