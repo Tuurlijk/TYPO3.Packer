@@ -6,8 +6,8 @@ typo3:
   cms:
     sites:
       7.5.local.typo3.org: '7.5.*'
-      review.local.typo3.org: '*'
-      dev-master.local.typo3.org: '*'
+      review.local.typo3.org: 'dev-master as 7.6.0'
+      dev-master.local.typo3.org: 'dev-master as 7.6.0'
     extensions:
       enabled:
         - scheduler

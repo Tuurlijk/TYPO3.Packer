@@ -47,6 +47,7 @@
     "maxserv/accountmanagement": "*",
     "maxserv/distributionmanagement": "*",
     "typo3-ter/styleguide": "*",
-    "bk2k/icon-api": "*"
+    "bk2k/icon-api": "*",
+    "typo3-ter/introduction": "^2.2"
   }
 }
