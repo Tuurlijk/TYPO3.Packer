@@ -1,0 +1,13 @@
+---
+
+- name: Create local.typo3.org directory
+  sudo: vagrant
+  file: path={{ typo3_webroot }}/local.typo3.org state=directory mode=0775
+
+- name: Setup homestead default site in review mode
+  sudo: vagrant
+  copy: src=index.php dest={{ typo3_webroot }}/local.typo3.org/index.php force=yes
+
+- name: Setup review script
+  sudo: vagrant
+  copy: src=review.php dest={{ typo3_webroot }}/local.typo3.org/review.php force=yes

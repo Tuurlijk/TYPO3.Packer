@@ -18,6 +18,7 @@
     - { role: hhvm,      tags: hhvm }
     - { role: composer,  tags: composer }
     - { role: typo3,     tags: typo3 }
+    - { role: typo3-review, tags: typo3-review }
     - { role: neos,      tags: neos }
     - { role: memcached, tags: memcached }
     - { role: nginx,     tags: nginx }
