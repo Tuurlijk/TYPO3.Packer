@@ -6,6 +6,10 @@
  * Time: 14:17
  */
 
+ini_set('max_execution_time', 0);
+ini_set('implicit_flush', 1);
+ob_implicit_flush(1);
+
 // Get the POST parameter and execute the appropriate action
 $cmd = $_POST['cmd'];
 $parameter = $_POST['parameter'];
@@ -30,43 +34,53 @@ echo '<br /><br /><a href="index.php">Back to start page</a> ';
 function showForm()
 {
 	echo '<h2>TYPO3 Review system</h2>';
+	my_flush();
 }
 
 function doUpdate()
 {
 	doReset();
 	echo '<br /><b>Update dev-master.local.typo3.org</b><br />';
+	my_flush();
 	chdir('/var/www/dev-master.local.typo3.org/typo3_src');
 	$out = executeCommand('git pull origin master');
 	echo str_replace(chr(10), '<br />', $out) . '<br />';
 	echo '<br /><b>Update review.local.typo3.org</b><br />';
+	my_flush();
 	chdir('/var/www/review.local.typo3.org/typo3_src');
 	$out = executeCommand('git pull origin master');
 	echo str_replace(chr(10), '<br />', $out) . '<br />';
+	my_flush();
 }
 
 function doReset()
 {
 	echo '<br /><b>Reset dev-master.local.typo3.org</b><br />';
+	my_flush();
 	chdir('/var/www/dev-master.local.typo3.org/typo3_src');
 	$out = executeCommand('git reset --hard origin/master');
 	echo str_replace(chr(10), '<br />', $out) . '<br />';
+	my_flush();
 	chdir('/var/www/dev-master.local.typo3.org');
 	$out = executeCommand('/var/www/dev-master.local.typo3.org/typo3cms cache:flush');
 	echo str_replace(chr(10), '<br />', $out) . '<br />';
 	echo '<br /><b>Reset review.local.typo3.org</b><br />';
+	my_flush();
 	chdir('/var/www/review.local.typo3.org/typo3_src');
 	$out = executeCommand('git reset --hard origin/master');
 	echo str_replace(chr(10), '<br />', $out) . '<br />';
+	my_flush();
 	chdir('/var/www/review.local.typo3.org');
 	$out = executeCommand('/var/www/review.local.typo3.org/typo3cms cache:flush');
 	echo str_replace(chr(10), '<br />', $out) . '<br />';
+	my_flush();
 }
 
 function doReview($parameter)
 {
 	doReset();
 	echo '<br /><b>Review on review.local.typo3.org</b><br />';
+	my_flush();
 	chdir('/var/www/review.local.typo3.org/typo3_src');
 	// Check if git user is set
 	$user = executeCommand('git config --get user.name');
@@ -84,6 +98,7 @@ function doReview($parameter)
 	}
 	$out = executeCommand($parameter);
 	echo str_replace(chr(10), '<br />', $out) . '<br />';
+	my_flush();
 }
 
 function executeCommand($command)
@@ -111,4 +126,10 @@ function executeCommand($command)
 	proc_close($p);
 
 	return $output;
+}
+
+function my_flush() {
+	for ($i=0;$i<10000;$i++) echo ' ';
+	ob_flush();
+	flush();
 }
