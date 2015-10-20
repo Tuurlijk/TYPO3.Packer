@@ -25,6 +25,14 @@ And those files point to their own ansible configuration directories:
 * [ansible/configuration/Try/ for the TYPOTry and TryNeos boxen](ansible/configuration/Try/)
 * [ansible/configuration/Development/ for the Homestead box](ansible/configuration/Development/)
 
+# Building a box
+You can build a box by executing a `packer build` command and specifying the packer confiugration file of your choice:
+```packer build Development.json```
+
+If you have an [atlas account](https://atlas.hashicorp.com/) you can push a new version to there by doing:
+```packer push -name Michiel/Development Development.json```
+
+Before pushing a new build to atlas, take care to update the build version numbe in the respective packer json file.
 # TODO
 * Make pretty /etc/issue
 * Setup mailcatcher for Neos
