@@ -38,8 +38,8 @@ elsif host =~ /linux/
 	# meminfo shows KB and we need to convert to MB
 	mem = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 4
 else # sorry Windows folks, I can't help you
-	error = "The Vagrantfile is not supported on Windows-hosts because no ansible for windows available"
-	raise error
+	cpus = 1
+	mem = 1024
 end
 
 # You can ask for more memory and cores when creating your Vagrant machine:
@@ -61,23 +61,27 @@ FORWARD = configuration['forward_ports'] || 0
 DEBUG = !!configuration['debug'] || false
 
 # Throw an error if required Vagrant plugins are not installed
-plugins = { 'vagrant-hostsupdater' => nil }
-
-plugins.each do |plugin, version|
-	unless Vagrant.has_plugin? plugin
-		error = "The '#{plugin}' plugin is not installed! Try running:\nvagrant plugin install #{plugin}"
-		error += " --plugin-version #{version}" if version
-		raise error
-	end
-end
+# plugins = { 'vagrant-hostsupdater' => nil }
+#
+# plugins.each do |plugin, version|
+# 	unless Vagrant.has_plugin? plugin
+# 		error = "The '#{plugin}' plugin is not installed! Try running:\nvagrant plugin install #{plugin}"
+# 		error += " --plugin-version #{version}" if version
+# 		raise error
+# 	end
+# end
 
 $script = <<SCRIPT
 echo "============================================================="
 echo "All done!"
 echo ""
 echo "You can now try one of these sites:"
-echo "- http://6.2.15.local.typo3.org/typo3/"
-echo "- http://7.5.0.local.typo3.org/typo3/"
+echo "- http://1.2.local.neos.io/neos/"
+echo "- http://2.0.local.neos.io/neos/"
+echo "- http://dev-master.local.neos.io/neos/"
+echo "- http://6.2.local.typo3.org/typo3/"
+echo "- http://7.5.local.typo3.org/typo3/"
+echo "- http://dev-master.local.typo3.org/typo3/"
 echo "- http://local.typo3.org:1080/ <- mailcatcher"
 echo ""
 echo "Username: admin"
@@ -89,18 +93,12 @@ SCRIPT
 VAGRANTFILE_API_VERSION = 2
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-	config.vm.box = 'Michiel/TYPO3-try'
+	config.vm.box = 'Michiel/Development'
 	config.vm.boot_timeout = 180
 # If you have no Internet access (can not resolve *.local.typo3.org), you can use host aliases:
 # 	config.hostsupdater.aliases = [
-# 		'4.5.local.typo3.org',
-# 		'4.5.39.local.typo3.org',
 # 		'6.2.local.typo3.org',
-# 		'6.2.9.local.typo3.org',
-# 		'7.0.local.typo3.org',
-# 		'7.0.2.local.typo3.org',
-# 		'1.2.neos.local.typo3.org',
-# 		'dev-master.neos.local.typo3.org'
+# 		'7.5.local.typo3.org'
 # 		]
 
 	# Network
@@ -137,7 +135,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	# Vmware Fusion
 	config.vm.provider :vmware_fusion do |v, override|
-		override.vm.box = "Michiel/TYPO3-try"
+		override.vm.box = "Michiel/Development"
 		v.vmx["memsize"] = MEMORY.to_i
 		v.vmx["numvcpus"] = CORES.to_i
 	end
@@ -147,19 +145,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		v.customize ["set", :id, "--memsize", MEMORY, "--cpus", CORES]
 	end
 
-	# Ansible | http://docs.ansible.com/playbooks_best_practices.html
-	config.vm.provision "ansible" do |ansible|
-#  		ansible.verbose = "v"
-		ansible.playbook = "ansible/Try.yml"
-		ansible.limit = "all"
-		ansible.raw_arguments = ENV['ANSIBLE_ARGS']
-		ansible.extra_vars = {
-			ansible_ssh_user: 'vagrant',
-			hostname: 'local.typo3.org'
-		}
-	end
-
-	config.vm.provision "shell", inline: $script
+	# Show information what to do after the machine has booted
+	config.vm.provision "shell", inline: $script, run: "always"
 
 	# Setup synced folders
 	configuration['synced_folders'].each do |folder|
@@ -170,7 +157,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 				:mount_options => ['vers=3,udp,noacl,nocto,nosuid,nodev,nolock,noatime,nodiratime'],
 				:linux__nfs_options => ['no_root_squash']
 		else
-			cfg.vm.synced_folder folder['src'], folder['target']
+			config.vm.synced_folder folder['src'], folder['target']
 		end
 	end
 
