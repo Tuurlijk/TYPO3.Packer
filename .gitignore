@@ -5,6 +5,7 @@ packer_cache/
 output-virtualbox-iso/
 iso/*
 !iso/.keep
+.vagrant/
 
 # For built boxes
 box/virtualbox/*
