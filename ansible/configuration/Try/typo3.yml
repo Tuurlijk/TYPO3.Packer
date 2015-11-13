@@ -6,7 +6,7 @@ typo3:
   cms:
     sites:
       6.2.15.local.typo3.org: '6.2.15'
-      7.5.0.local.typo3.org: '7.5.0'
+      7.6.0.local.typo3.org: '7.6.0'
     extensions:
       enabled:
         - scheduler

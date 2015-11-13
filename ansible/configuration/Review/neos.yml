@@ -1,4 +1,7 @@
 ---
 
 neos:
-  sites: {}
+  sites:
+    1.2.local.neos.io: '1.2.*'
+    2.0.local.neos.io: '2.0.*'
+    dev-master.local.neos.io: 'dev-master'

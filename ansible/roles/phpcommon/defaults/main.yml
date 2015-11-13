@@ -13,6 +13,9 @@ php_ini:
   - option: "date.timezone"
     section: "global"
     value: "{{ timezone }}"
+  - option: "max_input_vars"
+    section: "global"
+    value: "1500"
 
 php_apcu_ini:
   - option: "apc.enable_cli"
