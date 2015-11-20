@@ -36,11 +36,43 @@
     "post-update-cmd": "Helhum\\Typo3Console\\Composer\\InstallerScripts::postUpdateAndInstall",
     "post-install-cmd": "Helhum\\Typo3Console\\Composer\\InstallerScripts::postUpdateAndInstall"
   },
+  "autoload-dev": {
+    "psr-4": {
+      "TYPO3\\CMS\\Backend\\Tests\\": "typo3/sysext/backend/Tests/",
+      "TYPO3\\CMS\\Belog\\Tests\\": "typo3/sysext/belog/Tests/",
+      "TYPO3\\CMS\\Beuser\\Tests\\": "typo3/sysext/beuser/Tests/",
+      "TYPO3\\CMS\\Core\\Tests\\": "typo3/sysext/core/Tests/",
+      "TYPO3\\CMS\\Dbal\\Tests\\": "typo3/sysext/dbal/Tests/",
+      "TYPO3\\CMS\\Documentation\\Tests\\": "typo3/sysext/documentation/Tests/",
+      "TYPO3\\CMS\\Extbase\\Tests\\": "typo3/sysext/extbase/Tests/",
+      "TYPO3\\CMS\\Extensionmanager\\Tests\\": "typo3/sysext/extensionmanager/Tests/",
+      "TYPO3\\CMS\\Felogin\\Tests\\": "typo3/sysext/felogin/Tests/",
+      "TYPO3\\CMS\\Fluid\\Tests\\": "typo3/sysext/fluid/Tests/",
+      "TYPO3\\CMS\\Form\\Tests\\": "typo3/sysext/form/Tests/",
+      "TYPO3\\CMS\\Frontend\\Tests\\": "typo3/sysext/frontend/Tests/",
+      "TYPO3\\CMS\\Impexp\\Tests\\": "typo3/sysext/impexp/Tests/",
+      "TYPO3\\CMS\\IndexedSearch\\Tests\\": "typo3/sysext/indexed_search/Tests/",
+      "TYPO3\\CMS\\Install\\Tests\\": "typo3/sysext/install/Tests/",
+      "TYPO3\\CMS\\Lang\\Tests\\": "typo3/sysext/lang/Tests/",
+      "TYPO3\\CMS\\Lowlevel\\Tests\\": "typo3/sysext/lowlevel/Tests/",
+      "TYPO3\\CMS\\Recordlist\\Tests\\": "typo3/sysext/recordlist/Tests/",
+      "TYPO3\\CMS\\Reports\\Tests\\": "typo3/sysext/reports/Tests/",
+      "TYPO3\\CMS\\Rsaauth\\Tests\\": "typo3/sysext/rsaauth/Tests/",
+      "TYPO3\\CMS\\Saltedpasswords\\Tests\\": "typo3/sysext/saltedpasswords/Tests/",
+      "TYPO3\\CMS\\Scheduler\\Tests\\": "typo3/sysext/scheduler/Tests/",
+      "TYPO3\\CMS\\Sv\\Tests\\": "typo3/sysext/sv/Tests/",
+      "TYPO3\\CMS\\Workspaces\\Tests\\": "typo3/sysext/workspaces/Tests/"
+    }
+  },
   "require": {
     "typo3/cms": "{{ item.value }}",
     "helhum/typo3-console": "*",
     "maxserv/accountmanagement": "*",
     "maxserv/distributionmanagement": "*",
     "typo3-ter/introduction": "^2.2"
+  },
+  "require-dev": {
+    "mikey179/vfsStream": "1.3.*@dev",
+    "phpunit/phpunit": "~4.7.0"
   }
 }

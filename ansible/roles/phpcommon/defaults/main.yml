@@ -9,7 +9,7 @@ php_ini:
     value: "On"
   - option: "memory_limit"
     section: "global"
-    value: "768M"
+    value: "1024M"
   - option: "date.timezone"
     section: "global"
     value: "{{ timezone }}"
