@@ -47,7 +47,7 @@
 
 - name: Composer install typo3_console for TYPO3 CMS 6.x and 7.x web roots | dev
   sudo: vagrant
-  composer: command=install working_dir={{ typo3_webroot }}{{ item.key }}
+  composer: command=install working_dir={{ typo3_webroot }}{{ item.key }} no_dev="no"
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.') and (typo3_composer_install_dev == "yes")
   with_dict: typo3.cms.sites
   tags: typo3-cms-composer
