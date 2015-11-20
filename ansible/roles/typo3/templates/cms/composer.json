@@ -31,7 +31,6 @@
     }
   ],
   "config": {
-    "vendor-dir": "Packages/Libraries",
     "bin-dir": "bin",
     "preferred-install": "source",
     "optimize-autoloader": true
