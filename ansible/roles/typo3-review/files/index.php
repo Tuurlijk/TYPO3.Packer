@@ -493,7 +493,9 @@
 			<button name="cmd" type="submit" value="update">Update the sites</button><br /><br />
 			<label for="parameter">Cherry-Pick command</label>
 			<input type="text" name="parameter" value="" size="40">&nbsp;&nbsp;&nbsp;
-			<button name="cmd" type="submit" value="review">Do a review</button>
+			<button name="cmd" type="submit" value="review">Do a review</button><br /><br />
+			<button name="cmd" type="submit" value="unittest-master">Unit test on dev-master</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<button name="cmd" type="submit" value="unittest-review">Unit test on review</button><br /><br />
 		</form>
 	</div>
 	<div class="social">
