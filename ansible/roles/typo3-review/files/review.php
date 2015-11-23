@@ -73,7 +73,7 @@ function initOutput()
 	//prevent apache from buffering it for deflate/gzip
 	header("Content-type: text/html\r\n");
 	header("Cache-Control: no-cache\r\n");
-	header("Content-Encoding: none\r\n");
+//	header("Content-Encoding: none\r\n");
 	header("X-Accel-Buffering: no\r\n");
 
 	for($i = 0; $i < 1000; $i++)
