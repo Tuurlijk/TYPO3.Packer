@@ -187,8 +187,8 @@ function executeCommand($command)
 
 function my_flush() {
 	for ($i=0;$i<10000;$i++) echo ' ';
-	ob_flush();
-	flush();
+	@ob_flush();
+	@flush();
 }
 
 function liveExecuteCommand($cmd)
@@ -221,10 +221,12 @@ function liveExecuteCommand($cmd)
 	echo "</pre>";
 
 	// return exit status and intended output
-	return array(
-		'exit_status' => $matches[0],
-		'output' => str_replace("Exit status : " . $matches[0], '', $complete_output)
-	);
+	if (isset($matches[0])) {
+		return array(
+			'exit_status' => $matches[0],
+			'output' => str_replace("Exit status : " . $matches[0], '', $complete_output)
+		);
+	}
 }
 
 /**
