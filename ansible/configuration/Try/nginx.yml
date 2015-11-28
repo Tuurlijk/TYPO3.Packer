@@ -24,11 +24,41 @@ nginx_fastcgi: |
     try_files     $uri =404;
     fastcgi_pass  $upstream;
     fastcgi_index index.php;
+    include       fastcgi_params;
     fastcgi_param TYPO3_CONTEXT Production;
     fastcgi_param FLOW_CONTEXT Production;
     fastcgi_param FLOW_REWRITEURLS 1;
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+  }
+
+nginx_neos_fastcgi: |
+  client_max_body_size 20M;
+  try_files $uri $uri/ /index.php?$args;
+  location ~ \.php$ {
+    try_files     $uri =404;
+    fastcgi_pass  $upstream;
+    fastcgi_index index.php;
     include       fastcgi_params;
+    fastcgi_param TYPO3_CONTEXT Production;
+    fastcgi_param FLOW_CONTEXT Production;
+    fastcgi_param FLOW_REWRITEURLS 1;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_param SERVER_NAME "${version}.local.neos.io";
+  }
+
+nginx_typo3_fastcgi: |
+  client_max_body_size 20M;
+  try_files $uri $uri/ /index.php?$args;
+  location ~ \.php$ {
+    try_files     $uri =404;
+    fastcgi_pass  $upstream;
+    fastcgi_index index.php;
+    include       fastcgi_params;
+    fastcgi_param TYPO3_CONTEXT Production;
+    fastcgi_param FLOW_CONTEXT Production;
+    fastcgi_param FLOW_REWRITEURLS 1;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_param SERVER_NAME "${version}.local.typo3.org";
   }
 
 nginx_typo3_404_redirect: |

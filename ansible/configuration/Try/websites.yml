@@ -37,7 +37,7 @@ nginx_sites:
     - root "{{ typo3_webroot }}${version}.local.typo3.org/";
     - error_page 404 = @404
     - "{{ nginx_typo3_404_redirect }}"
-    - "{{ nginx_fastcgi }}"
+    - "{{ nginx_typo3_fastcgi }}"
   typo3.cms.ssl:
     - set $upstream php
     - listen 443
@@ -48,7 +48,7 @@ nginx_sites:
     - ssl_certificate_key /etc/ssl/private/local.typo3.org.key
     - error_page 404 = @404
     - "{{ nginx_typo3_404_redirect }}"
-    - "{{ nginx_fastcgi }}"
+    - "{{ nginx_typo3_fastcgi }}"
   neos.cms:
     - set $upstream php
     - server_name ~(?<version>.*)\.local.neos.io$
@@ -56,7 +56,7 @@ nginx_sites:
     - error_page 404 = @404
     - "{{ nginx_neos_404_redirect }}"
     - "{{ nginx_neos_resources }}"
-    - "{{ nginx_fastcgi }}"
+    - "{{ nginx_neos_fastcgi }}"
   neos.cms.ssl:
     - set $upstream php
     - listen 443
@@ -68,4 +68,4 @@ nginx_sites:
     - error_page 404 = @404
     - "{{ nginx_neos_404_redirect }}"
     - "{{ nginx_neos_resources }}"
-    - "{{ nginx_fastcgi }}"
+    - "{{ nginx_neos_fastcgi }}"
