@@ -65,6 +65,10 @@
   lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' line='127.0.0.1 localhost local.typo3.org' owner=root group=root mode=0644
   when: hostname is defined
 
+- name: Setup locales
+  locale_gen: name={{ item }} state=present
+  with_items: ['de_DE.UTF-8', 'en_GB.UTF-8', 'nl_NL.UTF-8']
+
 - name: Setup dircolors
   sudo: vagrant
   copy: src=dircolors dest=~/.dircolors force=no

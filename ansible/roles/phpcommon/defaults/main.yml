@@ -27,6 +27,9 @@ php_apcu_ini:
   - option: "apc.mmap_file_mask"
     section: "global"
     value: "/var/tmp/apc.XXXXXX"
+  - option: "apc.slam_defence"
+    section: "global"
+    value: "Off"
 
 php_xdebug_ini:
   - option: "xdebug.cli_color"
@@ -94,6 +97,7 @@ php_common_packages:
   - 'php5-mcrypt'
   - 'php5-memcache'
   - 'php5-mysqlnd'
+  - 'php5-redis'
   - 'php5-xdebug'
   - 'php5-xhprof'
 
