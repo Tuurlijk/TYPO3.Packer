@@ -15,6 +15,10 @@
     },
     {
       "type": "git",
+      "url": "https://github.com/7elix/TYPO3.CMS.Styleguide.git"
+    },
+    {
+      "type": "git",
       "url": "https://github.com/helhum/typo3_console.git"
     },
     {
@@ -80,7 +84,7 @@
     "helhum/typo3-console": "*",
     "maxserv/accountmanagement": "*",
     "maxserv/distributionmanagement": "*",
-    "typo3-ter/styleguide": "*",
+    "7elix/styleguide": "*",
     "bk2k/icon-api": "*",
     "typo3-ter/introduction": "^2.2"
   },
