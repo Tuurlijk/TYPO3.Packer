@@ -1,4 +1,4 @@
-- src: nbz4live.php-fpm
+- src: https://github.com/NBZ4live/ansible-php-fpm
   path: roles
   name: php-fpm
 
