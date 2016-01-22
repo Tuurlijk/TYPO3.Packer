@@ -16,6 +16,12 @@ php_ini:
   - option: "max_input_vars"
     section: "global"
     value: "1500"
+  - option: "curl.cainfo"
+    section: "global"
+    value: "/etc/ssl/certs/ca-certificates.crt"
+  - option: "openssl.cafile"
+    section: "global"
+    value: "/etc/ssl/certs/ca-certificates.crt"
 
 php_apcu_ini:
   - option: "apc.enable_cli"
