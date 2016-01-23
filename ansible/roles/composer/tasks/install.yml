@@ -1,7 +1,7 @@
 ---
 # tasks file for composer
 - name: install
-  shell: "curl -sS https://getcomposer.org/installer | php -- --install-dir={{ composer_install_dir }}"
+  shell: "curl -sS https://getcomposer.org/installer | php -- --install-dir={{ composer_install_dir }} --version={{ composer_version }}"
   args:
     creates: "{{ composer_install_dir }}/composer"
   tags: [configuration, composer, composer-install]
