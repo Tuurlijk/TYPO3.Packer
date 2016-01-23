@@ -1,17 +1,17 @@
 ---
 
 - name: Remove local.typo3.org directory
-  sudo: vagrant
+  become: vagrant
   file: path={{ typo3_webroot }}/local.typo3.org state=absent
 
 - name: Create local.typo3.org directory
-  sudo: vagrant
+  become: vagrant
   file: path={{ typo3_webroot }}/local.typo3.org state=directory mode=0775
 
 - name: Setup default site in review mode
-  sudo: vagrant
+  become: vagrant
   git: repo=https://github.com/MaxServ/TYPO3.CMS.Local.git dest={{ typo3_webroot }}/local.typo3.org force=yes
 
 - name: Composer install default site in review mode
-  sudo: vagrant
+  become: vagrant
   composer: command=install working_dir={{ typo3_webroot }}/local.typo3.org

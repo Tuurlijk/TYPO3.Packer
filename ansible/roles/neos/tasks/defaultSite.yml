@@ -1,9 +1,9 @@
 ---
 
 - name: Create local.neos.io directory
-  sudo: vagrant
+  become: vagrant
   file: path={{ typo3_webroot }}/local.neos.io state=directory mode=0775
 
 - name: Setup default site
-  sudo: vagrant
+  become: vagrant
   copy: src=index.php dest={{ typo3_webroot }}/local.neos.io/index.php force=yes

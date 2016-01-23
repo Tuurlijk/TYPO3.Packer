@@ -8,4 +8,4 @@
   copy: src=etc/init/mailcatcher.conf dest=/etc/init/mailcatcher.conf force=no
 
 - name: Start mailcatcher service
-  command: service mailcatcher restart
+  service: name=mailcatcher enabled=yes state=started

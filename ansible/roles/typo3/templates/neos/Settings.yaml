@@ -3,7 +3,7 @@ TYPO3:
     persistence:
       backendOptions:
         driver: pdo_mysql
-        dbname: {{ item | regex_replace('\\.', '_') }}
+        dbname: {{ item | regex_replace('\.', '_') }}
         user: typo3
         password: {{ mariadb.password }}
         host: localhost

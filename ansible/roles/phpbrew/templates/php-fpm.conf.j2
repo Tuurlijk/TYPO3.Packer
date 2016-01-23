@@ -31,7 +31,7 @@
 ; in a local file.
 ; Note: the default prefix is /var
 ; Default Value: log/php-fpm.log
-error_log = /var/log/php{{ item | regex_replace('\\.', '_') }}-fpm.log
+error_log = /var/log/php{{ item | regex_replace('\.', '_') }}-fpm.log
 
 ; syslog_facility is used to specify what type of program is logging the
 ; message. This lets syslogd specify that messages from different facilities

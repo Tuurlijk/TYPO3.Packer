@@ -109,13 +109,13 @@
   with_items: php_brew_versions
 
 - name: Setup init script
-  template: src=etc/init/php-fpm.conf.j2 dest=/etc/init/php{{ item | regex_replace('\\.', '_') }}-fpm.conf
+  template: src=etc/init/php-fpm.conf.j2 dest=/etc/init/php{{ item | regex_replace('\.', '_') }}-fpm.conf
   with_items: php_brew_versions
 
 - name: Setup init.d script
-  template: src=etc/init.d/php-fpm.j2 dest=/etc/init.d/php{{ item | regex_replace('\\.', '_') }}-fpm mode=ug+x
+  template: src=etc/init.d/php-fpm.j2 dest=/etc/init.d/php{{ item | regex_replace('\.', '_') }}-fpm mode=ug+x
   with_items: php_brew_versions
 
 - name: Start php-fpm services
-  command: service php{{ item | regex_replace('\\.', '_') }}-fpm restart
+  command: service php{{ item | regex_replace('\.', '_') }}-fpm restart
   with_items: php_brew_versions

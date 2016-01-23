@@ -1,27 +1,27 @@
 ---
 
 - name: Setup NEOS site directories
-  sudo: vagrant
+  become: vagrant
   file: path={{ typo3_webroot }}{{ item }} state=directory mode=0775
   with_items: neos.sites.keys()
   tags: neos-neos-sites
 
 - name: Setup NEOS sites in production context
-  sudo: vagrant
+  become: vagrant
   shell: if [ ! "$(ls -A {{ typo3_webroot }}{{ item.key }})" ]; then composer create-project --no-dev typo3/neos-base-distribution {{ typo3_webroot }}{{ item.key }} {{ item.value }}; fi
   with_dict: neos.sites
   when: context == "Production"
   tags: neos-neos-sites
 
 - name: Setup NEOS sites in development context
-  sudo: vagrant
+  become: vagrant
   shell: if [ ! "$(ls -A {{ typo3_webroot }}{{ item.key }})" ]; then composer create-project --keep-vcs --no-dev typo3/neos-base-distribution {{ typo3_webroot }}{{ item.key }} {{ item.value }}; fi
   with_dict: neos.sites
   when: context == "Development"
   tags: neos-neos-sites
 
 - name: "NEOS Sources: Setup git push for base distributions"
-  sudo: vagrant
+  become: vagrant
   shell: cd {{ typo3_webroot }}{{ item }}; git config remote.origin.push HEAD:refs/for/master
   args:
     executable: /bin/bash
@@ -30,7 +30,7 @@
   tags: neos-git-setup
 
 - name: "NEOS Sources: Setup git push"
-  sudo: vagrant
+  become: vagrant
   shell: cd {{ typo3_webroot }}{{ item }}; for d in `find ./ -maxdepth 3 -type d -name "TYPO3.*" | grep -v NeosDemo`; do pushd $d > /dev/null; git config remote.origin.push HEAD:refs/for/master; popd > /dev/null; done
   args:
     executable: /bin/bash
@@ -39,21 +39,21 @@
   tags: neos-git-setup
 
 - name: "NEOS Sources: Setup git hook directory for base distributions"
-  sudo: vagrant
+  become: vagrant
   file: path={{ typo3_webroot }}{{ item }}/.git/hooks state=directory recurse=yes mode=0775
   with_items: neos.sites.keys()
   when: context == "Development"
   tags: neos-git-setup
 
 - name: "NEOS Sources: Setup git commit message for base distributions"
-  sudo: vagrant
+  become: vagrant
   copy: src=git-commit-msg dest={{ typo3_webroot }}{{ item }}/.git/hooks/commit-msg force=no
   with_items: neos.sites.keys()
   when: context == "Development"
   tags: neos-git-setup
 
 - name: "NEOS Sources: Setup git commit message for packages"
-  sudo: vagrant
+  become: vagrant
   shell: cd {{ typo3_webroot }}{{ item }}; for d in `find ./ -maxdepth 3 -type d -name "TYPO3.*" | grep -v NeosDemo`; do pushd $d > /dev/null; mkdir -p {{ typo3_webroot }}{{ item }}/$d/.git/hooks/; cp {{ typo3_webroot }}{{ item }}/.git/hooks/commit-msg {{ typo3_webroot }}{{ item }}/$d/.git/hooks/commit-msg; popd > /dev/null; done
   args:
     executable: /bin/bash
@@ -67,7 +67,7 @@
   tags: neos-neos-ramdisk
 
 - name: Ensure Data/Temporary directories exist
-  sudo: vagrant
+  become: vagrant
   file: path={{ typo3_webroot }}{{ item }}/Data/Temporary/ state=directory mode=0775
   with_items: neos.sites.keys()
   tags: neos-neos-ramdisk
@@ -83,17 +83,17 @@
   tags: neos-neos-ramdisk
 
 - name: Ensure Configuration directory exitst
-  sudo: vagrant
+  become: vagrant
   file: path={{ typo3_webroot }}{{ item }}/Configuration/ state=directory mode=0775
   with_items: neos.sites.keys()
 
 - name: Copy Settings.yaml to Configuration
-  sudo: vagrant
+  become: vagrant
   template: src=neos/Settings.yaml dest={{ typo3_webroot }}{{ item }}/Configuration/Settings.yaml
   with_items: neos.sites.keys()
 
 - name: Setup demo sites on NEOS
-  sudo: vagrant
+  become: vagrant
   shell: if [ ! -f {{ typo3_webroot }}{{ item[0] }}/Configuration/Caches.yaml ]; then {{ typo3_webroot }}{{ item[0] }}/flow {{ item[1] }}; fi
   ignore_errors: yes
   with_nested:
@@ -101,6 +101,6 @@
     - ['doctrine:migrate', 'site:import --package-key TYPO3.NeosDemoTypo3Org', "user:create admin {{ mariadb.password }} Admin Istrator --roles TYPO3.Neos:Administrator", "cache:warmup"]
 
 - name: Copy memcached Caches.yaml to Configuration
-  sudo: vagrant
+  become: vagrant
   copy: src=neos/Configuration/Caches.yaml dest={{ typo3_webroot }}{{ item }}/Configuration/Caches.yaml force=no
   with_items: neos.sites.keys()

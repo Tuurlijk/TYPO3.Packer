@@ -1,7 +1,7 @@
 ---
 
 - name: Create NEOS databases
-  mysql_db: name={{ item | regex_replace('\\.', '_') }}
+  mysql_db: name={{ item | regex_replace('\.', '_') }}
             state=present
             encoding='utf8'
   with_items: neos.sites.keys()
@@ -9,6 +9,6 @@
 - name: Grant NEOS database privileges
   mysql_user: name={{ mariadb.user }}
               password={{ mariadb.password }}
-              priv={{ item | regex_replace('\\.', '_') }}.*:ALL
+              priv={{ item | regex_replace('\.', '_') }}.*:ALL
               append_privs=yes
   with_items: neos.sites.keys()
