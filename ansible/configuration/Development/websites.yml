@@ -71,3 +71,11 @@ nginx_sites:
     - error_page 404 = @404
     - "{{ nginx_neos_404_redirect }}"
     - "{{ nginx_neos_fastcgi }}"
+  xhprof:
+    - set $upstream php
+    - set $version xhprof
+    - server_name xhprof.local.typo3.org
+    - root "{{ typo3_webroot }}xhprof.local.typo3.org/xhprof_html/"
+    - error_page 404 = @404
+    - "{{ nginx_typo3_404_redirect }}"
+    - "{{ nginx_typo3_fastcgi }}"

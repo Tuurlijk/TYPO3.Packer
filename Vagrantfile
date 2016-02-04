@@ -93,7 +93,7 @@ SCRIPT
 VAGRANTFILE_API_VERSION = 2
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-	config.vm.box = 'Michiel/Review'
+	config.vm.box = 'Michiel/Development'
 	config.vm.boot_timeout = 180
 # If you have no Internet access (can not resolve *.local.typo3.org), you can use host aliases:
 # 	config.hostsupdater.aliases = [
@@ -135,7 +135,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	# Vmware Fusion
 	config.vm.provider :vmware_fusion do |v, override|
-		override.vm.box = "Michiel/Review"
+		override.vm.box = "Michiel/Development"
 		v.vmx["memsize"] = MEMORY.to_i
 		v.vmx["numvcpus"] = CORES.to_i
 	end
@@ -148,7 +148,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	# Ansible | http://docs.ansible.com/playbooks_best_practices.html
 	config.vm.provision "ansible" do |ansible|
 #  		ansible.verbose = "v"
-		ansible.playbook = "ansible/Review.yml"
+		ansible.playbook = "ansible/Development.yml"
 		ansible.limit = "all"
 		ansible.raw_arguments = ENV['ANSIBLE_ARGS']
 		ansible.extra_vars = {

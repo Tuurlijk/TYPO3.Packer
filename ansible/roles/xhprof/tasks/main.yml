@@ -1,0 +1,44 @@
+---
+
+- name: Remove xhprof.local.typo3.org directory
+  become: vagrant
+  file: path={{ typo3_webroot }}/xhprof.local.typo3.org state=absent
+
+- name: Create xhprof.local.typo3.org directory
+  become: vagrant
+  file: path={{ typo3_webroot }}/xhprof.local.typo3.org state=directory mode=0775
+
+- name: Setup xhprof site
+  become: vagrant
+  git: repo=https://github.com/Tuurlijk/xhprof.git dest={{ typo3_webroot }}/xhprof.local.typo3.org force=yes
+
+- name: Create xhprof database
+  mysql_db: name=xhprof_local_typo3_org
+            state=absent
+            encoding='utf8'
+
+- name: Create xhprof database
+  mysql_db: name=xhprof_local_typo3_org
+            state=present
+            encoding='utf8'
+
+- name: Grant xhprof database privileges
+  mysql_user: name={{ mariadb.user }}
+              password={{ mariadb.password }}
+              priv=xhprof_local_typo3_org.*:ALL
+              append_privs=yes
+
+- name: Create xhprof tables
+  mysql_db: state=import
+            name=xhprof_local_typo3_org
+            target={{ typo3_webroot }}/xhprof.local.typo3.org/xhprof_lib/utils/Db/Mysqli.sql
+
+- name: Install required packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - graphviz
+
+- name: Copy xhprof configuration file
+  become: vagrant
+  template: src=config.php dest={{ typo3_webroot }}/xhprof.local.typo3.org/xhprof_lib/config.php
+

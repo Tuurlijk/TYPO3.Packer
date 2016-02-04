@@ -22,6 +22,7 @@ php_fpm_pools:
     listen: "/var/run/php5-fpm.sock"
   - name: xhprof
     listen: "/var/run/php5-fpm.xhprof.sock"
+    "php_admin_value[auto_prepend_file]": "{{ typo3_webroot }}/xhprof.local.typo3.org/external/header.php"
 
 php_fpm_ini:
   - option: "engine"
