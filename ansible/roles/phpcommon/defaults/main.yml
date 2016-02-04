@@ -112,7 +112,7 @@ php_disabled_modules:
   - blackfire
   - redis
   - xdebug
-  - xhprof
 
 php_enabled_modules:
   - mcrypt
+  - xhprof
