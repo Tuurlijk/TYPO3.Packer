@@ -23,9 +23,9 @@ nginx_configs:
   upstream_php5_5_32:
     - upstream php5_5_32 { server unix:/var/run/php-fpm.5.5.32.default.sock; }
   upstream_php56:
-    - upstream php56 { server unix:/var/run/php-fpm.5.6.17.default.sock; }
-  upstream_php5_6_17:
-    - upstream php5_6_17 { server unix:/var/run/php-fpm.5.6.17.default.sock; }
+    - upstream php56 { server unix:/var/run/php-fpm.5.6.18.default.sock; }
+  upstream_php5_6_18:
+    - upstream php5_6_18 { server unix:/var/run/php-fpm.5.6.18.default.sock; }
   upstream_php70:
     - upstream php70 { server unix:/var/run/php-fpm.7.0.3.default.sock; }
   upstream_php7_0_3:

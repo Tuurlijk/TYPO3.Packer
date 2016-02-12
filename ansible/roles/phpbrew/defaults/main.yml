@@ -22,4 +22,5 @@ php_brew_options: "+default +fpm +mysql +fileinfo +gd +intl +mcrypt +mhash +open
 
 php_brew_extensions:
   - memcache
+  - redis
   - gd
