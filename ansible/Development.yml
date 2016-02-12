@@ -11,7 +11,7 @@
     - configuration/Development/typo3.yml
   roles:
     - { role: common,    tags: common }
-    - { role: java,      tags: java }
+    - { role: geerlingguy.java, tags: java }
     - { role: elasticsearch, tags: elasticsearch }
     - { role: elasticsearch-configure, tags: elasticsearch-configure }
     - { role: php-fpm,   tags: php-fpm }

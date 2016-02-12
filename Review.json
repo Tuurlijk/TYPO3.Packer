@@ -39,6 +39,9 @@
       "role_paths": [
         "ansible/roles/common",
         "ansible/roles/composer",
+        "ansible/roles/geerlingguy.java",
+        "ansible/roles/elasticsearch",
+        "ansible/roles/elasticsearch-configure",
         "ansible/roles/hhvm",
         "ansible/roles/mariadb",
         "ansible/roles/memcached",
@@ -48,9 +51,9 @@
         "ansible/roles/php-fpm",
         "ansible/roles/phpbrew",
         "ansible/roles/phpcommon",
+        "ansible/roles/redis",
         "ansible/roles/typo3",
         "ansible/roles/typo3-review"
-
       ]
     },
     {
@@ -249,6 +252,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.1.27"
+    "version": "0.1.28"
   }
 }

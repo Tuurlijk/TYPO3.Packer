@@ -1,6 +1,6 @@
 ---
 dependencies:
-  - { role: geerlingguy.elasticsearch }
+  - { role: elasticsearch }
 
 galaxy_info:
   author: michielroos

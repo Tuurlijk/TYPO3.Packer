@@ -39,7 +39,7 @@
       "role_paths": [
         "ansible/roles/common",
         "ansible/roles/composer",
-        "ansible/roles/java",
+        "ansible/roles/geerlingguy.java",
         "ansible/roles/elasticsearch",
         "ansible/roles/elasticsearch-configure",
         "ansible/roles/hhvm",
@@ -252,6 +252,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.2.23"
+    "version": "0.2.27"
   }
 }
