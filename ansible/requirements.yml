@@ -21,3 +21,11 @@
 - src: geerlingguy.redis
   path: roles
   name: redis
+
+- src: geerlingguy.java
+  path: roles
+  name: java
+
+- src: geerlingguy.elasticsearch
+  path: roles
+  name: elasticsearch

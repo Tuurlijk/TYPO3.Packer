@@ -1,0 +1,14 @@
+---
+- name: Configure Elasticsearch.
+  lineinfile: >
+    dest=/etc/elasticsearch/elasticsearch.yml
+    regexp="{{ item.regexp }}"
+    line="{{ item.line }}"
+    state=present
+  with_items:
+    - { regexp: '^script\.disable_dynamic', line: '#script.disable_dynamic: true' }
+    - { regexp: 'network\.host', line: 'network.host: local.typo3.org' }
+  notify: restart elasticsearch
+
+- name: Start Elasticsearch.
+  service: name=elasticsearch state=started enabled=yes
