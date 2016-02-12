@@ -110,9 +110,10 @@ php_common_packages:
 php_disabled_modules:
   - apcu
   - blackfire
-  - redis
   - xdebug
 
 php_enabled_modules:
   - mcrypt
+  - memcache
+  - redis
   - xhprof

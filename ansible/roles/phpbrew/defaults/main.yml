@@ -24,3 +24,4 @@ php_brew_extensions:
   - memcache
   - redis
   - gd
+  - iconv
