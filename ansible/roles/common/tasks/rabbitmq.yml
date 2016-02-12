@@ -1,0 +1,9 @@
+---
+
+- name: Install Rabbit MQ server
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - rabbitmq-server
+
+- name: Start the Rabbit MQ service
+  service: name=rabbitmq-server enabled=yes state=started

@@ -93,3 +93,7 @@
 - include: zsh.yml
   when: homestead.use_zsh
   tags: zsh
+
+- include: rabbitmq.yml
+  tags: rabbitmq
+  when: context == "Development"
