@@ -1,5 +1,3 @@
-# Created by .ignore support plugin (hsz.mobi)
-### Packer template
 # Cache objects
 packer_cache/
 output-virtualbox-iso/
