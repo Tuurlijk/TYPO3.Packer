@@ -17,3 +17,7 @@
 - src: f500.memcached
   path: roles
   name: memcached
+
+- src: geerlingguy.redis
+  path: roles
+  name: redis
