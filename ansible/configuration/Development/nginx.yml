@@ -18,10 +18,12 @@ nginx_configs:
     - upstream hhvm { server unix:/var/run/hhvm/sock; }
   upstream_php:
     - upstream php { server unix:/var/run/php5-fpm.sock; }
-  upstream_php5_5_28:
-    - upstream php5_5_28 { server unix:/var/run/php-fpm.5.5.28.default.sock; }
-  upstream_php5_6_12:
-    - upstream php5_6_12 { server unix:/var/run/php-fpm.5.6.12.default.sock; }
+  upstream_php5_5_32:
+    - upstream php5_5_32 { server unix:/var/run/php-fpm.5.5.32.default.sock; }
+  upstream_php5_6_17:
+    - upstream php5_6_17 { server unix:/var/run/php-fpm.5.6.17.default.sock; }
+  upstream_php7_0_3:
+    - upstream php7_0_3 { server unix:/var/run/php-fpm.7.0.3.default.sock; }
   upstream_xhprof:
     - upstream xhprof { server unix:/var/run/php5-fpm.xhprof.sock; }
 
