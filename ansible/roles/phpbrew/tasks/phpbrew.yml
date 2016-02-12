@@ -51,6 +51,7 @@
   with_nested:
     - php_brew_versions
     - php_brew_extensions
+  when: not item[0] | match('^((7)\\.(\d))\\.')
 
 - name: Customize PHP brew configuration files
   ini_file: dest=/usr/local/phpbrew/php/php-{{ item[0] }}/etc/php.ini section="{{ item[1].section }}" option="{{ item[1].option }}" value="{{ item[1].value }}" backup=yes
@@ -119,3 +120,20 @@
 - name: Start php-fpm services
   command: service php{{ item | regex_replace('\.', '_') }}-fpm restart
   with_items: php_brew_versions
+
+- name: Make the bin dir exists
+  become: vagrant
+  file: path=/home/vagrant/bin state=directory mode=0775
+  tags: test
+
+- name: Create symlinks for most recent php versions
+  become: vagrant
+  file: src=/usr/local/phpbrew/php/php-{{ item }}/bin/php dest=/home/vagrant/bin/php{{ item }} state=link force=yes
+  with_items: php_brew_versions
+  tags: test
+
+- name: Create shorter symlinks for most recent php versions
+  become: vagrant
+  file: src=/usr/local/phpbrew/php/php-{{ item }}/bin/php dest=/home/vagrant/bin/php{{ item | regex_replace('^(\d)\.(\d)\.\d*$', '\\1\\2') }} state=link force=yes
+  with_items: php_brew_versions
+  tags: test
