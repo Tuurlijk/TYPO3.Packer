@@ -11,6 +11,7 @@ php_brew_required_packages:
   - 'libfreetype6-dev'
   - 'libjpeg-dev'
   - 'libmcrypt-dev'
+  - 'libmemcached-dev'
   - 'libmysqlclient-dev'
   - 'libpng12-dev'
   - 'libreadline-dev'
