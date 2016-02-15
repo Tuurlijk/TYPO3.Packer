@@ -41,3 +41,6 @@
   with_items: php_disabled_modules
   notify:
     - restart php-fpm
+
+- include: xhprof.yml
+  tags: php-xhprof
