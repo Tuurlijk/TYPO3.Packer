@@ -43,7 +43,7 @@
     PATH: /root/bin:{{ ansible_env.PATH }}
   with_items: php_brew_versions
 
-- name: Install and enable php extensions
+- name: Install and enable php extensions for versions other than 7.x
   shell: source ~/.phpbrew/bashrc; phpbrew use php-{{ item[0] }}; if [ ! -f /usr/local/phpbrew/php/php-{{ item[0] }}/var/db/{{ item[1] }}.ini ]; then phpbrew ext install {{ item[1] }}; fi executable=/bin/bash
   environment:
     PHPBREW_ROOT: /usr/local/phpbrew
@@ -52,6 +52,36 @@
     - php_brew_versions
     - php_brew_extensions
   when: not item[0] | match('^((7)\\.(\d))\\.')
+  ignore_errors: yes
+
+- name: Install and enable gd extension for version 7.x
+  shell: source ~/.phpbrew/bashrc; phpbrew use php-{{ item[0] }}; if [ ! -f /usr/local/phpbrew/php/php-{{ item[0] }}/var/db/{{ item[1] }}.ini ]; then phpbrew ext install {{ item[1] }}; fi executable=/bin/bash
+  environment:
+    PHPBREW_ROOT: /usr/local/phpbrew
+    PATH: /root/bin:{{ ansible_env.PATH }}
+  with_nested:
+    - php_brew_versions
+    - [gd]
+  when: item[0] | match('^((7)\\.(\d))\\.')
+  ignore_errors: yes
+
+- name: Install and enable redis extension for version 7.x
+  shell: source ~/.phpbrew/bashrc; phpbrew use php-{{ item }}; if [ ! -f /usr/local/phpbrew/php/php-{{ item }}/var/db/redis.ini ]; then phpbrew ext install https://github.com/phpredis/phpredis php7; fi executable=/bin/bash
+  environment:
+    PHPBREW_ROOT: /usr/local/phpbrew
+    PATH: /root/bin:{{ ansible_env.PATH }}
+  with_items: php_brew_versions
+  when: item | match('^((7)\\.(\d))\\.')
+  ignore_errors: yes
+
+- name: Install and enable memcache extension for version 7.x
+  shell: source ~/.phpbrew/bashrc; phpbrew use php-{{ item }}; if [ ! -f /usr/local/phpbrew/php/php-{{ item }}/var/db/memcache.ini ]; then phpbrew ext install https://github.com/php-memcached-dev/php-memcached php7 -- --disable-memcached-sasl; fi executable=/bin/bash
+  environment:
+    PHPBREW_ROOT: /usr/local/phpbrew
+    PATH: /root/bin:{{ ansible_env.PATH }}
+  with_items: php_brew_versions
+  when: item | match('^((7)\\.(\d))\\.')
+  ignore_errors: yes
 
 - name: Customize PHP brew configuration files
   ini_file: dest=/usr/local/phpbrew/php/php-{{ item[0] }}/etc/php.ini section="{{ item[1].section }}" option="{{ item[1].option }}" value="{{ item[1].value }}" backup=yes

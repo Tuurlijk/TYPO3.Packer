@@ -27,10 +27,6 @@
     },
     {
       "type": "git",
-      "url": "https://github.com/MaxServ/t3ext-distributionmanagement.git"
-    },
-    {
-      "type": "git",
       "url": "https://github.com/benjaminkott/icon_api.git"
     }
   ],
@@ -83,7 +79,6 @@
     "typo3/cms": "{{ item.value }}",
     "helhum/typo3-console": "*",
     "maxserv/accountmanagement": "*",
-    "maxserv/distributionmanagement": "*",
     "7elix/styleguide": "*",
     "bk2k/icon-api": "*",
     "typo3-ter/introduction": "^2.2"

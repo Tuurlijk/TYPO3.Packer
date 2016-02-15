@@ -89,13 +89,6 @@
   with_dict: typo3.cms.sites
   ignore_errors: yes
 
-- name: typo3_console install extension distributionmanagement
-  become: vagrant
-  shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms extension:install distributionmanagement"
-  when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
-  ignore_errors: yes
-
 - name: typo3_console create _cli_scheduler user
   become: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms user:create --username _cli_scheduler"

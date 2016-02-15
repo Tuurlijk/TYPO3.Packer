@@ -20,10 +20,6 @@
     {
       "type": "git",
       "url": "https://github.com/MaxServ/t3ext-accountmanagement.git"
-    },
-    {
-      "type": "git",
-      "url": "https://github.com/MaxServ/t3ext-distributionmanagement.git"
     }
   ],
   "config": {
@@ -68,7 +64,6 @@
     "typo3/cms": "{{ item.value }}",
     "helhum/typo3-console": "*",
     "maxserv/accountmanagement": "*",
-    "maxserv/distributionmanagement": "*",
     "typo3-ter/introduction": "^2.2"
   },
   "require-dev": {
