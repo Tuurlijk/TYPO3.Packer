@@ -2,5 +2,5 @@
 
 neos:
   sites:
-    2.0.4.local.neos.io: '2.0.4'
-    2.1.0.local.neos.io: '2.1.0'
+    2.0.6.local.neos.io: '2.0.6'
+    2.1.2.local.neos.io: '2.1.2'
