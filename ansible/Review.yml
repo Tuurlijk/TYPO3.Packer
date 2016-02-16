@@ -22,5 +22,6 @@
     - { role: xhprof,    tags: xhprof }
     - { role: neos,      tags: neos }
     - { role: memcached, tags: memcached }
+    - { role: redis,     tags: redis }
     - { role: nginx,     tags: nginx }
     - { role: nodejs,    tags: nodejs }
