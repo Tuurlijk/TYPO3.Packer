@@ -9,8 +9,8 @@ typo3:
     sites:
       6.2.local.typo3.org: '6.2.*'
       7.6.local.typo3.org: '7.6.*'
-      review.local.typo3.org: 'dev-master as 7.6.2'
-      dev-master.local.typo3.org: 'dev-master as 7.6.2'
+      review.local.typo3.org: 'dev-master as 7.6.x-dev'
+      dev-master.local.typo3.org: 'dev-master as 7.6.x-dev'
     extensions:
       enabled:
         - scheduler

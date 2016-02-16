@@ -18,6 +18,7 @@ php_brew_required_packages:
   - 'libxml2-dev'
   - 'libxslt1-dev'
   - 'ccache'
+  - 'pkg-config'
 
 php_brew_options: "+default +fpm +mysql +fileinfo +gd +intl +mcrypt +mhash +openssl +pcre +session +soap +zlib -- --with-mysqli=/usr/bin/mysql_config --with-freetype-dir=/usr/include/freetype2"
 
