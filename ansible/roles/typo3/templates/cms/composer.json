@@ -77,7 +77,7 @@
   ],
   "require": {
     "typo3/cms": "{{ item.value }}",
-    "helhum/typo3-console": "*",
+    "helhum/typo3-console": "dev-master as 1.2.x-dev",
     "maxserv/accountmanagement": "*",
     "7elix/styleguide": "*",
     "bk2k/icon-api": "*",
