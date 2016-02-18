@@ -31,6 +31,7 @@
   become: vagrant
   shell: git config --global url."ssh://{{ typo3_org_username }}@review.typo3.org:29418".pushInsteadOf git://git.typo3.org
   tags: neos-git-setup
+  when: context == "Development"
 
 - include: defaultSite.yml
   tags: neos-defaultSite

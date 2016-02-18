@@ -35,6 +35,7 @@
   become: vagrant
   shell: git config --global url."ssh://{{ typo3_org_username }}@review.typo3.org:29418".pushInsteadOf git://git.typo3.org
   tags: typo3-git-setup
+  when: context == "Development"
 
 - include: defaultSite.yml
   tags: typo3-defaultSite
