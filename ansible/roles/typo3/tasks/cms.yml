@@ -6,6 +6,34 @@
   with_items: typo3.cms.sites.keys()
   tags: typo3-cms-sites
 
+- name: Setup TYPO3 temporary shallow sources directory
+  become: vagrant
+  file: path={{ typo3_webroot }}sources state=directory mode=0775
+  when: context == "Development"
+  tags: typo3-cms-test1
+
+- name: Make shallow clone of TYPO3 CMS 6.* and 7.*
+  become: vagrant
+  command: git clone --depth 100 --branch {{ item.value | regex_replace('^(\d)\.(\d).*', 'TYPO3_\1-\2') }} --single-branch https://github.com/TYPO3/TYPO3.CMS.git {{ typo3_webroot }}/sources/{{ item.value | regex_replace('^(\d)\.(\d).*', 'TYPO3_\1-\2') }}
+  when: item.value | match('^(6|7)\\.(\d)\\.\\*') and (context == "Development")
+  with_dict: typo3.cms.sites
+  tags: typo3-cms-test1
+
+- name: Make shallow clone of TYPO3 CMS 6.x.y and 7.x.y
+  become: vagrant
+  command: git clone --depth 100 --branch {{ item.value | regex_replace('^(\d)\.(\d)\.(\d)', 'TYPO3_\1-\2-\3') }} --single-branch https://github.com/TYPO3/TYPO3.CMS.git {{ typo3_webroot }}/sources/{{ item.value | regex_replace('^(\d)\.(\d)\.(\d)', 'TYPO3_\1-\2-\3') }}
+  when: item.value | match('^(6|7)\\.(\d)\\.(\d)') and (context == "Development")
+  with_dict: typo3.cms.sites
+  tags: typo3-cms-test1
+
+- name: Make shallow clone of TYPO3 CMS dev-master
+  become: vagrant
+  command: git clone --depth 100 --branch master --single-branch https://github.com/TYPO3/TYPO3.CMS.git {{ typo3_webroot }}/sources/TYPO3_dev-master
+  when: item.value | match('^(dev-)?master') and (context == "Development")
+  with_dict: typo3.cms.sites
+  ignore_errors: yes
+  tags: typo3-cms-test1
+
 - name: Create fileadmin directories
   become: vagrant
   file: path={{ typo3_webroot }}{{ item.key }}/fileadmin state=directory mode=0775
@@ -58,6 +86,49 @@
 #  when: item.key | match('^((7)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
 #  with_dict: typo3.cms.sites
 #  tags: typo3-cms-composer
+
+- name: Copy shallow clone of TYPO3 CMS 6.* and 7.* to site
+  become: vagrant
+  shell: >
+    cp -pr {{ typo3_webroot }}{{ item.key }}/typo3_src/vendor {{ typo3_webroot }}/sources/{{ item.value | regex_replace('^(\d)\.(\d).*', 'TYPO3_\1-\2') }};
+    rm -rf {{ typo3_webroot }}{{ item.key }}/typo3_src/*;
+    rm -rf {{ typo3_webroot }}{{ item.key }}/typo3_src/.*;
+    rsync -au {{ typo3_webroot }}/sources/{{ item.value | regex_replace('^(\d)\.(\d).*', 'TYPO3_\1-\2') }}/ {{ typo3_webroot }}{{ item.key }}/typo3_src/;
+  when: item.value | match('^(6|7)\\.(\d)\\.\\*') and (context == "Development")
+  with_dict: typo3.cms.sites
+  ignore_errors: yes
+  tags: typo3-cms-test
+
+- name: Copy shallow clone of TYPO3 CMS 6.x.y and 7.x.y to site
+  become: vagrant
+  shell: >
+    cp -pr {{ typo3_webroot }}{{ item.key }}/typo3_src/vendor {{ typo3_webroot }}/sources/{{ item.value | regex_replace('^(\d)\.(\d)\.(\d)', 'TYPO3_\1-\2-\3') }};
+    rm -rf {{ typo3_webroot }}{{ item.key }}/typo3_src/*;
+    rm -rf {{ typo3_webroot }}{{ item.key }}/typo3_src/.*;
+    rsync -au {{ typo3_webroot }}/sources/{{ item.value | regex_replace('^(\d)\.(\d)\.(\d)', 'TYPO3_\1-\2-\3') }}/ {{ typo3_webroot }}{{ item.key }}/typo3_src/;
+  when: item.value | match('^(6|7)\\.(\d)\\.(\d)') and (context == "Development")
+  with_dict: typo3.cms.sites
+  ignore_errors: yes
+  tags: typo3-cms-test
+
+- name: Copy shallow clone of TYPO3 CMS dev-master to site
+  become: vagrant
+  shell: >
+    rm -rf {{ typo3_webroot }}/sources/TYPO3_dev-master/vendor;
+    cp -pr {{ typo3_webroot }}{{ item.key }}/typo3_src/vendor {{ typo3_webroot }}/sources/TYPO3_dev-master;
+    rm -rf {{ typo3_webroot }}{{ item.key }}/typo3_src/*;
+    rm -rf {{ typo3_webroot }}{{ item.key }}/typo3_src/.*;
+    rsync -au {{ typo3_webroot }}/sources/TYPO3_dev-master/ {{ typo3_webroot }}{{ item.key }}/typo3_src/;
+  when: item.value | match('^(dev-)?master') and (context == "Development")
+  with_dict: typo3.cms.sites
+  ignore_errors: yes
+  tags: typo3-cms-test
+
+- name: Remove shallow clones
+  become: vagrant
+  command: rm -rf {{ typo3_webroot }}/sources
+  when: context == "Development"
+  tags: typo3-cms-test
 
 - name: typo3_console installation of TYPO3
   become: vagrant
@@ -142,6 +213,13 @@
   with_dict: typo3.cms.sites
   tags: typo3-cms-legacy
 
+- name: Setup git pushurl for typo3_console CMS Sources (otherwise it's github)
+  become: vagrant
+  shell: cd {{ typo3_webroot }}{{ item.key }}/typo3_src; git remote set-url origin --push {{ typo3_cms_src_push_url }}
+  when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.') and (typo3_composer_install_dev == "yes")
+  with_dict: typo3.cms.sites
+  tags: typo3-cms-legacy
+
 - name: Setup git commit message for typo3_console CMS Sources
   become: vagrant
   copy: src=git-commit-msg dest={{ typo3_webroot }}{{ item.key }}/typo3_src/.git/hooks/commit-msg force=no
@@ -165,7 +243,7 @@
 
 - name: Add trustedHostsPattern to AdditionalConfiguration.php
   become: vagrant
-  lineinfile: dest={{ typo3_webroot }}{{ item.key }}/typo3conf/AdditionalConfiguration.php line="$GLOBALS['TYPO3_CONF_VARS']['SYS']['trustedHostsPattern'] = '.*';" insertafter="<\?php"
+  lineinfile: dest={{ typo3_webroot }}{{ item.key }}/typo3conf/AdditionalConfiguration.php line="$GLOBALS['TYPO3_CONF_VARS']['SYS']['trustedHostsPattern'] = '(.*\\.)?{{ item.key | regex_replace('\.', '\\.') }}';" insertafter="<\?php"
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
   with_dict: typo3.cms.sites
   tags: typo3-cms-localconf

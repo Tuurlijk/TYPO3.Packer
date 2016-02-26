@@ -57,6 +57,9 @@ PRIVATE_NETWORK = configuration['private_interface'] || '192.168.144.120'
 # Determine if we need to forward ports
 FORWARD = configuration['forward_ports'] || 0
 
+# Boot timeout
+BOOT_TIMEOUT = configuration['boot_timeout'] || 180
+
 # Boot the box with the gui enabled
 DEBUG = !!configuration['debug'] || false
 
@@ -73,19 +76,26 @@ DEBUG = !!configuration['debug'] || false
 
 $script = <<SCRIPT
 echo "============================================================="
-echo "All done!"
-echo ""
-echo "You can now try one of these sites:"
-echo "- http://1.2.local.neos.io/neos/"
-echo "- http://2.0.local.neos.io/neos/"
-echo "- http://dev-master.local.neos.io/neos/"
-echo "- http://6.2.local.typo3.org/typo3/"
-echo "- http://7.5.local.typo3.org/typo3/"
-echo "- http://dev-master.local.typo3.org/typo3/"
-echo "- http://local.typo3.org:1080/ <- mailcatcher"
-echo ""
-echo "Username: admin"
-echo "Password: supersecret"
+echo "All done! You can now try any of these sites:"
+echo " "
+echo "TYPO3 (admin / supersecret)"
+echo "http://6.2.local.typo3.org/typo3/"
+echo "http://7.6.local.typo3.org/typo3/"
+echo "http://dev-master.local.typo3.org/typo3/"
+echo " "
+echo "NEOS (admin / supersecret)"
+echo "http://1.2.local.neos.io/neos/"
+echo "http://2.0.local.neos.io/neos/"
+echo "http://dev-master.local.neos.io/neos/"
+echo " "
+echo "MailCatcher"
+echo "http://local.typo3.org:1080/"
+echo " "
+echo "ElasticSearch"
+echo "http://local.typo3.org:9200/"
+echo " "
+echo "XHProf GUI"
+echo "http://xhprof.local.typo3.org/"
 echo "============================================================="
 SCRIPT
 
@@ -94,7 +104,7 @@ VAGRANTFILE_API_VERSION = 2
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.box = 'Michiel/Development'
-	config.vm.boot_timeout = 180
+	config.vm.boot_timeout = BOOT_TIMEOUT
 # If you have no Internet access (can not resolve *.local.typo3.org), you can use host aliases:
 # 	config.hostsupdater.aliases = [
 # 		'6.2.local.typo3.org',
@@ -145,9 +155,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		v.customize ["set", :id, "--memsize", MEMORY, "--cpus", CORES]
 	end
 
+	# Show information what to do after the machine has booted
+	config.vm.provision "shell", inline: $script, run: "always"
+
 	# Ansible | http://docs.ansible.com/playbooks_best_practices.html
 	config.vm.provision "ansible" do |ansible|
-#  		ansible.verbose = "v"
+ 		ansible.verbose = "vvv"
 		ansible.playbook = "ansible/Development.yml"
 		ansible.limit = "all"
 		ansible.raw_arguments = ENV['ANSIBLE_ARGS']
