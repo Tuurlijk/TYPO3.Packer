@@ -160,7 +160,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	# Ansible | http://docs.ansible.com/playbooks_best_practices.html
 	config.vm.provision "ansible" do |ansible|
- 		ansible.verbose = "vvv"
+#  		ansible.verbose = "vvv"
 		ansible.playbook = "ansible/Development.yml"
 		ansible.limit = "all"
 		ansible.raw_arguments = ENV['ANSIBLE_ARGS']
