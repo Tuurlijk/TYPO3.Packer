@@ -1,13 +1,9 @@
 ---
 galaxy_info:
-  author: Sergey Fayngold
-  company: My.com B.V.
+  author: Michiel Roos
   license: BSD
-  min_ansible_version: 1.4
+  min_ansible_version: 1.8
   platforms:
-  - name: EL
-    versions:
-    - 6
   - name: Ubuntu
     versions:
   #  - all
@@ -15,11 +11,11 @@ galaxy_info:
   #  - maverick
   #  - natty
   #  - oneiric
-    - precise
+#    - precise
   #  - quantal
   #  - raring
   #  - saucy
-  #  - trusty
+    - trusty
   - name: Debian
     versions:
   #  - all

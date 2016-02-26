@@ -8,4 +8,4 @@
   with_items:
     - { regexp: '^#xhprof.output_dir =', line: ';xhprof.output_dir = "/var/tmp/xhprof"' }
   ignore_errors: yes
-  notify: restart php-fpm
+  notify: restart php services

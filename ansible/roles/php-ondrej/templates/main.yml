@@ -1,0 +1,6 @@
+---
+
+- name: restart php-services
+  service: name={{ item }} state=restarted
+  with_itmes:
+    - "{{ php_ondrej_service_names }}"

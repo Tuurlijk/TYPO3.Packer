@@ -93,22 +93,32 @@ php_opcache_ini:
     value: "1"
 
 php_common_packages:
-  - 'php-pear'
-  - 'php5-apcu'
-  - 'php5-cli'
-  - 'php5-curl'
-  - 'php5-gd'
-  - 'php5-imagick'
-  - 'php5-json'
-  - 'php5-mcrypt'
-  - 'php5-memcache'
-  - 'php5-mysqlnd'
-  - 'php5-redis'
-  - 'php5-xdebug'
-  - 'php5-xhprof'
+  - 'php5.6-cli'
+  - 'php5.6-curl'
+  - 'php5.6-dev'
+  - 'php5.6-gd'
+  - 'php5.6-json'
+  - 'php5.6-mbstring'
+  - 'php5.6-mcrypt'
+  - 'php5.6-mysql'
+  - 'php5.6-opcache'
+  - 'php5.6-soap'
+  - 'php5.6-xml'
+  - 'php5.6-zip'
+  - 'php7.0-cli'
+  - 'php7.0-curl'
+  - 'php7.0-dev'
+  - 'php7.0-gd'
+  - 'php7.0-json'
+  - 'php7.0-mbstring'
+  - 'php7.0-mcrypt'
+  - 'php7.0-mysql'
+  - 'php7.0-opcache'
+  - 'php7.0-soap'
+  - 'php7.0-xml'
+  - 'php7.0-zip'
 
 php_disabled_modules:
-  - apcu
   - blackfire
   - xdebug
 

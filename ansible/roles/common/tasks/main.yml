@@ -37,6 +37,7 @@
   apt_repository: repo={{ item }}
   with_items:
     - "ppa:nginx/stable"
+    - "ppa:ondrej/php"
     - "ppa:rwky/redis"
     - "ppa:chris-lea/node.js"
 

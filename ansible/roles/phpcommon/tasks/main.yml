@@ -12,7 +12,7 @@
   ini_file: dest={{ php_fpm_ini_path }} section="{{ item.section }}" option="{{ item.option }}" value="{{ item.value }}" backup=yes
   with_items: php_ini
   notify:
-   - restart php-fpm
+   - restart php services
 
 - name: Customize PHP cli configuration file
   ini_file: dest={{ php_cli_ini_path }} section="{{ item.section }}" option="{{ item.option }}" value="{{ item.value }}" backup=yes
@@ -21,8 +21,8 @@
 - include: apcu.yml
   tags: php-apcu
 
-- include: blackfire.yml
-  tags: php-blackfire
+#- include: blackfire.yml
+#  tags: php-blackfire
 
 - include: opcache.yml
   tags: php-opcache
@@ -34,13 +34,13 @@
   command: php5enmod {{ item }}
   with_items: php_enabled_modules
   notify:
-    - restart php-fpm
+    - restart php services
 
 - name: Disable php modules
   command: php5dismod {{ item }}
   with_items: php_disabled_modules
   notify:
-    - restart php-fpm
+    - restart php services
 
 - include: xhprof.yml
   tags: php-xhprof

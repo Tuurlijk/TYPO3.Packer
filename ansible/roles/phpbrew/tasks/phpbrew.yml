@@ -110,10 +110,10 @@
 
 - name: Delete the default POOL configuration file
   file: >
-    path=/usr/local/phpbrew/php/php-{{ item[0] }}/etc/pool.d/{{ php_fpm_default_pool.name }}
+    path=/usr/local/phpbrew/php/php-{{ item[0] }}/etc/pool.d/{{ php_ondrej_default_pool.name }}
     state=absent
   with_items: php_brew_versions
-  when: php_fpm_default_pool.delete
+  when: php_ondrej_default_pool.delete
 
 - name: Copy the POOL configurations
   template: >
@@ -122,8 +122,8 @@
     backup=yes
   with_nested:
     - php_brew_versions
-    - php_fpm_pools
-  when: php_fpm_pools|lower != 'none'
+    - php_ondrej_pools
+  when: php_ondrej_pools|lower != 'none'
 
 - name: Set correct listening sockets
   lineinfile: >
@@ -133,7 +133,7 @@
     backrefs=yes
   with_nested:
     - php_brew_versions
-    - php_fpm_pools
+    - php_ondrej_pools
 
 - name: Setup checkconf script
   template: src=php-fpm-checkconf.j2 dest=/usr/local/phpbrew/php/php-{{ item }}/bin/php-fpm-checkconf mode=ug+x

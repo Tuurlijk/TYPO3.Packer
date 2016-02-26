@@ -11,7 +11,7 @@
     - configuration/Review/typo3.yml
   roles:
     - { role: common,    tags: common }
-    - { role: php-fpm,   tags: php-fpm }
+    - { role: php-ondrej,   tags: php-ondrej }
     - { role: mariadb,   tags: mariadb }
     - { role: phpcommon, tags: phpcommon }
     - { role: phpbrew,   tags: phpbrew }

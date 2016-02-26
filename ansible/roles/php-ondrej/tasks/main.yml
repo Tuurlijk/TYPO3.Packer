@@ -1,0 +1,120 @@
+---
+
+- name: Install the php packages
+  apt: >
+    name={{ item }}
+    state=present
+    update_cache=yes
+    cache_valid_time={{ apt_cache_valid_time }}
+  with_items: "{{ php_ondrej_apt_packages }}"
+  notify:
+    - restart php services
+  tags: [packages,php,fpm]
+
+- name: Copy the PHP configuration file
+  ini_file: >
+    dest=/etc/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/fpm/php.ini
+    section="{{ item[1].section }}"
+    option="{{ item[1].option }}"
+    value="{{ item[1].value }}"
+    backup=yes
+  with_nested:
+    - "{{ php_ondrej_versions }}"
+    - "{{ php_ondrej_ini }}"
+  notify:
+   - restart php services
+  tags: [configuration,php,fpm]
+
+- name: Copy the FPM configuration
+  ini_file: >
+    dest=/etc/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/fpm/php-fpm.conf
+    section="{{ item[1].section }}"
+    option="{{ item[1].option }}"
+    value="{{ item[1].value }}"
+    backup=yes
+  with_nested:
+    - "{{ php_ondrej_versions }}"
+    - "{{ php_ondrej_config }}"
+  notify:
+   - restart php services
+  tags: [configuration,php,fpm]
+
+- name: Delete the include line from the ini file
+  ini_file: >
+    dest=/etc/php/{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/fpm/php-fpm.conf
+    section=global
+    option=include
+    state=absent
+    backup=no
+  with_items:
+    - "{{ php_ondrej_versions }}"
+  notify:
+   - restart php services
+  tags: [configuration,php,fpm]
+
+- name: Re-add the include line to the ini file
+  ini_file: >
+    dest=/etc/php/{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/fpm/php-fpm.conf
+    section=global
+    option=include
+    value="/etc/php/{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/fpm/pool.d/*.conf"
+    state=present
+    backup=no
+  with_items:
+    - "{{ php_ondrej_versions }}"
+  notify:
+   - restart php services
+  tags: [configuration,php,fpm]
+
+- name: Delete the default POOL configuration file
+  file: >
+    path=/etc/php/{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/fpm/pool.d/{{ php_ondrej_default_pool.name }}
+    state=absent
+  with_items:
+    - "{{ php_ondrej_versions }}"
+  when: php_ondrej_default_pool.delete
+  tags: [configuration,php,fpm]
+
+- name: Copy the POOL configurations
+  template: >
+    src=pool.conf.j2
+    dest=/etc/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/fpm/pool.d/{{ item[1].name }}.conf
+    backup=yes
+  with_nested:
+    - "{{ php_ondrej_versions }}"
+    - "{{ php_ondrej_pools }}"
+  when: php_ondrej_pools|lower != 'none'
+  notify:
+   - restart php services
+  tags: [configuration,php,fpm]
+
+- name: Set correct listening sockets
+  lineinfile: >
+    dest=/etc/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/fpm/pool.d/{{ item[1].name }}.conf
+    regexp="^\s*listen\s*=\s/var/run/php/version-fpm(\.xhprof|)?.sock"
+    line="listen = /var/run/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}-fpm\1.sock"
+    backrefs=yes
+  with_nested:
+    - "{{ php_ondrej_versions }}"
+    - "{{ php_ondrej_pools }}"
+  tags: test
+
+- name: Check php-fpm syntax of configuration files
+  shell: "{{ item }} -t"
+  with_items:
+    - "{{ php_ondrej_versions }}"
+  register: result
+  changed_when: "result.rc != 0"
+  tags: [configuration,php,fpm]
+
+- name: Stop the php-fpm services
+  service: name={{ item }}-fpm state=stopped enabled=yes
+  with_items:
+    - "{{ php_ondrej_versions }}"
+  tags: [service,php,fpm]
+
+- name: Start the php-fpm services
+  service: name={{ item }}-fpm state=started enabled=yes
+  with_items:
+    - "{{ php_ondrej_versions }}"
+  tags: [service,php,fpm]

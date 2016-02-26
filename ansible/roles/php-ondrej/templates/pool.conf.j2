@@ -1,0 +1,13 @@
+;{{ ansible_managed }}
+
+
+[{{ item[1].name }}]
+; Defaults
+{% for directive, value in php_ondrej_pool_defaults.iteritems() %}
+  {{ directive }} = {{ value }}
+{% endfor %}
+
+; Pool custom directives
+{% for directive, value in item[1].iteritems() if directive != "name" %}
+  {{ directive }} = {{ value }}
+{% endfor %}
