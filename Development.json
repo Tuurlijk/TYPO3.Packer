@@ -48,7 +48,7 @@
         "ansible/roles/neos",
         "ansible/roles/nginx",
         "ansible/roles/nodejs",
-        "ansible/roles/php-fpm",
+        "ansible/roles/php-ondrej",
         "ansible/roles/phpbrew",
         "ansible/roles/phpcommon",
         "ansible/roles/redis",
@@ -252,6 +252,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.2.37"
+    "version": "0.2.39"
   }
 }

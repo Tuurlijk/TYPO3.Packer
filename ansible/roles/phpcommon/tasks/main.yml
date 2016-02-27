@@ -6,20 +6,35 @@
 
 - name: Install php packages
   apt: name={{ item }} state=present
-  with_items: php_common_packages
+  with_items:
+    - "{{ php_common_packages }}"
 
-- name: Customize PHP fpm configuration file
-  ini_file: dest={{ php_fpm_ini_path }} section="{{ item.section }}" option="{{ item.option }}" value="{{ item.value }}" backup=yes
-  with_items: php_ini
+- name: Customize PHP fpm configuration files
+  ini_file: >
+    dest=/etc/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/fpm/php.ini
+    section="{{ item[1].section }}"
+    option="{{ item[1].option }}"
+    value="{{ item[1].value }}"
+    backup=yes
+  with_nested:
+    - "{{ php_ondrej_versions }}"
+    - "{{ php_ini }}"
   notify:
    - restart php services
 
 - name: Customize PHP cli configuration file
-  ini_file: dest={{ php_cli_ini_path }} section="{{ item.section }}" option="{{ item.option }}" value="{{ item.value }}" backup=yes
-  with_items: php_ini
+  ini_file: >
+    dest=/etc/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/cli/php.ini
+    section="{{ item[1].section }}"
+    option="{{ item[1].option }}"
+    value="{{ item[1].value }}"
+    backup=yes
+  with_nested:
+    - "{{ php_ondrej_versions }}"
+    - "{{ php_ini }}"
 
-- include: apcu.yml
-  tags: php-apcu
+#- include: apcu.yml
+#  tags: php-apcu
 
 #- include: blackfire.yml
 #  tags: php-blackfire
@@ -27,20 +42,20 @@
 - include: opcache.yml
   tags: php-opcache
 
-- include: xdebug.yml
-  tags: php-xdebug
+#- include: xdebug.yml
+#  tags: php-xdebug
+#
+#- name: Enable php modules
+#  command: php5enmod {{ item }}
+#  with_items: php_enabled_modules
+#  notify:
+#    - restart php services
+#
+#- name: Disable php modules
+#  command: php5dismod {{ item }}
+#  with_items: php_disabled_modules
+#  notify:
+#    - restart php services
 
-- name: Enable php modules
-  command: php5enmod {{ item }}
-  with_items: php_enabled_modules
-  notify:
-    - restart php services
-
-- name: Disable php modules
-  command: php5dismod {{ item }}
-  with_items: php_disabled_modules
-  notify:
-    - restart php services
-
-- include: xhprof.yml
-  tags: php-xhprof
+#- include: xhprof.yml
+#  tags: php-xhprof
