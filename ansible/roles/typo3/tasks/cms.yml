@@ -10,21 +10,21 @@
   become: vagrant
   file: path={{ typo3_webroot }}sources state=directory mode=0775
   when: context == "Development"
-  tags: typo3-cms-test1
+  tags: typo3-cms-sites
 
 - name: Make shallow clone of TYPO3 CMS 6.* and 7.*
   become: vagrant
   command: git clone --depth 100 --branch {{ item.value | regex_replace('^(\d)\.(\d).*', 'TYPO3_\1-\2') }} --single-branch https://github.com/TYPO3/TYPO3.CMS.git {{ typo3_webroot }}/sources/{{ item.value | regex_replace('^(\d)\.(\d).*', 'TYPO3_\1-\2') }}
   when: item.value | match('^(6|7)\\.(\d)\\.\\*') and (context == "Development")
   with_dict: typo3.cms.sites
-  tags: typo3-cms-test1
+  tags: typo3-cms-sites
 
 - name: Make shallow clone of TYPO3 CMS 6.x.y and 7.x.y
   become: vagrant
   command: git clone --depth 100 --branch {{ item.value | regex_replace('^(\d)\.(\d)\.(\d)', 'TYPO3_\1-\2-\3') }} --single-branch https://github.com/TYPO3/TYPO3.CMS.git {{ typo3_webroot }}/sources/{{ item.value | regex_replace('^(\d)\.(\d)\.(\d)', 'TYPO3_\1-\2-\3') }}
   when: item.value | match('^(6|7)\\.(\d)\\.(\d)') and (context == "Development")
   with_dict: typo3.cms.sites
-  tags: typo3-cms-test1
+  tags: typo3-cms-sites
 
 - name: Make shallow clone of TYPO3 CMS dev-master
   become: vagrant
@@ -32,7 +32,7 @@
   when: item.value | match('^(dev-)?master') and (context == "Development")
   with_dict: typo3.cms.sites
   ignore_errors: yes
-  tags: typo3-cms-test1
+  tags: typo3-cms-sites
 
 - name: Create fileadmin directories
   become: vagrant
@@ -97,7 +97,7 @@
   when: item.value | match('^(6|7)\\.(\d)\\.\\*') and (context == "Development")
   with_dict: typo3.cms.sites
   ignore_errors: yes
-  tags: typo3-cms-test
+  tags: typo3-cms-sites
 
 - name: Copy shallow clone of TYPO3 CMS 6.x.y and 7.x.y to site
   become: vagrant
@@ -109,7 +109,7 @@
   when: item.value | match('^(6|7)\\.(\d)\\.(\d)') and (context == "Development")
   with_dict: typo3.cms.sites
   ignore_errors: yes
-  tags: typo3-cms-test
+  tags: typo3-cms-sites
 
 - name: Copy shallow clone of TYPO3 CMS dev-master to site
   become: vagrant
@@ -122,13 +122,13 @@
   when: item.value | match('^(dev-)?master') and (context == "Development")
   with_dict: typo3.cms.sites
   ignore_errors: yes
-  tags: typo3-cms-test
+  tags: typo3-cms-sites
 
 - name: Remove shallow clones
   become: vagrant
   command: rm -rf {{ typo3_webroot }}/sources
   when: context == "Development"
-  tags: typo3-cms-test
+  tags: typo3-cms-sites
 
 - name: typo3_console installation of TYPO3
   become: vagrant

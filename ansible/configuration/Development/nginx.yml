@@ -31,7 +31,7 @@ nginx_configs:
   upstream_php7_0_3:
     - upstream php7_0_3 { server unix:/var/run/php/7.0-fpm.sock; }
   upstream_xhprof:
-    - upstream xhprof { server unix:/var/run/php5.6-fpm.xhprof.sock; }
+    - upstream xhprof { server unix:/var/run/php/7.0-fpm.xhprof.sock; }
 
 nginx_fastcgi: |
   client_max_body_size 20M;

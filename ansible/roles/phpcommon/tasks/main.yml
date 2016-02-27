@@ -57,5 +57,5 @@
 #  notify:
 #    - restart php services
 
-#- include: xhprof.yml
-#  tags: php-xhprof
+- include: xhprof.yml
+  tags: php-xhprof

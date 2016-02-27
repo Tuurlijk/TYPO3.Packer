@@ -1,4 +1,26 @@
 ---
+
+- name: Checkout RustJason's xhprof
+  git: repo=https://github.com/RustJason/xhprof.git version=php7 dest=/tmp/xhprof
+  tags: test
+
+- name: Compile xhprof module
+  shell: >
+    cd /tmp/xhprof/extension;
+    phpize7.0;
+    ./configure --with-php-config=/usr/bin/php-config7.0;
+    make;
+    make install;
+
+- name: copy xhprof configuration file
+  copy: src=xhprof.ini dest=/etc/php/mods-available/xhprof.ini force=no
+
+- name: Enable xhprof in fpm context
+  shell: >
+    cd /etc/php/7.0/fpm/conf.d;
+    ln -s /etc/php/mods-available/xhprof.ini 25-xhprof.ini
+  ignore_errors: yes
+
 - name: Comment out deprecated comment line with proper comment character
   lineinfile: >
     dest=/etc/php5/mods-available/xhprof.ini
