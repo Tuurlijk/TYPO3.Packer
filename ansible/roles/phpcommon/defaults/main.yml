@@ -117,6 +117,8 @@ php_common_packages:
   - 'php7.0-soap'
   - 'php7.0-xml'
   - 'php7.0-zip'
+  - 'php-memcached'
+  - 'php-redis'
 
 php_disabled_modules:
   - blackfire
