@@ -87,7 +87,7 @@ php_opcache_ini:
     value: "1"
   - option: "opcache.enable_cli"
     section: "opcache"
-    value: "1"
+    value: "0"
   - option: "opcache.enable"
     section: "opcache"
     value: "1"
