@@ -33,6 +33,7 @@ sys_packages:
   - 're2c'
   - 'ruby'
   - 'ruby-dev'
+  - 'shellinabox'
   - 'subversion'
   - 'supervisor'
   - 'unzip'

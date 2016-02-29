@@ -98,3 +98,7 @@
 - include: rabbitmq.yml
   tags: rabbitmq
   when: context == "Development"
+
+- include: shellinabox.yml
+  tags: shellinabox
+  when: context == "Development"
