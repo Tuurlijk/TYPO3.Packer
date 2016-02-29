@@ -3,20 +3,20 @@
 - name: Setup NEOS site directories
   become: vagrant
   file: path={{ typo3_webroot }}{{ item }} state=directory mode=0775
-  with_items: neos.sites.keys()
+  with_items: "{{ neos.sites.keys() }}"
   tags: neos-neos-sites
 
 - name: Setup NEOS sites in production context
   become: vagrant
   shell: if [ ! "$(ls -A {{ typo3_webroot }}{{ item.key }})" ]; then composer create-project --no-dev --prefer-dist typo3/neos-base-distribution {{ typo3_webroot }}{{ item.key }} {{ item.value }}; fi
-  with_dict: neos.sites
+  with_dict: "{{ neos.sites }}"
   when: context == "Production"
   tags: neos-neos-sites
 
 - name: Setup NEOS sites in development context
   become: vagrant
   shell: if [ ! "$(ls -A {{ typo3_webroot }}{{ item.key }})" ]; then composer create-project --keep-vcs --no-dev typo3/neos-base-distribution {{ typo3_webroot }}{{ item.key }} {{ item.value }}; fi
-  with_dict: neos.sites
+  with_dict: "{{ neos.sites }}"
   when: context == "Development"
   tags: neos-neos-sites
 
@@ -25,7 +25,7 @@
   shell: cd {{ typo3_webroot }}{{ item }}; git config remote.origin.push HEAD:refs/for/master
   args:
     executable: /bin/bash
-  with_items: neos.sites.keys()
+  with_items: "{{ neos.sites.keys() }}"
   when: context == "Development"
   tags: neos-git-setup
 
@@ -34,21 +34,21 @@
   shell: cd {{ typo3_webroot }}{{ item }}; for d in `find ./ -maxdepth 3 -type d -name "TYPO3.*" | grep -v NeosDemo`; do pushd $d > /dev/null; git config remote.origin.push HEAD:refs/for/master; popd > /dev/null; done
   args:
     executable: /bin/bash
-  with_items: neos.sites.keys()
+  with_items: "{{ neos.sites.keys() }}"
   when: context == "Development"
   tags: neos-git-setup
 
 - name: "NEOS Sources: Setup git hook directory for base distributions"
   become: vagrant
   file: path={{ typo3_webroot }}{{ item }}/.git/hooks state=directory recurse=yes mode=0775
-  with_items: neos.sites.keys()
+  with_items: "{{ neos.sites.keys() }}"
   when: context == "Development"
   tags: neos-git-setup
 
 - name: "NEOS Sources: Setup git commit message for base distributions"
   become: vagrant
   copy: src=git-commit-msg dest={{ typo3_webroot }}{{ item }}/.git/hooks/commit-msg force=no
-  with_items: neos.sites.keys()
+  with_items: "{{ neos.sites.keys() }}"
   when: context == "Development"
   tags: neos-git-setup
 
@@ -57,40 +57,40 @@
   shell: cd {{ typo3_webroot }}{{ item }}; for d in `find ./ -maxdepth 3 -type d -name "TYPO3.*" | grep -v NeosDemo`; do pushd $d > /dev/null; mkdir -p {{ typo3_webroot }}{{ item }}/$d/.git/hooks/; cp {{ typo3_webroot }}{{ item }}/.git/hooks/commit-msg {{ typo3_webroot }}{{ item }}/$d/.git/hooks/commit-msg; popd > /dev/null; done
   args:
     executable: /bin/bash
-  with_items: neos.sites.keys()
+  with_items: "{{ neos.sites.keys() }}"
   when: context == "Development"
   tags: neos-git-setup
 
 - name: Create ramdisk directories to offload Data/Temporary to ramdisk
   file: path=/mnt/neoscache/{{ item }} state=directory owner={{nginx_user}} group={{nginx_group}} mode=0775
-  with_items: neos.sites.keys()
+  with_items: "{{ neos.sites.keys() }}"
   tags: neos-neos-ramdisk
 
 - name: Ensure Data/Temporary directories exist
   become: vagrant
   file: path={{ typo3_webroot }}{{ item }}/Data/Temporary/ state=directory mode=0775
-  with_items: neos.sites.keys()
+  with_items: "{{ neos.sites.keys() }}"
   tags: neos-neos-ramdisk
 
 - name: Make fstab entries for NEOS Data/Temporary
   mount: src=/mnt/neoscache/{{ item }} name={{ typo3_webroot }}{{ item }}/Data/Temporary/ fstype=none opts=bind,noauto state=present
-  with_items: neos.sites.keys()
+  with_items: "{{ neos.sites.keys() }}"
   tags: neos-neos-ramdisk
 
 - name: Mount bind NEOS Data/Temporary ramdisks
   shell: if ! mountpoint -q {{ typo3_webroot }}{{ item }}/Data/Temporary; then mount /mnt/neoscache/{{ item }}; fi
-  with_items: neos.sites.keys()
+  with_items: "{{ neos.sites.keys() }}"
   tags: neos-neos-ramdisk
 
 - name: Ensure Configuration directory exitst
   become: vagrant
   file: path={{ typo3_webroot }}{{ item }}/Configuration/ state=directory mode=0775
-  with_items: neos.sites.keys()
+  with_items: "{{ neos.sites.keys() }}"
 
 - name: Copy Settings.yaml to Configuration
   become: vagrant
   template: src=neos/Settings.yaml dest={{ typo3_webroot }}{{ item }}/Configuration/Settings.yaml
-  with_items: neos.sites.keys()
+  with_items: "{{ neos.sites.keys() }}"
 
 - name: Setup demo sites on NEOS
   become: vagrant
@@ -103,4 +103,4 @@
 - name: Copy memcached Caches.yaml to Configuration
   become: vagrant
   copy: src=neos/Configuration/Caches.yaml dest={{ typo3_webroot }}{{ item }}/Configuration/Caches.yaml force=no
-  with_items: neos.sites.keys()
+  with_items: "{{ neos.sites.keys() }}"
