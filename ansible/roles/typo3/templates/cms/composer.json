@@ -33,10 +33,7 @@
   "config": {
     "bin-dir": "bin",
     "preferred-install": "source",
-    "optimize-autoloader": true,
-    "platform": {
-      "php": "5.6.18"
-    }
+    "optimize-autoloader": true
   },
   "minimum-stability": "dev",
   "scripts": {
@@ -83,8 +80,7 @@
     "helhum/typo3-console": "dev-master as 1.2.x-dev",
     "maxserv/accountmanagement": "*",
     "7elix/styleguide": "*",
-    "bk2k/icon-api": "*",
-    "typo3-ter/introduction": "^2.2"
+    "bk2k/icon-api": "*"
   },
   "require-dev": {
     "mikey179/vfsStream": "1.6.0",
