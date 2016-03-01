@@ -17,21 +17,21 @@ nginx_configs:
   upstream_hhvm:
     - upstream hhvm { server unix:/var/run/hhvm/sock; }
   upstream_php:
-    - upstream php { server unix:/var/run/php5-fpm.sock; }
+    - upstream php { server unix:/var/run/php/7.0-fpm.sock; }
   upstream_php55:
-    - upstream php55 { server unix:/var/run/php5-fpm.sock; }
-  upstream_php5_5_9:
-    - upstream php5_5_9 { server unix:/var/run/php5-fpm.sock; }
+    - upstream php55 { server unix:/var/run/php-fpm.5.5.32.default.sock; }
+  upstream_php5_5_32:
+    - upstream php5_5_32 { server unix:/var/run/php-fpm.5.5.32.default.sock; }
   upstream_php56:
-    - upstream php56 { server unix:/var/run/php-fpm.5.6.18.default.sock; }
+    - upstream php56 { server unix:/var/run/php/5.6-fpm.sock; }
   upstream_php5_6_18:
-    - upstream php5_6_18 { server unix:/var/run/php-fpm.5.6.18.default.sock; }
+    - upstream php5_6_18 { server unix:/var/run/php/5.6-fpm.sock; }
   upstream_php70:
-    - upstream php70 { server unix:/var/run/php-fpm.7.0.3.default.sock; }
+    - upstream php70 { server unix:/var/run/php/7.0-fpm.sock; }
   upstream_php7_0_3:
-    - upstream php7_0_3 { server unix:/var/run/php-fpm.7.0.3.default.sock; }
+    - upstream php7_0_3 { server unix:/var/run/php/7.0-fpm.sock; }
   upstream_xhprof:
-    - upstream xhprof { server unix:/var/run/php5-fpm.xhprof.sock; }
+    - upstream xhprof { server unix:/var/run/php/7.0-fpm.xhprof.sock; }
 
 nginx_fastcgi: |
   client_max_body_size 20M;
