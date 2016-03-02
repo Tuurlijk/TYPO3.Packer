@@ -7,7 +7,7 @@
     state=present
   with_items:
     - { regexp: '^script\.disable_dynamic', line: '#script.disable_dynamic: true' }
-    - { regexp: 'network\.host', line: 'network.host: local.typo3.org' }
+    - { regexp: 'network\.host', line: 'network.host: {{ ansible_eth1["ipv4"]["address"] }}' }
   notify: restart elasticsearch
 
 - name: Start Elasticsearch.

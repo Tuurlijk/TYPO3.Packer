@@ -36,9 +36,8 @@
 - name: Add package repositories
   apt_repository: repo={{ item }}
   with_items:
-    - "ppa:nginx/stable"
+    - "ppa:nginx/development"
     - "ppa:ondrej/php"
-    - "ppa:rwky/redis"
     - "ppa:chris-lea/node.js"
 
 - name: Update apt
@@ -46,7 +45,7 @@
 
 - name: Install Extra Packages
   apt: pkg={{ item }} state=latest
-  with_items: sys_packages
+  with_items: "{{ sys_packages }}"
 
 - name: Configure the timezone
   template: src=timezone.tpl.j2 dest=/etc/timezone

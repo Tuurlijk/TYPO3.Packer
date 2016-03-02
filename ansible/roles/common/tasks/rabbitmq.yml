@@ -4,6 +4,8 @@
   apt: pkg={{ item }} state=latest
   with_items:
     - rabbitmq-server
+  ignore_errors: yes
 
 - name: Start the Rabbit MQ service
   service: name=rabbitmq-server enabled=yes state=started
+  ignore_errors: yes

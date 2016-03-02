@@ -7,27 +7,38 @@
 - name: Compile xhprof module
   shell: >
     cd /tmp/xhprof/extension;
-    phpize7.0;
-    ./configure --with-php-config=/usr/bin/php-config7.0;
+    phpize{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }};
+    ./configure --with-php-config=/usr/bin/php-config{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }};
     make;
     make install;
+  when: item | match('^php7\\.')
+  with_items:
+    - "{{ php_ondrej_versions }}"
 
 - name: copy xhprof configuration file
-  copy: src=xhprof.ini dest=/etc/php/mods-available/xhprof.ini force=no
+  copy: src=xhprof.ini dest=/etc/php/{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/mods-available/xhprof.ini force=no
+  when: item | match('^php7\\.')
+  with_items:
+    - "{{ php_ondrej_versions }}"
 
 - name: Enable xhprof in fpm context
   shell: >
-    cd /etc/php/7.0/fpm/conf.d;
-    ln -s /etc/php/mods-available/xhprof.ini 25-xhprof.ini
+    cd /etc/php/{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/fpm/conf.d;
+    ln -s /etc/php/{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/mods-available/xhprof.ini 25-xhprof.ini
+  when: item | match('^php7\\.')
+  with_items:
+    - "{{ php_ondrej_versions }}"
   ignore_errors: yes
 
 - name: Comment out deprecated comment line with proper comment character
   lineinfile: >
-    dest=/etc/php5/mods-available/xhprof.ini
-    regexp="{{ item.regexp }}"
-    line="{{ item.line }}"
+    dest=/etc/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/mods-available/xhprof.ini
+    regexp="{{ item[1].regexp }}"
+    line="{{ item[1].line }}"
     state=present
-  with_items:
+  when: item[0] | match('^php7\\.')
+  with_nested:
+    - "{{ php_ondrej_versions }}"
     - { regexp: '^#xhprof.output_dir =', line: ';xhprof.output_dir = "/var/tmp/xhprof"' }
   ignore_errors: yes
   notify: restart php services

@@ -4,7 +4,7 @@
   mysql_db: name={{ item.key | regex_replace('\.', '_') }}
             state=present
             encoding='utf8'
-  with_dict: typo3.cms.sites
+  with_dict: "{{ typo3.cms.sites }}"
   ignore_errors: yes
 
 - name: Grant CMS database privileges
@@ -12,5 +12,5 @@
               password={{ mariadb.password }}
               priv={{ item.key | regex_replace('\.', '_') }}.*:ALL
               append_privs=yes
-  with_dict: typo3.cms.sites
+  with_dict: "{{ typo3.cms.sites }}"
   ignore_errors: yes

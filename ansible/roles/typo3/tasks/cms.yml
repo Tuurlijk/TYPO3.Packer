@@ -3,7 +3,7 @@
 - name: Setup TYPO3 CMS site directories
   become: vagrant
   file: path={{ typo3_webroot }}{{ item }} state=directory mode=0775
-  with_items: typo3.cms.sites.keys()
+  with_items: "{{ typo3.cms.sites.keys() }}"
   tags: typo3-cms-sites
 
 - name: Setup TYPO3 temporary shallow sources directory
@@ -16,75 +16,75 @@
   become: vagrant
   command: git clone --depth 100 --branch {{ item.value | regex_replace('^(\d)\.(\d).*', 'TYPO3_\1-\2') }} --single-branch https://github.com/TYPO3/TYPO3.CMS.git {{ typo3_webroot }}/sources/{{ item.value | regex_replace('^(\d)\.(\d).*', 'TYPO3_\1-\2') }}
   when: item.value | match('^(6|7)\\.(\d)\\.\\*') and (context == "Development")
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-sites
 
 - name: Make shallow clone of TYPO3 CMS 6.x.y and 7.x.y
   become: vagrant
   command: git clone --depth 100 --branch {{ item.value | regex_replace('^(\d)\.(\d)\.(\d)', 'TYPO3_\1-\2-\3') }} --single-branch https://github.com/TYPO3/TYPO3.CMS.git {{ typo3_webroot }}/sources/{{ item.value | regex_replace('^(\d)\.(\d)\.(\d)', 'TYPO3_\1-\2-\3') }}
   when: item.value | match('^(6|7)\\.(\d)\\.(\d)') and (context == "Development")
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-sites
 
 - name: Make shallow clone of TYPO3 CMS dev-master
   become: vagrant
   command: git clone --depth 100 --branch master --single-branch https://github.com/TYPO3/TYPO3.CMS.git {{ typo3_webroot }}/sources/TYPO3_dev-master
   when: item.value | match('^(dev-)?master') and (context == "Development")
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
   tags: typo3-cms-sites
 
 - name: Create fileadmin directories
   become: vagrant
   file: path={{ typo3_webroot }}{{ item.key }}/fileadmin state=directory mode=0775
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-directories
 
 - name: Create typo3conf directories
   become: vagrant
   file: path={{ typo3_webroot }}{{ item.key }}/typo3conf state=directory mode=0775
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-directories
 
 - name: Create typo3temp directories
   become: vagrant
   file: path={{ typo3_webroot }}{{ item.key }}/typo3temp state=directory
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-directories
 
 - name: Add typo3_console composer.json to TYPO3 CMS 6.x and 7.x web roots
   become: vagrant
   template: src=cms/composer.6.x.json dest={{ typo3_webroot }}{{ item.key }}/composer.json
   when: item.key | match('^(6|7)\\.(\d)\\.')
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-composer
 
 - name: Add typo3_console composer.json to TYPO3 CMS 7.2 and up web roots
   become: vagrant
   template: src=cms/composer.json dest={{ typo3_webroot }}{{ item.key }}/composer.json
   when: item.key | match('^((7)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-composer
 
 - name: Composer install typo3_console for TYPO3 CMS 6.x and 7.x web roots | non dev
   become: vagrant
   composer: command=install working_dir={{ typo3_webroot }}{{ item.key }} prefer_dist="yes"
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.') and (typo3_composer_install_dev == "no")
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-composer
 
 - name: Composer install typo3_console for TYPO3 CMS 6.x and 7.x web roots | dev
   become: vagrant
   composer: command=install working_dir={{ typo3_webroot }}{{ item.key }} no_dev="no"
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.') and (typo3_composer_install_dev == "yes")
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-composer
 
 #- name: Composer install TYPO3 CMS 7.2 and up
 #  become: vagrant
 #  composer: command=install working_dir={{ typo3_webroot }}{{ item.key }}/typo3_src
 #  when: item.key | match('^((7)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
-#  with_dict: typo3.cms.sites
+#  with_dict: "{{typo3.cms.sites }}"
 #  tags: typo3-cms-composer
 
 - name: Copy shallow clone of TYPO3 CMS 6.* and 7.* to site
@@ -95,7 +95,7 @@
     rm -rf {{ typo3_webroot }}{{ item.key }}/typo3_src/.*;
     rsync -au {{ typo3_webroot }}/sources/{{ item.value | regex_replace('^(\d)\.(\d).*', 'TYPO3_\1-\2') }}/ {{ typo3_webroot }}{{ item.key }}/typo3_src/;
   when: item.value | match('^(6|7)\\.(\d)\\.\\*') and (context == "Development")
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
   tags: typo3-cms-sites
 
@@ -107,7 +107,7 @@
     rm -rf {{ typo3_webroot }}{{ item.key }}/typo3_src/.*;
     rsync -au {{ typo3_webroot }}/sources/{{ item.value | regex_replace('^(\d)\.(\d)\.(\d)', 'TYPO3_\1-\2-\3') }}/ {{ typo3_webroot }}{{ item.key }}/typo3_src/;
   when: item.value | match('^(6|7)\\.(\d)\\.(\d)') and (context == "Development")
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
   tags: typo3-cms-sites
 
@@ -120,7 +120,7 @@
     rm -rf {{ typo3_webroot }}{{ item.key }}/typo3_src/.*;
     rsync -au {{ typo3_webroot }}/sources/TYPO3_dev-master/ {{ typo3_webroot }}{{ item.key }}/typo3_src/;
   when: item.value | match('^(dev-)?master') and (context == "Development")
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
   tags: typo3-cms-sites
 
@@ -134,7 +134,7 @@
   become: vagrant
   shell: if [ ! -f {{ typo3_webroot }}{{ item.key }}/typo3conf/LocalConfiguration.php ]; then cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms install:setup --non-interactive --database-user-name=typo3 --database-user-password="{{ mariadb.password }}" --database-host-name=localhost --database-port=3306 --database-name="{{ item.key | regex_replace('\.', '_') }}" --database-create=0 --admin-user-name=admin --admin-password="{{ mariadb.password }}" --site-name="TYPO3"; fi
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
   tags: typo3-cms-composer
 
@@ -142,14 +142,14 @@
   become: vagrant
   command: rm -rf {{ typo3_webroot }}{{ item.key }}/typo3temp/Cache
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-composer
 
 - name: typo3_console cache warmup
   become: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms cache:warmup"
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
   tags: typo3-cms-composer
 
@@ -157,14 +157,14 @@
   become: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms extension:install accountmanagement"
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
 
 - name: typo3_console create _cli_scheduler user
   become: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms user:create --username _cli_scheduler"
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
 
 - name: typo3_console install extensions
@@ -172,8 +172,8 @@
   shell: "cd {{ typo3_webroot }}{{ item[0] }} && ./typo3cms extension:install {{ item[1] }}"
   when: item[0] | match('^((6|7)\\.(\d)|dev-master|master|review)\\.') and typo3.cms.extensions.enabled is defined
   with_nested:
-    - typo3.cms.sites.keys()
-    - typo3.cms.extensions.enabled
+    - "{{ typo3.cms.sites.keys() }}"
+    - "{{ typo3.cms.extensions.enabled }}"
   ignore_errors: yes
 
 - name: typo3_console uninstall extensions
@@ -181,78 +181,78 @@
   shell: "cd {{ typo3_webroot }}{{ item[0] }} && ./typo3cms extension:uninstall {{ item[1] }}"
   when: item[0] | match('^((6|7)\\.(\d)|dev-master|master|review)\\.') and typo3.cms.extensions.disabled is defined
   with_nested:
-    - typo3.cms.sites.keys()
-    - typo3.cms.extensions.disabled
+    - "{{ typo3.cms.sites.keys() }}"
+    - "{{ typo3.cms.extensions.disabled }}"
   ignore_errors: yes
 
 - name: typo3_console update distribution list
   become: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms distribution:list"
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
 
 - name: typo3_console install introduction distribution
   become: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }}; ./typo3cms extension:install realurl; ./typo3cms extension:install bootstrap_package; ./typo3cms extension:install introduction; ./typo3cms cache:flush"
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
 
 - name: Setup git push for typo3_console CMS Sources
   become: vagrant
   shell: cd {{ typo3_webroot }}{{ item.key }}/typo3_src; git config remote.origin.push HEAD:refs/for/master;
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.') and (typo3_composer_install_dev == "yes")
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-legacy
 
 - name: Setup git origin for typo3_console CMS Sources
   become: vagrant
   shell: cd {{ typo3_webroot }}{{ item.key }}/typo3_src; git remote set-url origin {{ typo3_cms_src_repository }}
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.') and (typo3_composer_install_dev == "yes")
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-legacy
 
 - name: Setup git pushurl for typo3_console CMS Sources (otherwise it's github)
   become: vagrant
   shell: cd {{ typo3_webroot }}{{ item.key }}/typo3_src; git remote set-url origin --push {{ typo3_cms_src_push_url }}
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.') and (typo3_composer_install_dev == "yes")
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-legacy
 
 - name: Setup git commit message for typo3_console CMS Sources
   become: vagrant
   copy: src=git-commit-msg dest={{ typo3_webroot }}{{ item.key }}/typo3_src/.git/hooks/commit-msg force=no
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.') and (typo3_composer_install_dev == "yes")
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-legacy
 
 - name: Create AdditionalConfiguration.php
   become: vagrant
   file: path={{ typo3_webroot }}{{ item.key }}/typo3conf/AdditionalConfiguration.php state=touch mode=0664
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-localconf
 
 - name: Ensure AdditionalConfiguration.php contains starting php tag
   become: vagrant
   lineinfile: dest={{ typo3_webroot }}{{ item.key }}/typo3conf/AdditionalConfiguration.php line="<?php" insertbefore=BOF
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-localconf
 
 - name: Add trustedHostsPattern to AdditionalConfiguration.php
   become: vagrant
   lineinfile: dest={{ typo3_webroot }}{{ item.key }}/typo3conf/AdditionalConfiguration.php line="$GLOBALS['TYPO3_CONF_VARS']['SYS']['trustedHostsPattern'] = '(.*\\.)?{{ item.key | regex_replace('\.', '\\.') }}';" insertafter="<\?php"
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-localconf
 
 - name: Add mailcatcher smtp configuration to AdditionalConfiguration.php
   become: vagrant
   lineinfile: dest={{ typo3_webroot }}{{ item.key }}/typo3conf/AdditionalConfiguration.php line="$GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] = 'smtp';" insertafter="<\?php"
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   when: mailcatcher_enable
   tags: typo3-cms-localconf
 
@@ -260,7 +260,7 @@
   become: vagrant
   lineinfile: dest={{ typo3_webroot }}{{ item.key }}/typo3conf/AdditionalConfiguration.php line="$GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_server'] = 'localhost:1025';" insertafter="<\?php"
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   when: mailcatcher_enable
   tags: typo3-cms-localconf
 
@@ -268,27 +268,27 @@
   become: vagrant
   lineinfile: dest={{ typo3_webroot }}{{ item.key }}/typo3conf/AdditionalConfiguration.php line="$GLOBALS['TYPO3_CONF_VARS']['SYS']['displayErrors'] = TRUE;" insertafter="<\?php"
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   when: mailcatcher_enable
   tags: typo3-cms-localconf
 
 - name: Enable install tool for CMS Sources
   become: vagrant
   file: path={{ typo3_webroot }}{{ item.key }}/typo3conf/ENABLE_INSTALL_TOOL state=touch mode=0664
-  with_dict: typo3.cms.sites
+  with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-installtool
 
 - name: Create ramdisk directories to offload typo3temp to ramdisk
   file: path=/mnt/typo3cache/{{ item }} state=directory owner={{nginx_user}} group={{nginx_group}} mode=0775
-  with_items: typo3.cms.sites.keys()
+  with_items: "{{ typo3.cms.sites.keys() }}"
   tags: typo3-cms-ramdisk
 
 - name: Make fstab entries for TYPO3 CMS typo3temp
   mount: src=/mnt/typo3cache/{{ item }} name={{ typo3_webroot }}{{ item }}/typo3temp/ fstype=none opts=bind,noauto state=present
-  with_items: typo3.cms.sites.keys()
+  with_items: "{{ typo3.cms.sites.keys() }}"
   tags: typo3-cms-ramdisk
 
 - name: Mount bind TYPO3 CMS typo3temp ramdisks
   shell: if ! mountpoint -q "{{ typo3_webroot }}{{ item }}/typo3temp"; then mount "/mnt/typo3cache/{{ item }}"; fi
-  with_items: typo3.cms.sites.keys()
+  with_items: "{{ typo3.cms.sites.keys() }}"
   tags: typo3-cms-ramdisk

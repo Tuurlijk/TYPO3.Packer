@@ -41,7 +41,7 @@
   environment:
     PHPBREW_ROOT: /usr/local/phpbrew
     PATH: /root/bin:{{ ansible_env.PATH }}
-  with_items: php_brew_versions
+  with_items: "{{ php_brew_versions }}"
 
 - name: Install and enable php extensions for versions other than 7.x
   shell: source ~/.phpbrew/bashrc; phpbrew use php-{{ item[0] }}; if [ ! -f /usr/local/phpbrew/php/php-{{ item[0] }}/var/db/{{ item[1] }}.ini ]; then phpbrew ext install {{ item[1] }}; fi executable=/bin/bash
@@ -70,7 +70,7 @@
   environment:
     PHPBREW_ROOT: /usr/local/phpbrew
     PATH: /root/bin:{{ ansible_env.PATH }}
-  with_items: php_brew_versions
+  with_items: "{{ php_brew_versions }}"
   when: item | match('^((7)\\.(\d))\\.')
   ignore_errors: yes
 
@@ -79,7 +79,7 @@
   environment:
     PHPBREW_ROOT: /usr/local/phpbrew
     PATH: /root/bin:{{ ansible_env.PATH }}
-  with_items: php_brew_versions
+  with_items: "{{ php_brew_versions }}"
   when: item | match('^((7)\\.(\d))\\.')
   ignore_errors: yes
 
@@ -91,7 +91,7 @@
 
 - name: Copy default FPM configuration file
   template: src=php-fpm.conf.j2 dest=/usr/local/phpbrew/php/php-{{ item }}/etc/php-fpm.conf
-  with_items: php_brew_versions
+  with_items: "{{ php_brew_versions }}"
 
 #- name: Copy the FPM configuration
 #  ini_file: >
@@ -106,13 +106,13 @@
 
 - name: Setup pool.d directories
   file: path=/usr/local/phpbrew/php/php-{{ item }}/etc/pool.d state=directory mode=0775
-  with_items: php_brew_versions
+  with_items: "{{ php_brew_versions }}"
 
 - name: Delete the default POOL configuration file
   file: >
     path=/usr/local/phpbrew/php/php-{{ item[0] }}/etc/pool.d/{{ php_ondrej_default_pool.name }}
     state=absent
-  with_items: php_brew_versions
+  with_items: "{{ php_brew_versions }}"
   when: php_ondrej_default_pool.delete
 
 - name: Copy the POOL configurations
@@ -121,8 +121,8 @@
     dest=/usr/local/phpbrew/php/php-{{ item[0] }}/etc/pool.d/{{ item[1]['name'] }}.conf
     backup=yes
   with_nested:
-    - php_brew_versions
-    - php_ondrej_pools
+    - "{{ php_brew_versions }}"
+    - "{{ php_ondrej_pools }}"
   when: php_ondrej_pools|lower != 'none'
 
 - name: Set correct listening sockets
@@ -132,24 +132,24 @@
     line="listen = /var/run/php-fpm.{{ item[0] }}.{{ item[1]['name'] }}.sock"
     backrefs=yes
   with_nested:
-    - php_brew_versions
-    - php_ondrej_pools
+    - "{{ php_brew_versions }}"
+    - "{{ php_ondrej_pools }}"
 
 - name: Setup checkconf script
   template: src=php-fpm-checkconf.j2 dest=/usr/local/phpbrew/php/php-{{ item }}/bin/php-fpm-checkconf mode=ug+x
-  with_items: php_brew_versions
+  with_items: "{{ php_brew_versions }}"
 
 - name: Setup init script
   template: src=etc/init/php-fpm.conf.j2 dest=/etc/init/php{{ item | regex_replace('\.', '_') }}-fpm.conf
-  with_items: php_brew_versions
+  with_items: "{{ php_brew_versions }}"
 
 - name: Setup init.d script
   template: src=etc/init.d/php-fpm.j2 dest=/etc/init.d/php{{ item | regex_replace('\.', '_') }}-fpm mode=ug+x
-  with_items: php_brew_versions
+  with_items: "{{ php_brew_versions }}"
 
 - name: Start php-fpm services
   command: service php{{ item | regex_replace('\.', '_') }}-fpm restart
-  with_items: php_brew_versions
+  with_items: "{{ php_brew_versions }}"
 
 - name: Make the bin dir exists
   become: vagrant
@@ -158,12 +158,12 @@
 - name: Create symlinks for most recent php versions
   become: vagrant
   file: src=/usr/local/phpbrew/php/php-{{ item }}/bin/php dest=/home/vagrant/bin/php{{ item }} state=link force=yes
-  with_items: php_brew_versions
+  with_items: "{{ php_brew_versions }}"
 
 - name: Create shorter symlinks for most recent php versions
   become: vagrant
   file: src=/usr/local/phpbrew/php/php-{{ item }}/bin/php dest=/home/vagrant/bin/php{{ item | regex_replace('^(\d)\.(\d)\.\d*$', '\\1\\2') }} state=link force=yes
-  with_items: php_brew_versions
+  with_items: "{{ php_brew_versions }}"
 
 - name: Create symlinks for most recent php versions
   become: vagrant

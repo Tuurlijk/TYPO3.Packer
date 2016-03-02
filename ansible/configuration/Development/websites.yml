@@ -10,7 +10,7 @@ nginx_sites:
     - "{{ nginx_fastcgi }}"
   local.typo3.org.ssl:
     - set $upstream php
-    - listen 443 default_server
+    - listen 443 default_server http2
     - server_name _ ~^(?<serverNameUpstream>xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)?\.?local.typo3.org$
     - if ($serverNameUpstream ~ (php|xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)) { set $upstream $serverNameUpstream; }
     - root "{{ typo3_webroot }}/local.typo3.org/"
@@ -27,7 +27,7 @@ nginx_sites:
     - "{{ nginx_fastcgi }}"
   local.neos.io.ssl:
     - set $upstream php
-    - listen 443
+    - listen 443 http2
     - server_name ~^(?<serverNameUpstream>xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)?\.?local.neos.io$
     - if ($serverNameUpstream ~ (php|xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)) { set $upstream $serverNameUpstream; }
     - root "{{ typo3_webroot }}/local.neos.io/"
@@ -45,7 +45,7 @@ nginx_sites:
     - "{{ nginx_typo3_fastcgi }}"
   typo3.ssl:
     - set $upstream php
-    - listen 443
+    - listen 443 http2
     - server_name ~(?<serverNameUpstream>xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)?\.?(?<version>.*)\.local.typo3.org$
     - if ($serverNameUpstream ~ (php|xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)) { set $upstream $serverNameUpstream; }
     - root "{{ typo3_webroot }}${version}.local.typo3.org/";
@@ -65,7 +65,7 @@ nginx_sites:
     - "{{ nginx_neos_fastcgi }}"
   neos.ssl:
     - set $upstream php
-    - listen 443
+    - listen 443 http2
     - server_name ~(?<serverNameUpstream>xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)?\.?(?<version>.*)\.local.neos.io$
     - if ($serverNameUpstream ~ (php|xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)) { set $upstream $serverNameUpstream; }
     - root "{{ typo3_webroot }}${version}.local.neos.io/Web/";
@@ -83,3 +83,12 @@ nginx_sites:
     - error_page 404 = @404
     - "{{ nginx_typo3_404_redirect }}"
     - "{{ nginx_typo3_fastcgi }}"
+  shell:
+    - server_name shell.local.typo3.org
+    - location / { proxy_set_header X-Real-IP $remote_addr; proxy_set_header Host $http_host; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; proxy_pass http://127.0.0.1:4200; }
+  elastic:
+    - server_name elastic.local.typo3.org
+    - location / { proxy_set_header X-Real-IP $remote_addr; proxy_set_header Host $http_host; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; proxy_pass http://local.typo3.org:9200; }
+  mail:
+    - server_name mail.local.typo3.org
+    - location / { proxy_set_header X-Real-IP $remote_addr; proxy_set_header Host $http_host; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; proxy_pass http://127.0.0.1:1080; }

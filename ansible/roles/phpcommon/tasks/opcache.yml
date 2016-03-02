@@ -2,12 +2,14 @@
 
 - name: Customize PHP Opcache configuration file
   ini_file: >
-    dest=/etc/php/mods-available/opcache.ini
-    section="{{ item.section }}"
-    option="{{ item.option }}"
-    value="{{ item.value }}"
+    dest=/etc/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/mods-available/opcache.ini
+    section="{{ item[1].section }}"
+    option="{{ item[1].option }}"
+    value="{{ item[1].value }}"
     backup=yes
-  with_items:
+  with_nested:
+    - "{{ php_ondrej_versions }}"
     - "{{ php_opcache_ini }}"
   notify:
    - restart php services
+  ignore_errors: yes
