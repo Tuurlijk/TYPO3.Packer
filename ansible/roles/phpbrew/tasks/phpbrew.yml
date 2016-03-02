@@ -2,7 +2,7 @@
 
 - name: Phpbrew install required packages
   apt: name={{ item }} state=present
-  with_items: php_brew_required_packages
+  with_items: "{{ php_brew_required_packages }}"
 
 - name: Check if freetype symlinks exist
   stat: path=/usr/include/freetype2/freetype/freetype.h
@@ -49,8 +49,8 @@
     PHPBREW_ROOT: /usr/local/phpbrew
     PATH: /root/bin:{{ ansible_env.PATH }}
   with_nested:
-    - php_brew_versions
-    - php_brew_extensions
+    - "{{ php_brew_versions }}"
+    - "{{ php_brew_extensions }}"
   when: not item[0] | match('^((7)\\.(\d))\\.')
   ignore_errors: yes
 
@@ -60,7 +60,7 @@
     PHPBREW_ROOT: /usr/local/phpbrew
     PATH: /root/bin:{{ ansible_env.PATH }}
   with_nested:
-    - php_brew_versions
+    - "{{ php_brew_versions }}"
     - [gd]
   when: item[0] | match('^((7)\\.(\d))\\.')
   ignore_errors: yes
@@ -86,8 +86,8 @@
 - name: Customize PHP brew configuration files
   ini_file: dest=/usr/local/phpbrew/php/php-{{ item[0] }}/etc/php.ini section="{{ item[1].section }}" option="{{ item[1].option }}" value="{{ item[1].value }}" backup=yes
   with_nested:
-    - php_brew_versions
-    - php_ini
+    - "{{ php_brew_versions }}"
+    - "{{ php_ini }}"
 
 - name: Copy default FPM configuration file
   template: src=php-fpm.conf.j2 dest=/usr/local/phpbrew/php/php-{{ item }}/etc/php-fpm.conf
@@ -128,8 +128,8 @@
 - name: Set correct listening sockets
   lineinfile: >
     dest=/usr/local/phpbrew/php/php-{{ item[0] }}/etc/pool.d/{{ item[1]['name'] }}.conf
-    regexp="^\s*listen\s*=\s/var/run/php5-fpm(.{{ item[1]['name'] }})?.sock"
-    line="listen = /var/run/php-fpm.{{ item[0] }}.{{ item[1]['name'] }}.sock"
+    regexp="^\s*listen\s*=\s/var/run/php/version-fpm(\.xhprof|)?.sock"
+    line="listen = /var/run/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}-fpm\1.sock"
     backrefs=yes
   with_nested:
     - "{{ php_brew_versions }}"
@@ -140,15 +140,15 @@
   with_items: "{{ php_brew_versions }}"
 
 - name: Setup init script
-  template: src=etc/init/php-fpm.conf.j2 dest=/etc/init/php{{ item | regex_replace('\.', '_') }}-fpm.conf
+  template: src=etc/init/php-fpm.conf.j2 dest=/etc/init/php{{ item }}-fpm.conf
   with_items: "{{ php_brew_versions }}"
 
 - name: Setup init.d script
-  template: src=etc/init.d/php-fpm.j2 dest=/etc/init.d/php{{ item | regex_replace('\.', '_') }}-fpm mode=ug+x
+  template: src=etc/init.d/php-fpm.j2 dest=/etc/init.d/php{{ item }}-fpm mode=ug+x
   with_items: "{{ php_brew_versions }}"
 
 - name: Start php-fpm services
-  command: service php{{ item | regex_replace('\.', '_') }}-fpm restart
+  command: service php{{ item }}-fpm restart
   with_items: "{{ php_brew_versions }}"
 
 - name: Make the bin dir exists
