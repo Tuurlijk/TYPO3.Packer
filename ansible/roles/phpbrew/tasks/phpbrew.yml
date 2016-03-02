@@ -164,10 +164,3 @@
   become: vagrant
   file: src=/usr/local/phpbrew/php/php-{{ item }}/bin/php dest=/home/vagrant/bin/php{{ item | regex_replace('^(\d)\.(\d)\.\d*$', '\\1\\2') }} state=link force=yes
   with_items: "{{ php_brew_versions }}"
-
-- name: Create symlinks for most recent php versions
-  become: vagrant
-  file: src={{ item.value }} dest=/home/vagrant/bin/{{ item.key }} state=link force=yes
-  with_dict:
-    php55: '/usr/bin/php'
-    php5.5.9: '/usr/bin/php'
