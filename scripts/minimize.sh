@@ -30,6 +30,9 @@ if [ "$BOX_TYPE" = "Try" ]; then
 	echo "==> Removing git source from /var/www"
 	cd /var/www && for gitSource in `find ./ -name .git`; do rm -rf $gitSource; done
 fi
+echo "==> Removing more fluff"
+apt-get -y purge sound-theme-freedesktop subversion language-pack-gnome-en language-pack-gnome-en-base policykit-1-gnome gconf-service gconf2-common laptop-detect autoconf automake cpp eject autoconf automake cpp build-essential dbus-x11 hicolor-icon-theme gcc-4.8 ccache m4 make cpp-4.8 parted geoip-database
+
 #echo "==> Removing X11 libraries"
 #apt-get -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6
 echo "==> Removing obsolete networking components"

@@ -1,6 +1,6 @@
 {
   "push": {
-    "name": "",
+    "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
     "vcs": true
   },
   "variables": {
@@ -35,7 +35,7 @@
     {
       "type": "ansible-local",
       "playbook_dir": "ansible",
-      "playbook_file": "ansible/Development.yml",
+      "playbook_file": "ansible/{{user `atlas_name`}}.yml",
       "role_paths": [
         "ansible/roles/common",
         "ansible/roles/composer",
