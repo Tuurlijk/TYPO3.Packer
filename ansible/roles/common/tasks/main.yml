@@ -90,6 +90,9 @@
 - include: ssh.yml
   tags: ssh
 
+- include: ssl.yml
+  tags: ssl
+
 - include: zsh.yml
   when: homestead.use_zsh
   tags: zsh

@@ -1,0 +1,9 @@
+---
+
+- name: Copy snakeoil certificates
+  copy: src=etc/ssl/certs/{{ item }}.crt dest=/etc/ssl/certs/{{ item }}.crt force=no
+  with_items: ['local.neos.io', 'local.typo3.org']
+
+- name: Copy snakeoil keys
+  copy: src=etc/ssl/private/{{ item }}.key dest=/etc/ssl/private/{{ item }}.key force=no
+  with_items: ['local.neos.io', 'local.typo3.org']
