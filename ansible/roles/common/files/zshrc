@@ -47,8 +47,8 @@ ips () {
 	ifconfig | grep "inet " | awk '{ print $2 }'
 }
 
-if [ -x /usr/local/bin/gdircolors ]; then
-	eval "`/usr/local/bin/gdircolors -b ~/.dircolors`"
+if [ -x /usr/bin/dircolors ]; then
+	eval "`/usr/bin/dircolors -b ~/.dircolors`"
 fi
 
 export GREP_OPTIONS='--color=auto'
