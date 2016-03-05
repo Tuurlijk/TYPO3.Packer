@@ -147,8 +147,28 @@
   template: src=etc/init.d/php-fpm.j2 dest=/etc/init.d/php{{ item }}-fpm mode=ug+x
   with_items: "{{ php_brew_versions }}"
 
+#- name: Setup systemd script
+#  template: src=etc/systemd/php-fpm.service.j2 dest=/lib/systemd/system/php{{ item }}-fpm.service
+#  with_items: "{{ php_brew_versions }}"
+#  tags: test
+#
+#- name: Enable systemd service
+#  file: src=/lib/systemd/system/php{{ item }}-fpm.service dest=/etc/systemd/system/multi-user.target.wants/php{{ item }}-fpm.service state=link force=yes
+#  with_items: "{{ php_brew_versions }}"
+#  tags: test
+#
+#- name: Enable systemd service
+#  file: path=/var/lib/systemd/deb-systemd-helper-enabled/multi-user.target.wants/php{{ item }}-fpm.service state=touch
+#  with_items: "{{ php_brew_versions }}"
+#  tags: test
+#
+#- name: Setup systemd script
+#  template: src=etc/systemd/php-fpm.service.dsh-also.j2 dest=/var/lib/systemd/deb-systemd-helper-enabled/php{{ item }}-fpm.service.dsh-also
+#  with_items: "{{ php_brew_versions }}"
+#  tags: test
+
 - name: Start php-fpm services
-  command: service php{{ item }}-fpm restart
+  service: name=php{{ item }}-fpm state=started enabled=yes
   with_items: "{{ php_brew_versions }}"
 
 - name: Make the bin dir exists

@@ -56,6 +56,9 @@
 #  with_items: php_disabled_modules
 #  notify:
 #    - restart php services
+#
+#- include: xhprof.yml
+#  tags: php-xhprof
 
-- include: xhprof.yml
-  tags: php-xhprof
+- include: tideways.yml
+  tags: php-tideways

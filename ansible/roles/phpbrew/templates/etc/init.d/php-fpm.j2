@@ -14,9 +14,11 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="PHP5 FastCGI Process Manager"
 NAME=php{{ item | regex_replace('\.', '_') }}-fpm
+CONFFILE=/usr/local/phpbrew/php/php-{{ item }}/etc/php-fpm.conf
 DAEMON=/usr/local/phpbrew/php/php-{{ item }}/sbin/php-fpm
 DAEMON_ARGS="--daemonize --fpm-config /usr/local/phpbrew/php/php-{{ item }}/etc/php-fpm.conf"
-PIDFILE=/var/run/$NAME.pid
+CONF_PIDFILE=$(sed -n 's/^pid[ =]*//p' $CONFFILE)
+PIDFILE=${CONF_PIDFILE:-/run/php/php{{ item }}-fpm.pid}
 TIMEOUT=30
 SCRIPTNAME=/etc/init.d/$NAME
 
@@ -33,17 +35,12 @@ SCRIPTNAME=/etc/init.d/$NAME
 # Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
 . /lib/lsb/init-functions
 
-# Don't run if we are running upstart
-if init_is_upstart; then
-    exit 1
-fi
-
 #
 # Function to check the correctness of the config file
 #
 do_check()
 {
-    /usr/lib/php5/php5-fpm-checkconf || return 1
+    /usr/local/phpbrew/php/php-{{ item }}/bin/php-fpm-checkconf || return 1
     return 0
 }
 
@@ -64,6 +61,7 @@ do_start()
 	# Add code here, if necessary, that waits for the process to be ready
 	# to handle requests from services started subsequently which depend
 	# on this one.  As a last resort, sleep for some time.
+	sleep 2
 }
 
 #

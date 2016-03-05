@@ -1,0 +1,32 @@
+---
+
+- name: Checkout Tideways profiler
+  git: repo=https://github.com/tideways/php-profiler-extension.git version=php7 dest=/tmp/tideways
+  tags: test
+
+- name: Compile tideways module
+  shell: >
+    cd /tmp/tideways;
+    phpize{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }};
+    ./configure --with-php-config=/usr/bin/php-config{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }};
+    make;
+    make install;
+  when: item | match('^php7\\.')
+  with_items:
+    - "{{ php_ondrej_versions }}"
+
+- name: copy tideways configuration file
+  copy: src=tideways.ini dest=/etc/php/{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/mods-available/tideways.ini force=no
+  when: item | match('^php7\\.')
+  with_items:
+    - "{{ php_ondrej_versions }}"
+
+- name: Enable tideways in fpm context
+  shell: >
+    cd /etc/php/{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/fpm/conf.d;
+    ln -s /etc/php/{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/mods-available/tideways.ini 25-tideways.ini
+  when: item | match('^php7\\.')
+  with_items:
+    - "{{ php_ondrej_versions }}"
+  ignore_errors: yes
+  notify: restart php services

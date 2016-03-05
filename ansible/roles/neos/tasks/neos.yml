@@ -100,7 +100,7 @@
     - "{{ neos.sites.keys() }}"
     - ['doctrine:migrate', 'site:import --package-key TYPO3.NeosDemoTypo3Org', "user:create admin {{ mariadb.password }} Admin Istrator --roles TYPO3.Neos:Administrator", "cache:warmup"]
 
-- name: Copy memcached Caches.yaml to Configuration
-  become: vagrant
-  copy: src=neos/Configuration/Caches.yaml dest={{ typo3_webroot }}{{ item }}/Configuration/Caches.yaml force=no
-  with_items: "{{ neos.sites.keys() }}"
+#- name: Copy memcached Caches.yaml to Configuration
+#  become: vagrant
+#  copy: src=neos/Configuration/Caches.yaml dest={{ typo3_webroot }}{{ item }}/Configuration/Caches.yaml force=no
+#  with_items: "{{ neos.sites.keys() }}"
