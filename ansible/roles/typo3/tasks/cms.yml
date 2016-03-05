@@ -194,7 +194,7 @@
 
 - name: typo3_console install introduction distribution
   become: vagrant
-  shell: "cd {{ typo3_webroot }}{{ item.key }}; ./typo3cms extension:install realurl; ./typo3cms extension:install bootstrap_package; ./typo3cms extension:install introduction; ./typo3cms cache:flush"
+  shell: "cd {{ typo3_webroot }}{{ item.key }}; ./typo3cms extension:install realurl; ./typo3cms extension:install css_styled_content; ./typo3cms extension:install bootstrap_package; ./typo3cms extension:install introduction; ./typo3cms cache:flush"
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
   with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
