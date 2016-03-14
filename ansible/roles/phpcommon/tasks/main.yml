@@ -9,6 +9,11 @@
   with_items:
     - "{{ php_common_packages }}"
 
+- name: Remove php packages
+  apt: name={{ item }} state=absent purge=yes
+  with_items:
+    - "{{ php_common_disabled_packages }}"
+
 - name: Customize PHP fpm configuration files
   ini_file: >
     dest=/etc/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/fpm/php.ini

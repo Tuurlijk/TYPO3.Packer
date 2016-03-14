@@ -120,9 +120,8 @@ php_common_packages:
   - 'php-memcache'
   - 'php-redis'
 
-php_disabled_modules:
-  - blackfire
-  - xdebug
+php_common_disabled_packages:
+  - 'php-igbinary'
 
 php_enabled_modules:
   - mcrypt
