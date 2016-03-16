@@ -16,7 +16,7 @@
     - { role: phpcommon, tags: phpcommon }
     - { role: phpbrew,   tags: phpbrew }
     - { role: hhvm,      tags: hhvm }
-    - { role: composer,  tags: composer }
+    - { role: composer-shallow,  tags: composer-shallow }
     - { role: typo3,     tags: typo3 }
     - { role: typo3-review, tags: typo3-review }
     - { role: xhprof,    tags: xhprof }

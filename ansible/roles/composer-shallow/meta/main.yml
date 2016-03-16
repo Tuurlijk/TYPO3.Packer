@@ -1,0 +1,20 @@
+---
+
+galaxy_info:
+  author: michielroos
+  description: Static composer executable that allows for shallow clones.
+  company: "MaxServ"
+  license: "license (BSD, MIT)"
+  min_ansible_version: 1.4
+  platforms:
+  - name: EL
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  categories:
+    - web

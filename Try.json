@@ -1,6 +1,6 @@
 {
   "push": {
-    "name": "",
+    "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
     "vcs": true
   },
   "variables": {
@@ -43,7 +43,7 @@
         "ansible/roles/memcached",
         "ansible/roles/neos",
         "ansible/roles/nginx",
-        "ansible/roles/php-fpm",
+        "ansible/roles/php-ondrej",
         "ansible/roles/phpcommon",
         "ansible/roles/typo3"
       ]

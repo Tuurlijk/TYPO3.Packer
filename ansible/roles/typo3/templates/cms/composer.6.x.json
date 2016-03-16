@@ -11,7 +11,7 @@
   "repositories": [
     {
       "type": "composer",
-      "url": "http://composer.typo3.org"
+      "url": "https://composer.typo3.org"
     },
     {
       "type": "git",
@@ -23,6 +23,8 @@
     }
   ],
   "config": {
+    "git-clone-depth": 100,
+    "process-timeout": 900,
     "bin-dir": "bin",
     "preferred-install": "source",
     "optimize-autoloader": true,

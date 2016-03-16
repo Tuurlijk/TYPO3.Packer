@@ -15,12 +15,8 @@
   when: "'is not a mountpoint' in shared_webroot.stdout"
   tags: typo3-configuration
 
-- name: Increase composer timeout to fifteen minutes
-  command: composer config --global process-timeout 900
-
-- name: Increase composer timeout to fifteen minutes
-  become: vagrant
-  command: composer config --global process-timeout 900
+- name: Set composer git clone depth to 100
+  command: composer config --global git-clone-depth 100
 
 #- name: Generate ssl certificates for nginx sites (needs to run before nginx role)
 #  command: openssl req -x509 -sha512 -nodes -days 3650 -subj '/C=NL/ST=Noord-Brabant/O=MaxServ/L=Giessen/CN={{ item }}' -newkey rsa:4096 -keyout /etc/ssl/private/{{ item | regex_replace('^\*\.(.*)', '\1') }}.key -out /etc/ssl/certs/{{ item | regex_replace('^\*\.(.*)', '\1') }}.crt

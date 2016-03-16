@@ -1,0 +1,7 @@
+---
+
+- name: Add composer
+  copy:
+    src: composer.phar
+    dest: /usr/local/bin/composer
+    mode: 0775
