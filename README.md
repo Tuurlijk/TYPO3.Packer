@@ -10,18 +10,15 @@ This is a box builder for the following projects:
 * https://github.com/Tuurlijk/TryNeos
 * https://github.com/Tuurlijk/TYPO3.Review
 
-There are Three Packer configuration files:
-* [Review.json for the review box](Review.json)
-* [Try.json for the TYPOTry and TryNeos boxen](Try.json)
+There are Two Packer configuration files:
+* [Try.json for the TYPOTry and TryNeos boxen](Try.json) - This is a minimal configuration
 * [Development.json for the Homestead box](Development.json)
 
 Each packer configuration file points to its own ansible configuration file:
-* [ansible/Review.yml for the review box](ansible/Review.yml)
 * [ansible/Try.yml for the TYPOTry and TryNeos boxen](ansible/Try.yml)
 * [ansible/Development.yml for the Homestead box](ansible/Development.yml)
 
 And those files point to their own ansible configuration directories:
-* [ansible/configuration/Review/ for the review box](ansible/configuration/Review/)
 * [ansible/configuration/Try/ for the TYPOTry and TryNeos boxen](ansible/configuration/Try/)
 * [ansible/configuration/Development/ for the Homestead box](ansible/configuration/Development/)
 
@@ -39,7 +36,7 @@ You can build a box by executing a `packer build` command and specifying the pac
 
 If you have an [atlas account](https://atlas.hashicorp.com/) you can push a new version to there by doing:
 
-```packer push -name Michiel/Development Development.json```
+```packer push Development.json```
 
 Before pushing a new build to atlas, take care to update the build version numbe in the respective packer json file.
 # TODO
