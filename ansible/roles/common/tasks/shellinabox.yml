@@ -1,5 +1,8 @@
 ---
 
+- name: Install shell in a box
+  apt: pkg=shellinabox state=latest
+
 - name: Configure shell in a box
   lineinfile: >
     dest=/etc/default/shellinabox

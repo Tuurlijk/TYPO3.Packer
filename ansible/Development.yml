@@ -12,6 +12,8 @@
   roles:
     - { role: common,    tags: common }
     - { role: geerlingguy.java, tags: java }
+    - { role: geerlingguy.daemonize, tags: daemonize }
+    - { role: geerlingguy.mailhog, tags: mailhog }
     - { role: elasticsearch, tags: elasticsearch }
     - { role: elasticsearch-configure, tags: elasticsearch-configure }
     - { role: php-ondrej,   tags: php-ondrej }

@@ -27,10 +27,7 @@
     "process-timeout": 900,
     "bin-dir": "bin",
     "preferred-install": "source",
-    "optimize-autoloader": true,
-    "platform": {
-      "php": "5.6.18"
-    }
+    "optimize-autoloader": true
   },
   "minimum-stability": "dev",
   "scripts": {

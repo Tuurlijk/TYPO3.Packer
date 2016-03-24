@@ -11,10 +11,12 @@
     - configuration/Try/typo3.yml
   roles:
     - { role: common,    tags: common }
-    - { role: php-fpm,   tags: php-fpm }
+    - { role: geerlingguy.daemonize, tags: daemonize }
+    - { role: geerlingguy.mailhog, tags: mailhog }
+    - { role: php-ondrej,   tags: php-ondrej }
     - { role: mariadb,   tags: mariadb }
     - { role: phpcommon, tags: phpcommon }
-    - { role: composer,  tags: composer }
+    - { role: composer-shallow,  tags: composer-shallow }
     - { role: typo3,     tags: typo3 }
     - { role: neos,      tags: neos }
     - { role: memcached, tags: memcached }

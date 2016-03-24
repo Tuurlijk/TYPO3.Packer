@@ -80,10 +80,6 @@
   service: name=postfix state=started enabled=yes
   tags: [service,postfix]
 
-- include: mailcatcher.yml
-  tags: mailcatcher
-  when: mailcatcher_enable
-
 - include: ramdisk.yml
   tags: ramdisk
 

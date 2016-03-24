@@ -2,7 +2,7 @@
 
 - name: Get host keys
   shell: ssh-keyscan {{ item }}
-  with_items: homestead_ssh_known_hosts
+  with_items: "{{ homestead_ssh_known_hosts }}"
   register: ssh_keyscan_results
   tags: ssh-keys
 

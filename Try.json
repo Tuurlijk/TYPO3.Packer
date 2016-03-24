@@ -39,6 +39,9 @@
       "role_paths": [
         "ansible/roles/common",
         "ansible/roles/composer",
+        "ansible/roles/composer-shallow",
+        "ansible/roles/geerlingguy.daemonize",
+        "ansible/roles/geerlingguy.mailhog",
         "ansible/roles/mariadb",
         "ansible/roles/memcached",
         "ansible/roles/neos",
@@ -244,6 +247,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.2.66"
+    "version": "0.2.67"
   }
 }

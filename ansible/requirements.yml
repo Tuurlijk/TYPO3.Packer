@@ -22,9 +22,17 @@
   path: roles
   name: redis
 
+- src: geerlingguy.daemonize
+  path: roles
+  name: daemonize
+
 - src: geerlingguy.java
   path: roles
   name: java
+
+- src: geerlingguy.mailhog
+  path: roles
+  name: mailhog
 
 - src: geerlingguy.elasticsearch
   path: roles

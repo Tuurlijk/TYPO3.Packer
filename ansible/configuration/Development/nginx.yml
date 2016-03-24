@@ -87,7 +87,7 @@ nginx_neos_404_redirect: |
     rewrite ^ $scheme://local.neos.io;
   }
 
-nginx_typo3_neos_resources: |
+nginx_neos_resources: |
   location ~ "^/_Resources/Persistent/" {
     if ($version ~ (1.0|1.1|1.2)) {
       expires max;
