@@ -39,5 +39,3 @@ sys_packages:
   - 'wget'
   - 'whois'
   - 'zip'
-
-mailcatcher_enable: yes

@@ -60,6 +60,9 @@ php_ondrej_ini:
   - option: "pdo_mysql.cache_size"
     section: "Pdo_mysql"
     value: "2000"
+  - option: "sendmail_path"
+    section: "mail function"
+    value: "/opt/mailhog/mailhog"
 
 php_brew_enable: yes
 

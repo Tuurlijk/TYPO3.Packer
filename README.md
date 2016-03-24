@@ -41,4 +41,3 @@ If you have an [atlas account](https://atlas.hashicorp.com/) you can push a new 
 Before pushing a new build to atlas, take care to update the build version numbe in the respective packer json file.
 # TODO
 * Make pretty /etc/issue
-* Setup mailcatcher for Neos
