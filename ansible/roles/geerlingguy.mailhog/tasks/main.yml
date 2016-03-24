@@ -1,0 +1,44 @@
+---
+# Install and configure MailHog.
+- name: Ensure mailhog install directory exists.
+  file:
+    path: "{{ mailhog_install_dir }}"
+    owner: root
+    group: root
+    state: directory
+    mode: 0755
+
+- name: Download MailHog binary.
+  get_url:
+    url: "{{ mailhog_binary_url }}"
+    dest: "{{ mailhog_install_dir }}/mailhog"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy mailhog init script into place.
+  template:
+    src: mailhog.init.j2
+    dest: /etc/init.d/mailhog
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Ensure mailhog is enabled and will start on boot.
+  service: name=mailhog state=started enabled=yes
+
+# Install and configure sSMTP.
+- include: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat' and mailhog_install_ssmtp
+
+- include: setup-Debian.yml
+  when: ansible_os_family == 'Debian' and mailhog_install_ssmtp
+
+- name: Copy sSMTP configuration.
+  template:
+    src: ssmtp.conf.j2
+    dest: /etc/ssmtp/ssmtp.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: mailhog_install_ssmtp
