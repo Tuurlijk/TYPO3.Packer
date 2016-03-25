@@ -28,10 +28,6 @@
     {
       "type": "git",
       "url": "https://github.com/MaxServ/t3ext-accountmanagement.git"
-    },
-    {
-      "type": "git",
-      "url": "https://github.com/benjaminkott/icon_api.git"
     }
   ],
   "config": {
