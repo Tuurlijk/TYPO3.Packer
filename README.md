@@ -37,6 +37,6 @@ If you have an [atlas account](https://atlas.hashicorp.com/) you can push a new 
 
 ```packer push Development.json```
 
-Before pushing a new build to atlas, take care to update the build version numbe in the respective packer json file.
+Before pushing a new build to atlas, take care to update the build version number in the respective packer json file.
 # TODO
 * Make pretty /etc/issue
