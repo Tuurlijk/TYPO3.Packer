@@ -8,7 +8,6 @@ This is a box builder for the following projects:
 * https://github.com/Tuurlijk/TYPOTry
 * https://github.com/Tuurlijk/TYPO3.Homestead
 * https://github.com/Tuurlijk/TryNeos
-* https://github.com/Tuurlijk/TYPO3.Review
 
 There are Two Packer configuration files:
 * [Try.json for the TYPOTry and TryNeos boxen](Try.json) - This is a minimal configuration
