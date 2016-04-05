@@ -1,0 +1,201 @@
+{
+  "push": {
+    "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+    "vcs": true
+  },
+  "variables": {
+    "atlas_username": "{{env `ATLAS_USERNAME`}}",
+    "atlas_name": "{{env `ATLAS_NAME`}}"
+  },
+  "provisioners": [
+    {
+      "environment_vars": [
+        "BOX_TYPE={{user `box_type`}}",
+        "CLEANUP_PAUSE={{user `cleanup_pause`}}",
+        "UPDATE={{user `update`}}",
+        "INSTALL_VAGRANT_KEY={{user `install_vagrant_key`}}",
+        "SSH_USERNAME={{user `ssh_username`}}",
+        "SSH_PASSWORD={{user `ssh_password`}}",
+        "http_proxy={{user `http_proxy`}}",
+        "https_proxy={{user `https_proxy`}}",
+        "ftp_proxy={{user `ftp_proxy`}}",
+        "rsync_proxy={{user `rsync_proxy`}}",
+        "no_proxy={{user `no_proxy`}}"
+      ],
+      "execute_command": "{{.Vars}} su -m root -c 'sh -eux {{.Path}}'",
+      "scripts": [
+        "scripts/freebsd/update.sh",
+        "scripts/freebsd/postinstall.sh",
+        "scripts/freebsd/vagrant.sh",
+        "scripts/freebsd/vmware.sh",
+        "scripts/freebsd/virtualbox.sh",
+        "scripts/motd.sh",
+        "custom-script.sh",
+        "scripts/freebsd/cleanup.sh",
+        "scripts/freebsd/minimize.sh"
+      ],
+      "type": "shell"
+    },
+    {
+      "type": "ansible-local",
+      "playbook_dir": "ansible",
+      "playbook_file": "ansible/BSD.yml",
+      "role_paths": [
+        "ansible/roles/common",
+        "ansible/roles/composer",
+        "ansible/roles/composer-shallow",
+        "ansible/roles/geerlingguy.daemonize",
+        "ansible/roles/geerlingguy.mailhog",
+        "ansible/roles/mariadb",
+        "ansible/roles/memcached",
+        "ansible/roles/neos",
+        "ansible/roles/nginx",
+        "ansible/roles/php-ondrej",
+        "ansible/roles/phpcommon",
+        "ansible/roles/typo3"
+      ]
+    },
+    {
+      "environment_vars": [
+        "BOX_TYPE={{user `box_type`}}",
+        "CLEANUP_PAUSE={{user `cleanup_pause`}}",
+        "UPDATE={{user `update`}}",
+        "INSTALL_VAGRANT_KEY={{user `install_vagrant_key`}}",
+        "SSH_USERNAME={{user `ssh_username`}}",
+        "SSH_PASSWORD={{user `ssh_password`}}",
+        "http_proxy={{user `http_proxy`}}",
+        "https_proxy={{user `https_proxy`}}",
+        "ftp_proxy={{user `ftp_proxy`}}",
+        "rsync_proxy={{user `rsync_proxy`}}",
+        "no_proxy={{user `no_proxy`}}"
+      ],
+      "execute_command": "echo '{{ user `ssh_password` }}' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "scripts": [
+        "scripts/freebsd/minimize.sh",
+        "scripts/freebsd/cleanup.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<esc><wait>",
+        "boot -s<wait>",
+        "<enter><wait>",
+        "<wait10><wait10>",
+        "/bin/sh<enter><wait>",
+        "mdmfs -s 100m md1 /tmp<enter><wait>",
+        "mdmfs -s 100m md2 /mnt<enter><wait>",
+        "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
+        "fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && bsdinstall script /tmp/installerconfig<enter><wait>"
+      ],
+      "hard_drive_interface": "sata",
+      "headless": "{{ user `headless` }}",
+      "boot_wait": "10s",
+      "disk_size": "{{ user `disk_size` }}",
+      "guest_os_type": "Ubuntu_64",
+      "http_directory": "http",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha256",
+      "iso_interface": "sata",
+      "iso_urls": [
+        "{{ user `iso_path` }}/{{ user `iso_name` }}",
+        "{{ user `iso_url` }}"
+      ],
+      "shutdown_command": "su -m root -c 'shutdown -p now'",
+      "ssh_password": "{{ user `ssh_password` }}",
+      "ssh_username": "{{ user `ssh_username` }}",
+      "ssh_wait_timeout": "30m",
+      "ssh_port": 22,
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{ user `memory_size` }}"
+        ]
+      ]
+    },
+    {
+      "type": "vmware-iso",
+      "boot_command": [
+        "<esc><wait>",
+        "boot -s<wait>",
+        "<enter><wait>",
+        "<wait10><wait10>",
+        "/bin/sh<enter><wait>",
+        "mdmfs -s 100m md1 /tmp<enter><wait>",
+        "mdmfs -s 100m md2 /mnt<enter><wait>",
+        "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
+        "fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && bsdinstall script /tmp/installerconfig<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{ user `disk_size` }}",
+      "guest_os_type": "freebsd-64",
+      "headless": "{{ user `headless` }}",
+      "http_directory": "http",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha256",
+      "iso_urls": [
+        "{{ user `iso_path` }}/{{ user `iso_name` }}",
+        "{{ user `iso_url` }}"
+      ],
+      "shutdown_command": "su -m root -c 'shutdown -p now'",
+      "ssh_password": "{{ user `ssh_password` }}",
+      "ssh_username": "{{ user `ssh_username` }}",
+      "ssh_wait_timeout": "30m",
+      "ssh_port": 22,
+      "tools_upload_flavor": "freebsd",
+      "vmx_data": {
+        "memsize": "{{ user `memory_size` }}"
+      }
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": "{{user `compression_level`}}",
+        "override": {
+          "vmware": {
+            "compression_level": 0
+          }
+        },
+        "keep_input_artifact": false,
+        "output": "box/{{.Provider}}/bsd-{{user `box_type`}}-{{user `version`}}.box"
+      }
+    ]
+  ],
+  "variables": {
+    "atlas_username": "Michiel",
+    "atlas_name": "BSD",
+    "box_type": "BSD",
+    "cleanup_pause": "",
+    "compression_level": "7",
+    "custom_script": ".",
+    "disk_size": "40690",
+    "memory_size": "1024",
+    "ftp_proxy": "{{env `ftp_proxy`}}",
+    "headless": "false",
+    "http_proxy": "{{env `http_proxy`}}",
+    "https_proxy": "{{env `https_proxy`}}",
+    "install_vagrant_key": "true",
+    "install_path": "installerconfig.freebsd103",
+    "iso_checksum": "fef068cf6dea26923ab84b62ba9f21461ca0bdec90a0741c8ffb0e1ca29e410d",
+    "iso_name": "FreeBSD-10.3-RELEASE-amd64-disc1.iso",
+    "iso_path": "iso",
+    "iso_url": "http://ftp.freebsd.org/pub/FreeBSD/releases/ISO-IMAGES/10.3/FreeBSD-10.3-RELEASE-amd64-disc1.iso",
+    "no_proxy": "{{env `no_proxy`}}",
+    "rsync_proxy": "{{env `rsync_proxy`}}",
+    "hostname": "vagrant",
+    "ssh_fullname": "vagrant",
+    "ssh_password": "vagrant",
+    "ssh_username": "vagrant",
+    "update": "false",
+    "version": "0.0.1"
+  }
+}

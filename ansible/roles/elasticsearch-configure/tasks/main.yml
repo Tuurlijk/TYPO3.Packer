@@ -3,7 +3,7 @@
   lineinfile: dest=/etc/elasticsearch/elasticsearch.yml regexp="{{ item.regexp }}" line="{{ item.line }}"
   with_items:
     - { regexp: '^script\.disable_dynamic', line: '#script.disable_dynamic: true' }
-    - { regexp: '^network\.host', line: 'network.host: {{ ansible_eth1["ipv4"]["address"] }}' }
+    - { regexp: 'network\.host', line: 'network.host: {{ ansible_eth1["ipv4"]["address"] }}' }
   notify: restart elasticsearch
 
 - name: Start Elasticsearch
