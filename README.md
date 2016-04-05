@@ -8,7 +8,6 @@ This is a box builder for the following projects:
 * https://github.com/Tuurlijk/TYPOTry
 * https://github.com/Tuurlijk/TYPO3.Homestead
 * https://github.com/Tuurlijk/TryNeos
-* https://github.com/Tuurlijk/TYPO3.Review
 
 There are Two Packer configuration files:
 * [Try.json for the TYPOTry and TryNeos boxen](Try.json) - This is a minimal configuration
@@ -38,6 +37,4 @@ If you have an [atlas account](https://atlas.hashicorp.com/) you can push a new 
 
 ```packer push Development.json```
 
-Before pushing a new build to atlas, take care to update the build version numbe in the respective packer json file.
-# TODO
-* Make pretty /etc/issue
+Before pushing a new build to atlas, take care to update the build version number in the respective packer json file.
