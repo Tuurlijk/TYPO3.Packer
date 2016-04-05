@@ -4,8 +4,9 @@ echo "==> Setup NTP";
 # Set the time correctly
 ntpdate -v -b in.pool.ntp.org;
 
-echo "==> Install curl, ca_root_nss and sudo";
-# Install sudo, curl and ca_root_nss
+echo "==> Install bash, curl, ca_root_nss and sudo";
+# Install sudo, bash, curl and ca_root_nss
+pkg install -y bash;
 pkg install -y curl;
 #pkg install -y -q ca_root_nss;
 pkg install -y sudo;
