@@ -1,0 +1,92 @@
+---
+
+nginx_sites:
+  local.typo3.org:
+    - set $upstream php
+    - listen 80 default_server
+    - server_name _
+    - root "{{ typo3_webroot }}/local.typo3.org/"
+    - "{{ nginx_fastcgi }}"
+  local.typo3.org.ssl:
+    - set $upstream php
+    - listen 443 default_server
+    - server_name _
+    - root "{{ typo3_webroot }}/local.typo3.org/"
+    - "{{ nginx_fastcgi }}"
+    - ssl on
+    - ssl_certificate /etc/ssl/certs/local.typo3.org.crt
+    - ssl_certificate_key /etc/ssl/private/local.typo3.org.key
+  local.neos.io:
+    - set $upstream php
+    - listen 80
+    - server_name local.neos.io
+    - root "{{ typo3_webroot }}/local.neos.io/"
+    - "{{ nginx_fastcgi }}"
+  local.neos.io.ssl:
+    - set $upstream php
+    - listen 443
+    - server_name local.neos.io
+    - root "{{ typo3_webroot }}/local.neos.io/"
+    - "{{ nginx_fastcgi }}"
+    - ssl on
+    - ssl_certificate /etc/ssl/certs/local.neos.io.crt
+    - ssl_certificate_key /etc/ssl/private/local.neos.io.key
+  typo3.cms:
+    - set $upstream php
+    - server_name ~(?<version>(6|7)\\.\d\\.\d\d?)\.local.typo3.org$
+    - root "{{ typo3_webroot }}${version}.local.typo3.org/";
+    - error_page 404 = @404
+    - "{{ nginx_typo3_404_redirect }}"
+    - "{{ nginx_typo3_fastcgi }}"
+  typo3.cms.ssl:
+    - set $upstream php
+    - listen 443
+    - server_name ~(?<version>(6|7)\\.\d\\.\d\d?)\.local.typo3.org$
+    - root "{{ typo3_webroot }}${version}.local.typo3.org/";
+    - ssl on
+    - ssl_certificate /etc/ssl/certs/local.typo3.org.crt
+    - ssl_certificate_key /etc/ssl/private/local.typo3.org.key
+    - error_page 404 = @404
+    - "{{ nginx_typo3_404_redirect }}"
+    - "{{ nginx_typo3_fastcgi }}"
+  typo3.cms.8:
+    - set $upstream php70
+    - server_name ~(?<version>(8)\\.\d\\.\d\d?)\.local.typo3.org$
+    - root "{{ typo3_webroot }}${version}.local.typo3.org/";
+    - error_page 404 = @404
+    - "{{ nginx_typo3_404_redirect }}"
+    - "{{ nginx_typo3_fastcgi }}"
+  typo3.cms.ssl.8:
+    - set $upstream php70
+    - listen 443
+    - server_name ~(?<version>(8)\\.\d\\.\d\d?)\.local.typo3.org$
+    - root "{{ typo3_webroot }}${version}.local.typo3.org/";
+    - ssl on
+    - ssl_certificate /etc/ssl/certs/local.typo3.org.crt
+    - ssl_certificate_key /etc/ssl/private/local.typo3.org.key
+    - error_page 404 = @404
+    - "{{ nginx_typo3_404_redirect }}"
+    - "{{ nginx_typo3_fastcgi }}"
+  neos.cms:
+    - set $upstream php
+    - server_name ~(?<version>.*)\.local.neos.io$
+    - root "{{ typo3_webroot }}${version}.local.neos.io/Web/";
+    - error_page 404 = @404
+    - "{{ nginx_neos_404_redirect }}"
+    - "{{ nginx_neos_resources }}"
+    - "{{ nginx_neos_fastcgi }}"
+  neos.cms.ssl:
+    - set $upstream php
+    - listen 443
+    - server_name ~(?<version>.*)\.local.neos.io$
+    - root "{{ typo3_webroot }}${version}.local.neos.io/Web/";
+    - ssl on
+    - ssl_certificate /etc/ssl/certs/local.neos.io.crt
+    - ssl_certificate_key /etc/ssl/private/local.neos.io.key
+    - error_page 404 = @404
+    - "{{ nginx_neos_404_redirect }}"
+    - "{{ nginx_neos_resources }}"
+    - "{{ nginx_neos_fastcgi }}"
+  mail:
+    - server_name mail.local.typo3.org
+    - location / { proxy_set_header X-Real-IP $remote_addr; proxy_set_header Host $http_host; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; proxy_pass http://127.0.0.1:8025; }

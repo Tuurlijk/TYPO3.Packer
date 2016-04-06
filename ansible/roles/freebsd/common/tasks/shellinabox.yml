@@ -1,0 +1,19 @@
+---
+
+- name: Install shell in a box
+  apt: pkg=shellinabox state=latest
+
+- name: Configure shell in a box
+  lineinfile: >
+    dest=/etc/default/shellinabox
+    regexp="^SHELLINABOX_ARGS="
+    line="SHELLINABOX_ARGS=\"-t -s /:vagrant:vagrant:/var/www:/bin/zsh --css=/etc/shellinabox/style.css --static-file=/etc/shellinabox/terminal.png:favicon.ico\""
+    backrefs=yes
+  notify:
+  - restart shellinabox
+
+- name: Copy shell in a box style.css
+  copy: src=shellinabox/style.css dest=/etc/shellinabox/style.css force=no
+  notify:
+  - restart shellinabox
+

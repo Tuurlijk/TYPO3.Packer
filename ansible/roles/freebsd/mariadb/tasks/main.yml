@@ -1,0 +1,75 @@
+---
+
+- name: Install MariaDB Packages
+  pkgng: name={{ item }} state=present
+  with_items:
+    - mariadb55-server
+
+- name: enable and start mysql-server
+  action: service name=mysql-server enabled=yes state=started
+
+- name: Install py-MySQLdb port
+  portinstall: name=databases/py-MySQLdb state=present
+
+- name: Set the MySQL root password
+  mysql_user: user=root
+              password={{ mariadb.root_password }}
+              host={{ item }}
+  with_items:
+    - 127.0.0.1
+    - ::1
+    - localhost
+  tags: test
+
+- name: Setup MySQL credentials for root user
+  template: src=mysql.conf.j2 dest=~/.my.cnf owner=root mode=0600
+  tags: test
+
+- name: Setup MySQL credentials for vagrant user
+  template: src=mysql.conf.j2 dest=/home/vagrant/.my.cnf owner=vagrant mode=0600
+  tags: test
+
+- name: Delete blank MySQL users
+  mysql_user: name="" host={{ item }} state=absent
+  with_items:
+    - 127.0.0.1
+    - ::1
+    - localhost
+  tags: test
+
+- name: Drop MySQL test database
+  mysql_db: name=test state=absent
+  tags: test
+
+- name: Update root password for all root accounts
+  mysql_user: name=root host={{ item }} check_implicit_admin=yes password={{ mariadb.root_password }} login_user=root login_password={{ mariadb.root_password }}
+  with_items:
+    - 127.0.0.1
+    - ::1
+    - localhost
+  tags: test
+
+#- name: Customize MySQL configuration file - tmpdir to ramdisk
+#  lineinfile: dest={{ mariadb.conf_path }} regexp="^tmpdir\s*=\s/tmp" line="tmpdir = /run/shm" backrefs=yes
+#  notify:
+#   - restart mysql
+#
+#- name: Customize MySQL configuration file - utf-8 character-set
+#  lineinfile: dest={{ mariadb.conf_path }} line="character-set-server = utf8" insertafter="^skip-external-locking"
+#  notify:
+#   - restart mysql
+#
+#- name: Customize MySQL configuration file - utf-8 collation
+#  lineinfile: dest={{ mariadb.conf_path }} line="collation-server = utf8_general_ci" insertafter="^character-set-server.*"
+#  notify:
+#   - restart mysql
+#
+#- name: Customize MySQL configuration file - disable bin_log
+#  lineinfile: dest={{ mariadb.conf_path }} regexp="^(log_bin\s*=\s*.*)" line="#\1" backrefs=yes
+#  notify:
+#   - restart mysql
+#
+#- name: Customize MySQL configuration file - disable bin_log_index
+#  lineinfile: dest={{ mariadb.conf_path }} regexp="^(log_bin_index\s*=\s*.*)" line="#\1" backrefs=yes
+#  notify:
+#   - restart mysql

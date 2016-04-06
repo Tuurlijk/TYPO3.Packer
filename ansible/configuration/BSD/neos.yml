@@ -1,0 +1,6 @@
+---
+
+neos:
+  sites:
+    2.0.6.local.neos.io: '2.0.6'
+    2.1.2.local.neos.io: '2.1.2'

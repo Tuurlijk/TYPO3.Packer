@@ -1,0 +1,15 @@
+---
+
+typo3_org_username: nobody
+
+typo3_composer_install_dev: 'no'
+
+typo3:
+  cms:
+    sites:
+      6.2.19.local.typo3.org: '6.2.19'
+      7.6.4.local.typo3.org: '7.6.4'
+      8.0.0.local.typo3.org: '8.0.0'
+    extensions:
+      enabled:
+        - scheduler

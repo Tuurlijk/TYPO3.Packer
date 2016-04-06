@@ -2,3 +2,13 @@
 - hosts: all
   gather_facts: true
   sudo: yes
+  vars_files:
+    - configuration/BSD/main.yml
+    - configuration/BSD/nginx.yml
+    - configuration/BSD/php.yml
+    - configuration/BSD/websites.yml
+    - configuration/BSD/neos.yml
+    - configuration/BSD/typo3.yml
+  roles:
+    - { role: freebsd/common,    tags: common }
+    - { role: freebsd/mariadb,    tags: mariadb }
