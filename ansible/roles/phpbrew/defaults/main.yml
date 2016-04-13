@@ -27,3 +27,4 @@ php_brew_extensions:
   - redis
   - gd
   - iconv
+  - xdebug
