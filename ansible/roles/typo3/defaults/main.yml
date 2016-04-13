@@ -7,6 +7,8 @@
 
   typo3_composer_install_dev: 'no'
 
+  typo3_composer_preferred_install: 'dist'
+
   # Workaround variable to get a left curly brace next to a pound into a template file
   typo3_left_curly_brace: '{'
 

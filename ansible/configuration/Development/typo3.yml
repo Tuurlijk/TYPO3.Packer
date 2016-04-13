@@ -4,14 +4,16 @@ typo3_org_username: nobody
 
 typo3_composer_install_dev: 'yes'
 
+typo3_composer_preferred_install: 'source'
+
 typo3:
   cms:
     sites:
       6.2.local.typo3.org: '6.2.*'
       7.6.local.typo3.org: '7.6.*'
       8.0.local.typo3.org: '8.0.*'
-      review.local.typo3.org: 'dev-master as 8.0.x-dev'
-      dev-master.local.typo3.org: 'dev-master as 8.0.x-dev'
+      review.local.typo3.org: 'dev-master as 8.0.2'
+      dev-master.local.typo3.org: 'dev-master as 8.0.2'
     extensions:
       enabled:
         - scheduler

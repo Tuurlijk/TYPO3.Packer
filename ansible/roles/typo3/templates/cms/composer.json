@@ -34,7 +34,7 @@
     "git-clone-depth": 100,
     "process-timeout": 900,
     "bin-dir": "bin",
-    "preferred-install": "source",
+    "preferred-install": "{{ typo3_composer_preferred_install }}",
     "optimize-autoloader": true
   },
   "minimum-stability": "dev",
@@ -82,7 +82,8 @@
     "helhum/typo3-console": "^1.3.0",
     "maxserv/accountmanagement": "*",
     "7elix/styleguide": "*",
-    "typo3-ter/introduction": "^2.2"
+    "typo3-ter/introduction": "^2.2",
+    "typo3-ter/realurl": "^2.0.11"
   },
   "require-dev": {
     "mikey179/vfsStream": "1.6.0",
