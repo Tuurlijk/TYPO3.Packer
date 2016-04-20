@@ -93,6 +93,7 @@ php_opcache_ini:
     value: "1"
 
 php_common_packages:
+  - 'php5.6-bz2'
   - 'php5.6-cli'
   - 'php5.6-curl'
   - 'php5.6-dev'
@@ -105,6 +106,7 @@ php_common_packages:
   - 'php5.6-soap'
   - 'php5.6-xml'
   - 'php5.6-zip'
+  - 'php7.0-bz2'
   - 'php7.0-cli'
   - 'php7.0-curl'
   - 'php7.0-dev'
