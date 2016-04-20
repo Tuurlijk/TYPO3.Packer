@@ -47,9 +47,10 @@
 - include: opcache.yml
   tags: php-opcache
 
-#- include: xdebug.yml
-#  tags: php-xdebug
-#
+- include: xdebug.yml
+  tags: php-xdebug
+  when: context == "Development"
+
 #- name: Enable php modules
 #  command: php5enmod {{ item }}
 #  with_items: php_enabled_modules
@@ -67,3 +68,4 @@
 
 - include: tideways.yml
   tags: php-tideways
+  when: context == "Development"

@@ -1,10 +1,23 @@
 ---
 
-- name: Customize PHP xdebug configuration file
-  lineinfile: dest={{ php_xdebug_ini_path }} line="[xdebug]" insertbefore=BOF state=present
+- name: Install php-xdebug package
+  apt: name=php-xdebug state=present
 
 - name: Customize PHP xdebug configuration file
-  ini_file: dest={{ php_xdebug_ini_path }} section="{{ item.section }}" option="{{ item.option }}" value="{{ item.value }}" backup=yes
-  with_items: php_xdebug_ini
+  lineinfile: dest=/etc/php/{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/mods-available/xdebug.ini line="[xdebug]" insertbefore=BOF state=present
+  with_items:
+    - "{{ php_ondrej_versions }}"
+
+- name: Customize PHP xdebug configuration file some more
+  ini_file: >
+    dest=/etc/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/mods-available/xdebug.ini
+    section="{{ item[1].section }}"
+    option="{{ item[1].option }}"
+    value="{{ item[1].value }}"
+    backup=yes
+  with_nested:
+    - "{{ php_ondrej_versions }}"
+    - "{{ php_xdebug_ini }}"
   notify:
    - restart php services
+  ignore_errors: yes
