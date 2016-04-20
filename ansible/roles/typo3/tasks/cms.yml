@@ -208,7 +208,7 @@
 
 - name: Enable install tool for CMS Sources
   become: vagrant
-  copy: src=ENABLE_INSTALL_TOOL {{ typo3_webroot }}{{ item.key }}/typo3conf/ENABLE_INSTALL_TOOL force=no
+  copy: src=ENABLE_INSTALL_TOOL dest={{ typo3_webroot }}{{ item.key }}/typo3conf/ENABLE_INSTALL_TOOL force=no
   with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-installtool
 
