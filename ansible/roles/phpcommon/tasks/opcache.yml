@@ -13,3 +13,18 @@
   notify:
    - restart php services
   ignore_errors: yes
+
+- name: Disable PHP Opcache in Development context
+  ini_file: >
+    dest=/etc/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/mods-available/opcache.ini
+    section="opcache"
+    option="opcache.enable"
+    value="0"
+    backup=yes
+  with_nested:
+    - "{{ php_ondrej_versions }}"
+    - "{{ php_opcache_ini }}"
+  notify:
+   - restart php services
+  ignore_errors: yes
+  when: context == "Development"
