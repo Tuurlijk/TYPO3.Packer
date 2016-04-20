@@ -24,17 +24,24 @@
   with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-directories
 
-- name: Add typo3_console composer.json to TYPO3 CMS 6.x web roots
+- name: Add typo3_console composer.6.x.json to TYPO3 CMS 6.x web roots
   become: vagrant
   template: src=cms/composer.6.x.json dest={{ typo3_webroot }}{{ item.key }}/composer.json
   when: item.key | match('^6\\.\d\\.')
   with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-composer
 
-- name: Add typo3_console composer.json to TYPO3 CMS 7.2 and up web roots
+- name: Add typo3_console composer.7.x.json to TYPO3 CMS 7.x web roots
+  become: vagrant
+  template: src=cms/composer.7.x.json dest={{ typo3_webroot }}{{ item.key }}/composer.json
+  when: item.key | match('^(7\\.\d)\\.')
+  with_dict: "{{typo3.cms.sites }}"
+  tags: typo3-cms-composer
+
+- name: Add typo3_console composer.json to TYPO3 CMS 8.x and up web roots
   become: vagrant
   template: src=cms/composer.json dest={{ typo3_webroot }}{{ item.key }}/composer.json
-  when: item.key | match('^((7|8)\\.\d|dev-master|master|review)\\.')
+  when: item.key | match('^(8\\.\d|dev-master|master|review)\\.')
   with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-composer
 
@@ -196,11 +203,12 @@
   lineinfile: dest={{ typo3_webroot }}{{ item.key }}/typo3conf/AdditionalConfiguration.php line="$GLOBALS['TYPO3_CONF_VARS']['SYS']['displayErrors'] = TRUE;" insertafter="<\?php"
   when: item.key | match('^((6|7|8)\\.\d|dev-master|master|review)\\.')
   with_dict: "{{typo3.cms.sites }}"
+  when: context == "Development"
   tags: typo3-cms-localconf
 
 - name: Enable install tool for CMS Sources
   become: vagrant
-  file: path={{ typo3_webroot }}{{ item.key }}/typo3conf/ENABLE_INSTALL_TOOL state=touch mode=0664
+  copy: src=ENABLE_INSTALL_TOOL {{ typo3_webroot }}{{ item.key }}/typo3conf/ENABLE_INSTALL_TOOL force=no
   with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-installtool
 
