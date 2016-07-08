@@ -9,7 +9,7 @@ nginx_sites:
     - "{{ nginx_fastcgi }}"
   local.typo3.org.ssl:
     - set $upstream php
-    - listen 443 default_server
+    - listen 443 default_server http2
     - server_name _
     - root "{{ typo3_webroot }}/local.typo3.org/"
     - "{{ nginx_fastcgi }}"
@@ -24,7 +24,7 @@ nginx_sites:
     - "{{ nginx_fastcgi }}"
   local.neos.io.ssl:
     - set $upstream php
-    - listen 443
+    - listen 443 http2
     - server_name local.neos.io
     - root "{{ typo3_webroot }}/local.neos.io/"
     - "{{ nginx_fastcgi }}"
@@ -40,6 +40,7 @@ nginx_sites:
     - "{{ nginx_typo3_fastcgi }}"
   typo3.cms.ssl:
     - set $upstream php
+    - listen 443 http2
     - listen 443
     - server_name ~(?<version>(6|7)\\.\d\\.\d\d?)\.local.typo3.org$
     - root "{{ typo3_webroot }}${version}.local.typo3.org/";
@@ -58,7 +59,7 @@ nginx_sites:
     - "{{ nginx_typo3_fastcgi }}"
   typo3.cms.ssl.8:
     - set $upstream php70
-    - listen 443
+    - listen 443 http2
     - server_name ~(?<version>(8)\\.\d\\.\d\d?)\.local.typo3.org$
     - root "{{ typo3_webroot }}${version}.local.typo3.org/";
     - ssl on
@@ -80,7 +81,7 @@ nginx_sites:
     - location / { proxy_set_header X-Real-IP $remote_addr; proxy_set_header Host $http_host; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; proxy_pass http://127.0.0.1:8025; }
   neos.cms.ssl:
     - set $upstream php
-    - listen 443
+    - listen 443 http2
     - server_name ~(?<version>.*)\.local.neos.io$
     - root "{{ typo3_webroot }}${version}.local.neos.io/Web/";
     - ssl on

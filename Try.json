@@ -233,6 +233,6 @@
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "version": "0.3.00"
+    "version": "0.3.2"
   }
 }
