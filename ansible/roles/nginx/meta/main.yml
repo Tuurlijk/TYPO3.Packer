@@ -26,6 +26,7 @@ galaxy_info:
       - raring
       - saucy
       - trusty
+      - xenial
    - name: FreeBSD
      versions:
       - 10.0

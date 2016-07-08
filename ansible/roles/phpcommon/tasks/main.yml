@@ -17,7 +17,7 @@
 - name: Create php xml module symlinks
   file: >
     src=/etc/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/mods-available/xml.ini
-    dest=/etc/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/{{ item[1] }}/conf.d/20-xml.ini
+    dest=/etc/php/{{ item[0] | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/{{ item[1] }}/conf.d/15-xml.ini
     state=link
     force=yes
     backup=no

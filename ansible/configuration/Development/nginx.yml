@@ -37,6 +37,7 @@ nginx_fastcgi: |
     fastcgi_pass  $upstream;
     fastcgi_index index.php;
     include       fastcgi_params;
+    fastcgi_param DTAP D;
     fastcgi_param TYPO3_CONTEXT Development;
     fastcgi_param FLOW_CONTEXT Development;
     fastcgi_param FLOW_REWRITEURLS 1;
@@ -66,6 +67,7 @@ nginx_typo3_fastcgi: |
     fastcgi_pass  $upstream;
     fastcgi_index index.php;
     include       fastcgi_params;
+    fastcgi_param DTAP D;
     fastcgi_param TYPO3_CONTEXT Development;
     fastcgi_param FLOW_CONTEXT Development;
     fastcgi_param FLOW_REWRITEURLS 1;

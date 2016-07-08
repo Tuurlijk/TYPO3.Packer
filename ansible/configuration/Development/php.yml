@@ -11,7 +11,9 @@ php_ondrej_versions:
 
 php_ondrej_apt_packages:
   - 'php5.6'
+  - 'php5.6-fpm'
   - 'php7.0'
+  - 'php7.0-fpm'
 
 php_ondrej_pool_defaults:
   chdir: /

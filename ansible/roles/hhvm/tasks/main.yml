@@ -3,7 +3,7 @@
   tags: hhvm
 
 - name: Add HHVM repository
-  apt_repository: repo='deb http://dl.hhvm.com/ubuntu trusty main'
+  apt_repository: repo='deb http://dl.hhvm.com/ubuntu xenial main'
   tags: hhvm
 
 - name: Setup hhvm init script

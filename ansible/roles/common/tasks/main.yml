@@ -6,10 +6,10 @@
 - name: Setup ubuntu mirrors
   lineinfile: dest=/etc/apt/sources.list line="deb mirror://mirrors.ubuntu.com/mirrors.txt {{ item }} main restricted universe multiverse" insertbefore=BOF state=present
   with_items:
-    - trusty
-    - trusty-updates
-    - trusty-backports
-    - trusty-security
+    - xenial
+    - xenial-updates
+    - xenial-backports
+    - xenial-security
 
 - name: Update apt package lists
   apt:
@@ -38,7 +38,6 @@
   with_items:
     - "ppa:nginx/development"
     - "ppa:ondrej/php"
-    - "ppa:chris-lea/node.js"
 
 - name: Update apt
   apt: update_cache=yes
