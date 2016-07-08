@@ -45,14 +45,14 @@
   with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-composer
 
-- name: Composer install typo3_console for TYPO3 CMS 6.x and 7.x web roots | non dev
+- name: Composer install typo3_console for TYPO3 CMS 6.x, 7.x and 8.x web roots | non dev
   become: vagrant
   composer: command=install working_dir={{ typo3_webroot }}{{ item.key }} prefer_dist="yes"
   when: item.key | match('^((6|7|8)\\.\d|dev-master|master|review)\\.') and (typo3_composer_install_dev == "no")
   with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-composer
 
-- name: Composer install typo3_console for TYPO3 CMS 6.x and 7.x web roots | dev
+- name: Composer install typo3_console for TYPO3 CMS 6.x, 7.x and 8.x web roots | dev
   become: vagrant
   composer: command=install working_dir={{ typo3_webroot }}{{ item.key }} no_dev="no"
   when: item.key | match('^((6|7|8)\\.\d|dev-master|master|review)\\.') and (typo3_composer_install_dev == "yes")
@@ -68,7 +68,7 @@
 
 - name: typo3_console installation of TYPO3
   become: vagrant
-  shell: if [ ! -f {{ typo3_webroot }}{{ item.key }}/typo3conf/LocalConfiguration.php ]; then cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms install:setup --non-interactive --database-user-name=typo3 --database-user-password="{{ mariadb.password }}" --database-host-name=localhost --database-port=3306 --database-name="{{ item.key | regex_replace('\.', '_') }}" --database-create=0 --admin-user-name=admin --admin-password="{{ mariadb.password }}" --site-name="TYPO3"; fi
+  shell: if [ ! -f {{ typo3_webroot }}{{ item.key }}/typo3conf/LocalConfiguration.php ]; then cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms install:setup --non-interactive --database-user-name=typo3 --database-user-password="{{ mariadb.password }}" --database-host-name=localhost --database-port=3306 --database-name="{{ item.key | regex_replace('\.', '_') }}" --database-create=0 --use-existing-database --admin-user-name=admin --admin-password="{{ mariadb.password }}" --site-name="TYPO3"; fi
   when: item.key | match('^((6|7|8)\\.\d|dev-master|master|review)\\.')
   with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
@@ -87,7 +87,7 @@
   when: item.key | match('^((6|7|8)\\.\d|dev-master|master|review)\\.')
   with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
-  tags: typo3-cms-composer
+  tags: typo3-console
 
 - name: typo3_console install extension accountmanagement
   become: vagrant
@@ -95,6 +95,7 @@
   when: item.key | match('^((6|7|8)\\.\d|dev-master|master|review)\\.')
   with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
+  tags: typo3-console
 
 - name: typo3_console create _cli_scheduler user
   become: vagrant
@@ -102,6 +103,7 @@
   when: item.key | match('^((6|7|8)\\.\d|dev-master|master|review)\\.')
   with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
+  tags: typo3-console
 
 - name: typo3_console install extensions
   become: vagrant
@@ -111,6 +113,7 @@
     - "{{ typo3.cms.sites.keys() }}"
     - "{{ typo3.cms.extensions.enabled }}"
   ignore_errors: yes
+  tags: typo3-console
 
 - name: typo3_console uninstall extensions
   become: vagrant
@@ -120,6 +123,7 @@
     - "{{ typo3.cms.sites.keys() }}"
     - "{{ typo3.cms.extensions.disabled }}"
   ignore_errors: yes
+  tags: typo3-console
 
 - name: typo3_console update distribution list
   become: vagrant
@@ -127,6 +131,7 @@
   when: item.key | match('^((6|7|8)\\.\d|dev-master|master|review)\\.')
   with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
+  tags: typo3-console
 
 - name: typo3_console install introduction distribution
   become: vagrant
@@ -134,6 +139,7 @@
   when: item.key | match('^((6|7|8)\\.\d|dev-master|master|review)\\.')
   with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
+  tags: typo3-console
 
 - name: Setup git push for typo3_console CMS Sources
   become: vagrant
