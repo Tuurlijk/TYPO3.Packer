@@ -41,7 +41,6 @@ nginx_sites:
   typo3.cms.ssl:
     - set $upstream php
     - listen 443 http2
-    - listen 443
     - server_name ~(?<version>(6|7)\\.\d\\.\d\d?)\.local.typo3.org$
     - root "{{ typo3_webroot }}${version}.local.typo3.org/";
     - ssl on

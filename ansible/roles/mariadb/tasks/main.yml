@@ -43,15 +43,15 @@
   notify:
    - restart mysql
 
-- name: Customize MySQL configuration file - utf-8 character-set
-  lineinfile: dest={{ mariadb.conf_path }} line="character-set-server = utf8" insertafter="^skip-external-locking"
-  notify:
-   - restart mysql
+#- name: Customize MySQL configuration file - utf-8 character-set
+#  lineinfile: dest={{ mariadb.conf_path }} line="character-set-server = utf8" insertafter="^skip-external-locking"
+#  notify:
+#   - restart mysql
 
-- name: Customize MySQL configuration file - utf-8 collation
-  lineinfile: dest={{ mariadb.conf_path }} line="collation-server = utf8_general_ci" insertafter="^character-set-server.*"
-  notify:
-   - restart mysql
+#- name: Customize MySQL configuration file - utf-8 collation
+#  lineinfile: dest={{ mariadb.conf_path }} line="collation-server = utf8_general_ci" insertafter="^skip-external-locking"
+#  notify:
+#   - restart mysql
 
 - name: Customize MySQL configuration file - disable bin_log
   lineinfile: dest={{ mariadb.conf_path }} regexp="^(log_bin\s*=\s*.*)" line="#\1" backrefs=yes

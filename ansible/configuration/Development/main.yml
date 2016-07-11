@@ -7,4 +7,4 @@ authorized_keys: {}
 context: Development
 
 __java_packages:
-  - openjdk-7-jre-headless
+  - openjdk-8-jre-headless

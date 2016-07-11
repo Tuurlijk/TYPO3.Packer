@@ -4,7 +4,7 @@ php_brew_enable: no
 
 php_brew_required_packages:
   - 'bison'
-  - 'php5-dev'
+  - 'php-dev'
   - 'libbz2-dev'
   - 'libicu-dev'
   - 'libfreetype6'
