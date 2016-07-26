@@ -43,6 +43,11 @@
   notify:
    - restart mysql
 
+- name: Disable plugin for root user so vagrant user can login as root
+  command: mysql --user=root --password={{ mariadb.root_password }} mysql --execute="UPDATE user SET Plugin = ''"
+  notify:
+   - restart mysql
+
 #- name: Customize MySQL configuration file - utf-8 character-set
 #  lineinfile: dest={{ mariadb.conf_path }} line="character-set-server = utf8" insertafter="^skip-external-locking"
 #  notify:
