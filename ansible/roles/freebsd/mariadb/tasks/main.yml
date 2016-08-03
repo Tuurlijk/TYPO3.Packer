@@ -9,7 +9,7 @@
   action: service name=mysql-server enabled=yes state=started
 
 - name: Install py-MySQLdb port
-  portinstall: name=databases/py-MySQLdb state=present
+  easy_install: name=MySQL-python state=present
 
 - name: Set the MySQL root password
   mysql_user: user=root
