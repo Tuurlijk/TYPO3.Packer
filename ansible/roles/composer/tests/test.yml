@@ -1,6 +1,7 @@
----
 # test file for composer
+---
 - hosts: localhost
-  remote_user: root
+  connection: local
+  become: true
   roles:
-    - ansible-composer
+    - ../../

@@ -18,7 +18,12 @@ shopt -s expand_aliases;
 alias apt-update='apt-get update -qq';
 alias apt-install='apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"';
 
-apt-update;
-apt-install php5-cli curl;
+# No PHP 5 support in 16.04
+if $(lsb_release -r | grep -q '16.04'); then
+  PHP_VERSION='7.0';
+else
+  PHP_VERSION='5';
+fi
+apt-update && apt-install "php${PHP_VERSION}-cli" curl;
 
 touch /provisioned;

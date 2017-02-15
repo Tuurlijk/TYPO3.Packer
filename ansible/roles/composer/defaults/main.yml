@@ -1,6 +1,5 @@
----
 # defaults file for composer
+---
 composer_install_dir: /usr/local/bin
 composer_self_update: false
 composer_composer_json_map: []
-composer_version: "1.0.0-alpha11"
