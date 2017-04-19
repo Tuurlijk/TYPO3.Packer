@@ -33,8 +33,8 @@
 #  service: name=postfix state=started enabled=yes
 #  tags: [service,postfix]
 
-#- include: ramdisk.yml
-#  tags: ramdisk
+- include: ramdisk.yml
+  tags: ramdisk
 
 - include: ssh.yml
   tags: ssh
@@ -42,14 +42,14 @@
 #- include: ssl.yml
 #  tags: ssl
 
-#- include: zsh.yml
-#  when: homestead.use_zsh
-#  tags: zsh
+- include: zsh.yml
+  when: homestead.use_zsh
+  tags: zsh
 
 #- include: rabbitmq.yml
 #  tags: rabbitmq
 #  when: context == "Development"
 
-#- include: shellinabox.yml
-#  tags: shellinabox
-#  when: context == "Development"
+- include: shellinabox.yml
+  tags: shellinabox
+  when: context == "Development"

@@ -91,5 +91,10 @@
     "7elix/styleguide": "~8.0.0",
     "site5/phantoman": "^1.0",
     "jakoch/phantomjs-installer": "2.1.1-p01"
+  },
+  "extra": {
+    "typo3/cms": {
+      "web-dir": ""
+    }
   }
 }

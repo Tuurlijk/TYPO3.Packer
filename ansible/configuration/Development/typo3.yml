@@ -12,8 +12,8 @@ typo3:
       6.2.local.typo3.org: '6.2.*'
       7.6.local.typo3.org: '7.6.*'
       8.2.local.typo3.org: '8.2.*'
-      review.local.typo3.org: 'dev-master as 8.2.1'
-      dev-master.local.typo3.org: 'dev-master as 8.2.1'
+      review.local.typo3.org: 'dev-master as 8.2.2'
+      dev-master.local.typo3.org: 'dev-master as 8.2.2'
     extensions:
       enabled:
         - scheduler

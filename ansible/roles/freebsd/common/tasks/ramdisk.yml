@@ -1,16 +1,16 @@
 ---
 
 - name: Make fstab entry for php sessions ramdisk
-  mount: name=/var/lib/php/sessions src=tmpfs fstype=tmpfs opts='atime,nosuid,nodev,size=10m' state=mounted
+  mount: name=/var/lib/php/sessions src=tmpfs fstype=tmpfs opts='rw,nosuid,size=10m' state=mounted
 
 - name: Create mountpoint for TYPO3 ramdisk
-  file: path=/mnt/typo3cache state=directory owner=vagrant group={{nginx_group}} mode=0755
+  file: path=/mnt/typo3cache state=directory owner=vagrant group={{nginx_user}} mode=0755
 
 - name: Make fstab entry for TYPO3 ramdisk
-  mount: name=/mnt/typo3cache src=ramfs fstype=ramfs opts=noatime,nosuid,nodev state=mounted
+  mount: name=/mnt/typo3cache src=tmpfs fstype=tmpfs opts='rw,nosuid,size=100m' state=mounted
 
 - name: Create mountpoint for NEOS ramdisk
-  file: path=/mnt/neoscache state=directory owner=vagrant group={{nginx_group}} mode=0755
+  file: path=/mnt/neoscache state=directory owner=vagrant group={{nginx_user}} mode=0755
 
 - name: Make fstab entry for NEOS ramdisk
-  mount: name=/mnt/neoscache src=ramfs fstype=ramfs opts=noatime,nosuid,nodev state=mounted
+  mount: name=/mnt/neoscache src=tmpfs fstype=tmpfs opts='rw,nosuid,size=100m' state=mounted

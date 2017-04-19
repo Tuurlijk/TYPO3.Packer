@@ -1,8 +1,8 @@
 - name: Setup zsh
-  apt: pkg=zsh state=latest
+  pkgng: name=zsh state=present
 
 - name: Set zsh to be the login shell
-  user: name=vagrant shell=/bin/zsh
+  user: name=vagrant shell=/usr/local/bin/zsh
 
 - name: Clone Prezto
   become: vagrant
