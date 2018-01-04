@@ -37,7 +37,11 @@ elsif host =~ /linux/
 	cpus = `nproc`.to_i
 	# meminfo shows KB and we need to convert to MB
 	mem = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 4
-else # sorry Windows folks, I can't help you
+elsif host =~ /mswin|mingw|cygwin/
+	cpus = ENV['NUMBER_OF_PROCESSORS'].to_i
+	# wmic returns Bytes and we need to convert to MB
+	mem = `wmic computersystem get TotalPhysicalMemory /Value`.sub!(/TotalPhysicalMemory=(\d+)/m, '\1').to_i / 1024 /  1024 / 4
+else # sorry other folks, I can't help you
 	cpus = 1
 	mem = 1024
 end
@@ -58,7 +62,7 @@ PRIVATE_NETWORK = configuration['private_interface'] || '192.168.144.120'
 FORWARD = configuration['forward_ports'] || 0
 
 # Boot timeout
-BOOT_TIMEOUT = configuration['boot_timeout'] || 180
+BOOT_TIMEOUT = configuration['boot_timeout'] || 600
 
 # Boot the box with the gui enabled
 DEBUG = !!configuration['debug'] || false
@@ -76,26 +80,7 @@ DEBUG = !!configuration['debug'] || false
 
 $script = <<SCRIPT
 echo "============================================================="
-echo "All done! You can now try any of these sites:"
-echo " "
-echo "TYPO3 (admin / supersecret)"
-echo "http://6.2.local.typo3.org/typo3/"
-echo "http://7.6.local.typo3.org/typo3/"
-echo "http://dev-master.local.typo3.org/typo3/"
-echo " "
-echo "NEOS (admin / supersecret)"
-echo "http://1.2.local.neos.io/neos/"
-echo "http://2.0.local.neos.io/neos/"
-echo "http://dev-master.local.neos.io/neos/"
-echo " "
-echo "MailCatcher"
-echo "http://local.typo3.org:1080/"
-echo " "
-echo "ElasticSearch"
-echo "http://local.typo3.org:9200/"
-echo " "
-echo "XHProf GUI"
-echo "http://xhprof.local.typo3.org/"
+echo "All done!"
 echo "============================================================="
 SCRIPT
 
@@ -103,7 +88,7 @@ SCRIPT
 VAGRANTFILE_API_VERSION = 2
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-	config.vm.box = 'Michiel/Try'
+	config.vm.box = 'Alpine-Test'
 	config.vm.boot_timeout = BOOT_TIMEOUT
 # If you have no Internet access (can not resolve *.local.typo3.org), you can use host aliases:
 # 	config.hostsupdater.aliases = [
@@ -120,11 +105,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	end
 
 	# SSH
-	config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'" # avoids 'stdin: is not a tty' error.
+	config.ssh.shell = "ash -c 'ASH_ENV=/etc/profile exec ash'" # avoids 'stdin: is not a tty' error.
 	config.ssh.forward_agent = true
-	# 	config.vm.provision "shell", inline: "echo -e '#{File.read("#{Dir.home}/.ssh/id_rsa")}' > '/home/vagrant/.ssh/id_rsa'"
-	# 	config.ssh.username = "root"
-	# 	config.ssh.private_key_path = "phusion.key"
+
+	# Do not auto-update the guest box additions
+	if Vagrant.has_plugin?("vagrant-vbguest")
+		config.vbguest.auto_update = false
+  end
 
 	# Virtualbox
 	config.vm.provider :virtualbox do |vb|
@@ -135,7 +122,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
 		vb.customize ["modifyvm", :id, "--pae", "on"]
 		vb.customize ["modifyvm", :id, "--cpus", CORES.to_i]
-		vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
+		vb.customize ["modifyvm", :id, "--ostype", "Linux26_64"]
 
 		# If more cpu's are requested than are available; enable ioapic
 		if CORES.to_i > cpus
@@ -145,7 +132,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	# Vmware Fusion
 	config.vm.provider :vmware_fusion do |v, override|
-		override.vm.box = "Michiel/Try"
+		override.vm.box = "Alpine-Test"
 		v.vmx["memsize"] = MEMORY.to_i
 		v.vmx["numvcpus"] = CORES.to_i
 	end
@@ -161,7 +148,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	# Ansible | http://docs.ansible.com/playbooks_best_practices.html
 	config.vm.provision "ansible" do |ansible|
 #  		ansible.verbose = "vvv"
-		ansible.playbook = "ansible/Try.yml"
+		ansible.playbook = "ansible/Alpine.yml"
 		ansible.limit = "all"
 		ansible.raw_arguments = ENV['ANSIBLE_ARGS']
 		ansible.extra_vars = {

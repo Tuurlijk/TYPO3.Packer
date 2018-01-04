@@ -1,0 +1,46 @@
+---
+
+- name: Install Extra Packages
+  apk: name={{ item }} state=present
+  with_items: "{{ sys_packages }}"
+
+- name: Set the hostname in /etc/hostname
+  shell: echo 'local.typo3.org' > /etc/hostname
+
+- name: Set the hostname
+  command: hostname 'local.typo3.org'
+
+- name: Update /etc/hosts
+  lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' line='127.0.0.1 localhost local.typo3.org' owner=root group=wheel mode=0644
+
+- name: Setup dircolors
+  become: vagrant
+  copy: src=dircolors dest=~/.dircolors force=no
+
+#- name: Setup postfix as a null mailer
+#  copy: src=postfix_main.cf dest=/etc/postfix/main.cf force=no
+#
+#- name: Start the postfix service
+#  service: name=postfix state=started enabled=yes
+#  tags: [service,postfix]
+
+- include_tasks: ramdisk.yml
+  tags: ramdisk
+
+- include_tasks: ssh.yml
+  tags: ssh
+
+#- include: ssl.yml
+#  tags: ssl
+
+- include_tasks: zsh.yml
+  when: homestead.use_zsh
+  tags: zsh
+
+#- include: rabbitmq.yml
+#  tags: rabbitmq
+#  when: context == "Development"
+
+#- include: shellinabox.yml
+#  tags: shellinabox
+#  when: context == "Development"

@@ -1,0 +1,20 @@
+- name: Setup zsh
+  apk: name=zsh state=present
+
+- name: Add shadow package to use chsh
+  apk: name=shadow state=present
+
+- name: Set zsh to be the login shell
+  shell: zsh -c 'echo vagrant | chsh -s /bin/zsh vagrant'
+
+- name: Remove shadow package
+  apk: name=shadow state=absent
+
+- name: Clone dotfiles
+  become: vagrant
+  git: repo=https://github.com/Tuurlijk/dotfiles.git dest=~/dotfiles force=yes
+
+- name: Setup dotfiles
+  become: vagrant
+  shell: ash -c 'cd ~/dotfiles && ./setup.sh && /bin/zsh'
+  ignore_errors: yes
