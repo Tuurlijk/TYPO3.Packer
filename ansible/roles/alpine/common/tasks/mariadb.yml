@@ -24,3 +24,18 @@
 
 - name: Setup MySQL credentials for vagrant user
   template: src=mysql.conf.j2 dest=/home/vagrant/.my.cnf owner=vagrant mode=0600
+
+#- name: Customize MySQL configuration file - tmpdir to ramdisk
+#  lineinfile: dest={{ mariadb.conf_path }} regexp="^#tmpdir\s*=\s/tmp" line="tmpdir = /run/shm" backrefs=yes
+#  notify:
+#   - restart mariadb
+
+- name: Customize MySQL configuration file - disable bin_log
+  lineinfile: dest={{ mariadb.conf_path }} regexp="^(log_bin\s*=\s*.*)" line="#\1" backrefs=yes
+  notify:
+   - restart mariadb
+
+- name: Customize MySQL configuration file - disable bin_log_index
+  lineinfile: dest={{ mariadb.conf_path }} regexp="^(log_bin_index\s*=\s*.*)" line="#\1" backrefs=yes
+  notify:
+   - restart mariadb

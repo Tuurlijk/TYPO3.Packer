@@ -10,3 +10,6 @@
 
 - name: restart shellinabox
   service: name=shellinabox state=restarted enabled=yes
+
+- name: restart mariadb
+  service: name=mariadb state=restarted enabled=yes
