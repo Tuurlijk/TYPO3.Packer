@@ -1,0 +1,26 @@
+---
+
+- name: Install Mariadb client and server
+  apk: pkg={{ item }} state=latest
+  with_items:
+    - mariadb
+    - mariadb-client
+
+- name: Stop Mariadb
+  service: name=mariadb enabled=yes state=stopped
+  ignore_errors: yes
+
+- name: Setup Mariadb
+  shell: /etc/init.d/mariadb setup
+
+- name: Start Mariadb
+  service: name=mariadb enabled=yes state=started
+
+- name: Setup Mariadb
+  shell: echo -e "\ny\n{{ mariadb.root_password }}\n{{ mariadb.root_password }}\ny\ny\ny\ny" | /usr/bin/mysql_secure_installation
+
+- name: Setup MySQL credentials for root user
+  template: src=mysql.conf.j2 dest=~/.my.cnf owner=root mode=0600
+
+- name: Setup MySQL credentials for vagrant user
+  template: src=mysql.conf.j2 dest=/home/vagrant/.my.cnf owner=vagrant mode=0600

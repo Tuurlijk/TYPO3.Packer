@@ -1,7 +1,7 @@
 ---
 
 - name: Install Extra Packages
-  apk: name={{ item }} state=present
+  apk: name={{ item }} state=present update_cache=yes
   with_items: "{{ sys_packages }}"
 
 - name: Set the hostname in /etc/hostname
@@ -32,6 +32,9 @@
 
 #- include: ssl.yml
 #  tags: ssl
+
+- include_tasks: mariadb.yml
+  tags: mariadb
 
 - include_tasks: zsh.yml
   when: homestead.use_zsh

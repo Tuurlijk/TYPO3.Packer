@@ -3,7 +3,7 @@ homestead:
   update_cache: yes
   cache_valid_time: 3600
   upgrade_packages: yes
-  use_zsh: yes
+  use_zsh: no
 
 homestead_ssh_known_hosts:
   - 'git.typo3.org'
@@ -12,21 +12,14 @@ homestead_ssh_known_hosts:
   - '-p 29418 review.typo3.org'
   - '-p 29418 91.184.35.13'
 
+mariadb:
+  conf_path: /etc/mysql/my.cnf
+  root_password: supersecret
+  user: typo3
+  password: supersecret
+  database: db
+
 sys_packages:
-  - 'byobu'
-  - 'coreutils'
   - 'curl'
-  - 'git'
-  - 'htop'
   - 'libmcrypt'
-  - 'multitail'
-  - 'parallel'
-  - 'poppler-utils'
   - 'postfix'
-  - 're2c'
-  - 'unzip'
-  - 'wget'
-  - 'whois'
-  - 'zsh'
-  - 'zsh-vcs'
-  - 'zip'
