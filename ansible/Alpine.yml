@@ -7,6 +7,6 @@
     - configuration/Alpine/nginx.yml
     - configuration/Alpine/typo3.yml
   roles:
+    - { role: alpine/nginx, tags: nginx }
     - { role: alpine/common, tags: common }
-    - { role: alpine/nginx, php7: yes, tags: nginx }
     - { role: typo3, tags: typo3 }

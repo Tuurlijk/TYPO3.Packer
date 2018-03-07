@@ -41,22 +41,22 @@
 #  service: name=postfix state=started enabled=yes
 #  tags: [service,postfix]
 
-- include_tasks: ramdisk.yml
+- include: ramdisk.yml
   tags: ramdisk
 
-- include_tasks: ssh.yml
+- include: ssh.yml
   tags: ssh
 
-- include_tasks: composer.yml
+- include: composer.yml
   tags: composer
 
 #- include: ssl.yml
 #  tags: ssl
 
-- include_tasks: mariadb.yml
+- include: mariadb.yml
   tags: mariadb
 
-- include_tasks: zsh.yml
+- include: zsh.yml
   when: homestead.use_zsh
   tags: zsh
 

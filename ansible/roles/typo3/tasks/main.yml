@@ -33,16 +33,16 @@
   tags: typo3-git-setup
   when: context == "Development"
 
-- include_tasks: defaultSite.yml
+- include: defaultSite.yml
   tags: typo3-defaultSite
 
-- include_tasks: mariadb.yml
+- include: mariadb.yml
   tags: typo3-mariadb
 
-- include_tasks: cms.yml
+- include: cms.yml
   tags: typo3-cms
 
-- include_tasks: cron.yml
+- include: cron.yml
   tags: typo3-cron
 
 - name: Ensure the root user bin dir exists
