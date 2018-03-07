@@ -4,6 +4,23 @@
   apk: name={{ item }} state=present update_cache=yes
   with_items: "{{ sys_packages }}"
 
+- name: Add earth apk repository key
+  get_url: dest=/etc/apk/keys/phpearth.rsa.pub url=https://repos.php.earth/alpine/phpearth.rsa.pub
+
+- name: Test for earth repository
+  shell: grep "^https://repos.php.earth" /etc/apk/repositories | wc -l
+  register: earth_grep
+
+- debug: msg="{{earth_grep.stdout}}"
+
+- name: Add earth repository
+  lineinfile: dest=/etc/apk/repositories line="https://repos.php.earth/alpine/v3.7"
+  when: earth_grep.stdout != ""
+
+- name: Add earth packages
+  apk: name={{ item }} state=latest update_cache=yes
+  with_items: "{{ earth_packages }}"
+
 - name: Set the hostname in /etc/hostname
   shell: echo 'local.typo3.org' > /etc/hostname
 
@@ -29,6 +46,9 @@
 
 - include_tasks: ssh.yml
   tags: ssh
+
+- include_tasks: composer.yml
+  tags: composer
 
 #- include: ssl.yml
 #  tags: ssl

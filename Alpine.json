@@ -1,0 +1,161 @@
+{
+  "variables": {
+    "atlas_username": "{{env `ATLAS_USERNAME`}}",
+    "atlas_name": "{{env `ATLAS_NAME`}}"
+  },
+  "variables": {
+    "atlas_username": "Michiel",
+    "atlas_name": "Alpine",
+    "box_type": "Alpine",
+    "cleanup_pause": "",
+    "compression_level": "7",
+    "custom_script": ".",
+    "disk_size": "3072",
+    "memory_size": "1024",
+    "cpus": "2",
+    "ftp_proxy": "{{env `ftp_proxy`}}",
+    "headless": "false",
+    "http_proxy": "{{env `http_proxy`}}",
+    "https_proxy": "{{env `https_proxy`}}",
+    "install_vagrant_key": "true",
+    "iso_checksum": "5a4b2588afd32e7024dd61d9558b77b03a4f3189cb4c9fc05e9e944fb780acdd",
+    "iso_name": "alpine-virt-3.7.0-x86_64.iso",
+    "iso_path": "iso",
+    "iso_url": "https://nl.alpinelinux.org/alpine/v3.7/releases/x86_64/alpine-virt-3.7.0-x86_64.iso",
+    "no_proxy": "{{env `no_proxy`}}",
+    "rsync_proxy": "{{env `rsync_proxy`}}",
+    "hostname": "vagrant",
+    "ssh_fullname": "root",
+    "ssh_password": "vagrant",
+    "ssh_username": "root",
+    "update": "false",
+    "version": "1.0.2",
+    "shutdown_command": "poweroff"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "root<enter><wait>",
+        "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
+        "mkdir /mnt/floppy && mount -t msdos /dev/fd0 /mnt/floppy<enter>",
+        "setup-alpine -f /mnt/floppy/answers<enter><wait>",
+        "{{ user `ssh_password` }}<enter>",
+        "{{ user `ssh_password` }}<enter>",
+        "y<enter><wait10><wait10><wait10><wait10>",
+        "rc-service sshd stop<enter>",
+        "mkdir /mnt/sda3<enter>",
+        "mount /dev/sda3 /mnt/sda3<enter>",
+        "echo 'PermitRootLogin yes' >> /mnt/sda3/etc/ssh/sshd_config<enter>",
+        "umount /mnt/sda3<enter>",
+        "reboot<enter>"
+      ],
+      "hard_drive_interface": "sata",
+      "headless": "{{ user `headless` }}",
+      "boot_wait": "10s",
+      "disk_size": "{{ user `disk_size` }}",
+      "floppy_files": [
+        "http/answers"
+      ],
+      "guest_os_type": "Linux26_64",
+      "http_directory": "http",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha256",
+      "iso_interface": "sata",
+      "iso_urls": [
+        "{{ user `iso_path` }}/{{ user `iso_name` }}",
+        "{{ user `iso_url` }}"
+      ],
+      "shutdown_command": "{{user `shutdown_command`}}",
+      "ssh_password": "{{ user `ssh_password` }}",
+      "ssh_username": "{{ user `ssh_username` }}",
+      "ssh_wait_timeout": "30m",
+      "ssh_port": 22,
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `memory_size`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "{{user `cpus`}}"
+        ]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "environment_vars": [
+        "BOX_TYPE={{user `box_type`}}",
+        "CLEANUP_PAUSE={{user `cleanup_pause`}}",
+        "UPDATE={{user `update`}}",
+        "INSTALL_VAGRANT_KEY={{user `install_vagrant_key`}}",
+        "SSH_USERNAME={{user `ssh_username`}}",
+        "SSH_PASSWORD={{user `ssh_password`}}",
+        "http_proxy={{user `http_proxy`}}",
+        "https_proxy={{user `https_proxy`}}",
+        "ftp_proxy={{user `ftp_proxy`}}",
+        "rsync_proxy={{user `rsync_proxy`}}",
+        "no_proxy={{user `no_proxy`}}"
+      ],
+      "execute_command": "/bin/sh -x '{{.Path}}'",
+      "scripts": [
+        "scripts/alpine/00-apk.sh",
+        "scripts/alpine/01-sshd.sh",
+        "scripts/alpine/02-vagrant.sh",
+        "scripts/alpine/03-sudo.sh"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_dir": "ansible",
+      "playbook_file": "ansible/Alpine.yml",
+      "role_paths": [
+        "ansible/roles/alpine"
+      ]
+    },
+    {
+      "type": "shell",
+      "environment_vars": [
+        "BOX_TYPE={{user `box_type`}}",
+        "CLEANUP_PAUSE={{user `cleanup_pause`}}",
+        "UPDATE={{user `update`}}",
+        "INSTALL_VAGRANT_KEY={{user `install_vagrant_key`}}",
+        "SSH_USERNAME={{user `ssh_username`}}",
+        "SSH_PASSWORD={{user `ssh_password`}}",
+        "http_proxy={{user `http_proxy`}}",
+        "https_proxy={{user `https_proxy`}}",
+        "ftp_proxy={{user `ftp_proxy`}}",
+        "rsync_proxy={{user `rsync_proxy`}}",
+        "no_proxy={{user `no_proxy`}}"
+      ],
+      "execute_command": "/bin/sh -x '{{.Path}}'",
+      "scripts": [
+        "scripts/alpine/98-cleanup.sh",
+        "scripts/alpine/99-minimize.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": "{{user `compression_level`}}",
+        "override": {
+          "vmware": {
+            "compression_level": 0
+          }
+        },
+        "keep_input_artifact": true,
+        "output": "box/{{.Provider}}/{{user `box_type`}}-{{user `version`}}.box"
+      }
+    ]
+  ]
+}

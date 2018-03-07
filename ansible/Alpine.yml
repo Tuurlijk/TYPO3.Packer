@@ -5,5 +5,8 @@
   vars_files:
     - configuration/Alpine/main.yml
     - configuration/Alpine/nginx.yml
+    - configuration/Alpine/typo3.yml
   roles:
-    - { role: alpine/common,    tags: common }
+    - { role: alpine/common, tags: common }
+    - { role: alpine/nginx, php7: yes, tags: nginx }
+    - { role: typo3, tags: typo3 }

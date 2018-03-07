@@ -1,5 +1,5 @@
 - name: Setup zsh
-  apk: name=zsh state=present
+  apk: name=zsh,zsh-vcs state=present
 
 - name: Add shadow package to use chsh
   apk: name=shadow state=present

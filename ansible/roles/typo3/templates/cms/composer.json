@@ -24,10 +24,6 @@
     {
       "type": "git",
       "url": "https://github.com/TYPO3-Console/typo3_console.git"
-    },
-    {
-      "type": "git",
-      "url": "https://github.com/MaxServ/t3ext-accountmanagement.git"
     }
   ],
   "config": {
@@ -77,11 +73,10 @@
     "vendor/pear/net_url2/"
   ],
   "require": {
-    "typo3/cms": "{{ item.value }}",
-    "helhum/typo3-console": "^3.1",
-    "maxserv/accountmanagement": "*",
+    "typo3/minimal": "{{ item.value }}",
+    "helhum/typo3-console": "^5",
     "7elix/styleguide": "*",
-    "typo3-ter/introduction": "^2.3"
+    "typo3-ter/introduction": "^3"
   },
   "require-dev": {
     "phpunit/phpunit": "~5.2.0",
