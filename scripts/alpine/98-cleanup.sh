@@ -20,6 +20,10 @@ apk del --purge \
     python \
     wget
 
+echo "==> Cleaning root home dir"
+rm -rf /root/*.iso
+rm -rf /root/.composer
+
 echo "==> Cleaning up apk"
 rm -rf /var/cache/apk/*
 
