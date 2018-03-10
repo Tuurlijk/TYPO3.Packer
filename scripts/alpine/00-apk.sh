@@ -1,7 +1,11 @@
 set -exu
 
-cat >> /etc/apk/repositories <<- EOR
-http://dl-cdn.alpinelinux.org/alpine/edge/community
+cat > /etc/apk/repositories <<- EOR
+http://alpine.mirror.wearetriple.com/v3.7/main
+http://alpine.mirror.wearetriple.com/v3.7/community
+http://alpine.mirror.wearetriple.com/edge/main
+http://alpine.mirror.wearetriple.com/edge/community
+http://alpine.mirror.wearetriple.com/edge/testing
 EOR
 
 # Upgrade all packages
