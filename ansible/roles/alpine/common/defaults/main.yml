@@ -47,6 +47,7 @@ sys_packages:
   - 'ca-certificates'
   - 'curl'
   - 'git'
+  - 'graphicsmagick'
   - 'libmcrypt'
   - 'postfix'
   - 'py-mysqldb'
