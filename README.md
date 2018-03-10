@@ -38,3 +38,7 @@ If you have an [atlas account](https://atlas.hashicorp.com/) you can push a new 
 ```packer push Development.json```
 
 Before pushing a new build to atlas, take care to update the build version number in the respective packer json file.
+
+# Known Issues
+For the alpine based box, you need the vagrant alpine plugin:
+```vagrant plugin install vagrant-alpine```
