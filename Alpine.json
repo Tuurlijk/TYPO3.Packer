@@ -11,8 +11,8 @@
     "compression_level": "7",
     "custom_script": ".",
     "disk_size": "3072",
-    "memory_size": "1024",
-    "cpus": "2",
+    "memory_size": "2048",
+    "cpus": "4",
     "ftp_proxy": "{{env `ftp_proxy`}}",
     "headless": "false",
     "http_proxy": "{{env `http_proxy`}}",
@@ -27,7 +27,8 @@
     "hostname": "vagrant",
     "ssh_fullname": "root",
     "ssh_password": "vagrant",
-    "ssh_username": "root",
+    "ssh_username": "vagrant",
+    "root_username": "root",
     "update": "false",
     "version": "1.0.2",
     "shutdown_command": "poweroff"
@@ -52,7 +53,7 @@
       ],
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
-      "boot_wait": "10s",
+      "boot_wait": "12s",
       "disk_size": "{{ user `disk_size` }}",
       "floppy_files": [
         "http/answers"
@@ -68,7 +69,7 @@
       ],
       "shutdown_command": "{{user `shutdown_command`}}",
       "ssh_password": "{{ user `ssh_password` }}",
-      "ssh_username": "{{ user `ssh_username` }}",
+      "ssh_username": "{{ user `root_username` }}",
       "ssh_wait_timeout": "30m",
       "ssh_port": 22,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
