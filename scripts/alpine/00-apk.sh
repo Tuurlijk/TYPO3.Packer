@@ -1,3 +1,5 @@
+#!/bin/ash -eux
+
 set -exu
 
 cat > /etc/apk/repositories <<- EOR
