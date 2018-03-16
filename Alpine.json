@@ -30,7 +30,7 @@
     "ssh_username": "vagrant",
     "root_username": "root",
     "update": "false",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "shutdown_command": "poweroff"
   },
   "builders": [
@@ -38,9 +38,8 @@
       "type": "virtualbox-iso",
       "boot_command": [
         "root<enter><wait>",
-        "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
         "mkdir /mnt/floppy && mount -t msdos /dev/fd0 /mnt/floppy<enter>",
-        "setup-alpine -f /mnt/floppy/answers<enter><wait>",
+        "setup-alpine -f /mnt/floppy/answers<enter><wait><wait><wait>",
         "{{ user `ssh_password` }}<enter>",
         "{{ user `ssh_password` }}<enter>",
         "y<enter><wait10><wait10><wait10><wait10><wait10>",

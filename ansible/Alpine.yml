@@ -5,8 +5,10 @@
   vars_files:
     - configuration/Alpine/main.yml
     - configuration/Alpine/nginx.yml
+    - configuration/Alpine/php.yml
     - configuration/Alpine/typo3.yml
   roles:
-    - { role: alpine/nginx, tags: nginx }
     - { role: alpine/common, tags: common }
     - { role: typo3, tags: typo3 }
+    - { role: geerlingguy.daemonize, tags: daemonize }
+    - { role: geerlingguy.mailhog, tags: mailhog }

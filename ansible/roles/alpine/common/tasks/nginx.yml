@@ -1,0 +1,34 @@
+---
+
+- name: Install Nginx
+  apk:
+    name: nginx
+    state: present
+
+- name: Configure nginx sites
+  template:
+    src: default.conf.j2
+    dest: /etc/nginx/conf.d/{{ item.key }}.conf
+  notify: Reload nginx
+  with_dict: "{{typo3.cms.sites }}"
+
+- name: Configure local site
+  template:
+    src: default.conf.j2
+    dest: /etc/nginx/conf.d/local.typo3.org.conf
+  notify: Reload nginx
+  with_dict:
+    local.typo3.org: local.typo3.org
+
+- name: Configure mailhog site
+  template:
+    src: mail.conf.j2
+    dest: /etc/nginx/conf.d/mail.local.typo3.org.conf
+  notify: Reload nginx
+
+- name: Start Nginx
+  service:
+    name: nginx
+    state: started
+    enabled: true
+

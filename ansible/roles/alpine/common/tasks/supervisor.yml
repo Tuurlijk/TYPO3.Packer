@@ -1,0 +1,13 @@
+---
+
+- name: Create /etc/supervisor.d directory
+  file: path=/etc/supervisor.d state=directory mode=0775
+
+- name: Configure supervisor
+  copy: src=etc/supervisor.d/mailhog.supervisor.ini dest=/etc/supervisor.d/mailhog.supervisor.ini
+
+- name: Start supervisord
+  service:
+    name: supervisord
+    state: started
+    enabled: true

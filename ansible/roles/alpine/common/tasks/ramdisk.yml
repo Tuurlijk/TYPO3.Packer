@@ -8,9 +8,3 @@
 
 - name: Make fstab entry for TYPO3 ramdisk
   mount: name=/mnt/typo3cache src=tmpfs fstype=tmpfs opts='rw,nosuid,size=100m' state=mounted
-
-- name: Create mountpoint for NEOS ramdisk
-  file: path=/mnt/neoscache state=directory owner=vagrant group={{nginx_user}} mode=0755
-
-- name: Make fstab entry for NEOS ramdisk
-  mount: name=/mnt/neoscache src=tmpfs fstype=tmpfs opts='rw,nosuid,size=100m' state=mounted

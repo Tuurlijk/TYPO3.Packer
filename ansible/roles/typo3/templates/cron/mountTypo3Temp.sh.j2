@@ -2,7 +2,7 @@
 #{{ ansible_managed }}
 typo3TemporaryDirectories=(
 {% for item in typo3.cms.sites.keys() %}
-	'{{ typo3_webroot }}{{ item }}/typo3temp'
+	'{{ typo3_webroot }}{{ item }}/typo3temp/'
 {% endfor %}
 )
 
@@ -22,7 +22,7 @@ do
 		if [ ! -d "${typo3TempRamdiskDirectories[$i]}" ];
 		then
 			mkdir "${typo3TempRamdiskDirectories[$i]}"
-			chown vagrant:vagrant "${typo3TempRamdiskDirectories[$i]}"
+			chown nginx:nginx "${typo3TempRamdiskDirectories[$i]}"
 		fi
 		if ! mountpoint -q ${typo3TemporaryDirectories[$i]};
 		then

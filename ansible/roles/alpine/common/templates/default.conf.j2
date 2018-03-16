@@ -1,0 +1,20 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ item.key }};
+    root {{ typo3_webroot }}{{ item.key }};
+    location / {
+        index  index.php;
+    }
+    error_page 404 $scheme://local.typo3.org;
+    client_max_body_size 20M;
+    try_files $uri $uri/ /index.php?$args;
+    location ~ \.php$ {
+        try_files     $uri =404;
+        fastcgi_pass  unix:/run/php-fpm7.2/php-fpm7.2.sock;
+        fastcgi_index index.php;
+        fastcgi_param TYPO3_CONTEXT Production;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include       fastcgi_params;
+    }
+}

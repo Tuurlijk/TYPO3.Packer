@@ -7,7 +7,7 @@ typo3_composer_install_dev: 'no'
 typo3:
   cms:
     sites:
-      9.0.0.local.typo3.org: '9.0.0'
+      9.1.0.local.typo3.org: '9.1.0'
     extensions:
       enabled:
         - scheduler

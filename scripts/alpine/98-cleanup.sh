@@ -5,6 +5,7 @@ SSH_USER=${SSH_USERNAME:-vagrant}
 echo "==> Removing unneeded packages"
 apk del --purge \
     ansible \
+    git \
     py2-asn1 \
     py2-asn1crypto \
     py2-bcrypt \
@@ -22,14 +23,24 @@ apk del --purge \
     py2-yaml \
     python2 \
     python \
+    tar \
     wget
 
-echo "===> Fixing persmissions on /var/www"
-chown -R ${SSH_USER}:nginx /var/www
+echo "===> Fixing permissions on /var/www"
+chown -R nginx:nginx /var/www
 
 echo "==> Cleaning root home dir"
 rm -rf /root/*.iso
 rm -rf /root/.composer
+
+echo "==> Remove unused kernel modules"
+rm -rf /lib/modules/4.9.73-0-hardened
+
+echo "==> Remove mysql bin logs"
+rm -rf /var/lib/mysql/mysql-bin.*
+
+echo "==> Remove localhost site"
+rm -rf /var/www/localhost
 
 echo "==> Cleaning up apk"
 rm -rf /var/cache/apk/*

@@ -1,0 +1,30 @@
+---
+
+- name: Store pid in /run/php-fpm7.2/ dir
+  lineinfile: dest=/etc/php/7.2/php-fpm.conf regexp="pid = /run/php/php-fpm7.2.pid" line="pid = /run/php-fpm7.2/php-fpm7.2.pid" backrefs=yes
+
+- name: Store socket in /run/php-fpm7.2/ run dir
+  lineinfile: dest=/etc/php/7.2/php-fpm.d/www.conf regexp="listen = /run/php/php-fpm7.2.sock" line="listen = /run/php-fpm7.2/php-fpm7.2.sock" backrefs=yes
+
+- name: Run php-fpm as nginx user
+  lineinfile: dest=/etc/php/7.2/php-fpm.d/www.conf regexp="user = www-data" line="user = {{ nginx_user }}" backrefs=yes
+
+- name: Run php-fpm as nginx group
+  lineinfile: dest=/etc/php/7.2/php-fpm.d/www.conf regexp="group = www-data" line="group = {{ nginx_user }}" backrefs=yes
+
+- name: Run php-fpm as nginx group
+  lineinfile: dest=/etc/php/7.2/php-fpm.d/www.conf regexp="listen.owner = www-data" line="listen.owner = {{ nginx_user }}" backrefs=yes
+
+- name: Tweak the PHP configuration file
+  ini_file: >
+    dest=/etc/php/7.2/php.ini
+    section="{{ item.section }}"
+    option="{{ item.option }}"
+    value="{{ item.value }}"
+    backup=yes
+  with_items: "{{ php_ini }}"
+
+- name: Start and enable php-fpm
+  service: name=php-fpm7.2 enabled=yes state=started
+  ignore_errors: yes
+

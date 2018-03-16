@@ -15,10 +15,6 @@
     },
     {
       "type": "git",
-      "url": "https://github.com/dmitryd/typo3-realurl.git"
-    },
-    {
-      "type": "git",
       "url": "https://github.com/7elix/TYPO3.CMS.Styleguide.git"
     },
     {
@@ -27,7 +23,6 @@
     }
   ],
   "config": {
-    "git-clone-depth": 100,
     "process-timeout": 900,
     "bin-dir": "bin",
     "preferred-install": "{{ typo3_composer_preferred_install }}",
@@ -73,7 +68,34 @@
     "vendor/pear/net_url2/"
   ],
   "require": {
-    "typo3/minimal": "{{ item.value }}",
+    "typo3/minimal": "^9.1",
+    "typo3/cms-about": "^9.1",
+    "typo3/cms-belog": "^9.1",
+    "typo3/cms-beuser": "^9.1",
+    "typo3/cms-feedit": "^9.1",
+    "typo3/cms-felogin": "^9.1",
+    "typo3/cms-filemetadata": "^9.1",
+    "typo3/cms-fluid-styled-content": "^9.1",
+    "typo3/cms-form": "^9.1",
+    "typo3/cms-impexp": "^9.1",
+    "typo3/cms-info": "^9.1",
+    "typo3/cms-linkvalidator": "^9.1",
+    "typo3/cms-lowlevel": "^9.1",
+    "typo3/cms-opendocs": "^9.1",
+    "typo3/cms-recycler": "^9.1",
+    "typo3/cms-reports": "^9.1",
+    "typo3/cms-rte-ckeditor": "^9.1",
+    "typo3/cms-scheduler": "^9.1",
+    "typo3/cms-setup": "^9.1",
+    "typo3/cms-sys-action": "^9.1",
+    "typo3/cms-sys-note": "^9.1",
+    "typo3/cms-t3editor": "^9.1",
+    "typo3/cms-taskcenter": "^9.1",
+    "typo3/cms-tstemplate": "^9.1",
+    "typo3/cms-viewpage": "^9.1",
+    "typo3/cms-workspaces": "v9.1.0",
+    "typo3/cms-redirects": "v9.1.0",
+    "maxserv/accountmanagement": "^1",
     "helhum/typo3-console": "^5",
     "7elix/styleguide": "*",
     "typo3-ter/introduction": "^3"

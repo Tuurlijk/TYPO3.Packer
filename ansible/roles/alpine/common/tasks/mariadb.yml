@@ -35,7 +35,17 @@
   notify:
    - restart mariadb
 
+- name: Customize MySQL configuration file - disable bin_log
+  lineinfile: dest={{ mariadb.conf_path }} regexp="^(log-bin\s*=\s*.*)" line="#\1" backrefs=yes
+  notify:
+   - restart mariadb
+
 - name: Customize MySQL configuration file - disable bin_log_index
   lineinfile: dest={{ mariadb.conf_path }} regexp="^(log_bin_index\s*=\s*.*)" line="#\1" backrefs=yes
+  notify:
+   - restart mariadb
+
+- name: Reduce innodb log file size
+  lineinfile: dest={{ mariadb.conf_path }} regexp="^#(innodb_log_file_size\s*=\s*.*)" line="\1" backrefs=yes
   notify:
    - restart mariadb

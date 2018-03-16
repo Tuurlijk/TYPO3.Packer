@@ -13,3 +13,13 @@
 
 - name: restart mariadb
   service: name=mariadb state=restarted enabled=yes
+
+- name: Reload nginx
+  service:
+    name: nginx
+    state: reloaded
+
+- name: Restart nginx
+  service:
+    name: nginx
+    state: restarted

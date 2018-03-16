@@ -9,8 +9,6 @@ homestead_ssh_known_hosts:
   - 'git.typo3.org'
   - 'github.com'
   - 'packagist.org'
-  - '-p 29418 review.typo3.org'
-  - '-p 29418 91.184.35.13'
 
 mariadb:
   conf_path: /etc/mysql/my.cnf
@@ -44,13 +42,18 @@ earth_packages:
   - 'php7.2-zip'
 
 sys_packages:
+  - 'bash'
   - 'ca-certificates'
   - 'curl'
   - 'git'
   - 'graphicsmagick'
   - 'libmcrypt'
-  - 'postfix'
+  - 'nginx'
+  - 'openssl'
   - 'py-mysqldb'
+  - 'ssmtp'
+  - 'supervisor'
+  - 'tar'
   - 'wget'
   - 'virtualbox-guest-additions'
   - 'virtualbox-guest-modules-virthardened'

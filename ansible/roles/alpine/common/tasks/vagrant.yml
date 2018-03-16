@@ -1,0 +1,4 @@
+---
+
+- name: Add vagrant to group nginx
+  command: adduser vagrant nginx

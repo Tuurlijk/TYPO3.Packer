@@ -1,0 +1,28 @@
+{
+  "name": "TypoTry",
+  "description": "A Vagrant box to try out the most recent TYPO3 release",
+  "versions": [
+    {
+      "version": "1.0.2",
+      "providers": [
+        {
+          "name": "virtualbox",
+          "url": "https://s3.eu-west-2.amazonaws.com/typotry/boxes/TypoTry-1.0.2.box",
+          "checksum_type": "sha256",
+          "checksum": "a38b3150c213046b6454045771e017024481c47f6a9aa2fc3838cf7d741d537e"
+        }
+      ]
+    },
+    {
+      "version": "1.0.3",
+      "providers": [
+        {
+          "name": "virtualbox",
+          "url": "https://s3.eu-west-2.amazonaws.com/typotry/boxes/TypoTry-1.0.3.box",
+          "checksum_type": "sha256",
+          "checksum": "0ac1f73472cc960db6a6cc9ffe459b7dddd8004a149b3f0bd2c38d2377c2eea3"
+        }
+      ]
+    }
+  ]
+}
